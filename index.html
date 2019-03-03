@@ -510,9 +510,10 @@
                         <img :class="{zoomed}" 
                             :style="{'object-position': zoomed ? position : 'initial'}"
                             @mousemove="mouseMove"
+                            @click.stop.prevent="zoom"
+                            @touchstart.prevent="touchStart"
+                            @touchend.prevent="touchEnd"
                             @touchmove.prevent="touchMove"
-                            @click.prevent.stop="zoom"
-                            @touchstart.prevent.stop="zoom"
                             :src="image.full" 
                             @load="loaded" 
                             :style="{opacity: imageOpacity}">
@@ -529,7 +530,20 @@
                     template: getTemplate(),
                     props: ['image'],
                     methods: {
+                        touchStart: function() {
+                            console.log("touchStart")
+                            this.wasZoomedBeforeLastTouch = this.zoomed;
+                            if (!this.zoomed)
+                                this.zoomed = true;
+                            this.lastTouchStart = Date.now();
+                        },
+                        touchEnd: function() {
+                            console.log("touchEnd")
+                            if (Date.now() - this.lastTouchStart < 200 && this.wasZoomedBeforeLastTouch)
+                                this.zoom();
+                        },
                         zoom: function() {
+                            console.log("zoom")
                             this.zoomed = !this.zoomed;
                         },
                         pan: function (position) {
@@ -563,7 +577,14 @@
                     unmounted() {
                         this.opacity = 0;
                     },
-                    data: () => ({ opacity: 0, imageOpacity: 0, zoomed: false, position: "initial" })
+                    data: () => ({
+                        opacity: 0, 
+                        imageOpacity: 0, 
+                        zoomed: false, 
+                        position: "initial",
+                        lastTouchStart: 0,
+                        wasZoomedBeforeLastTouch: false
+                    })
                 })
             </script>
         </div>
