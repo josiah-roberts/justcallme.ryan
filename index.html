@@ -512,7 +512,7 @@
                             @mousemove="mouseMove"
                             @touchmove.prevent="touchMove"
                             @click.prevent.stop="zoom"
-                            @touchstart="zoom"
+                            @touchstart.prevent.stop="zoom"
                             :src="image.full" 
                             @load="loaded" 
                             :style="{opacity: imageOpacity}">
