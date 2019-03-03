@@ -1,0 +1,372 @@
+<html>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.0/dist/showdown.min.js"></script>
+    <style type="">
+        @font-face { /*Metropolis-Thin*/
+            font-family: 'Metropolis-Thin';
+            src: url('/fonts/Metropolis-Thin.eot');
+            src: url('/fonts/Metropolis-Thin.eot?#iefix') format('embedded-opentype'),
+                url('/fonts/Metropolis-Thin.svg#Metropolis-Thin') format('svg'),
+                url('/fonts/Metropolis-Thin.ttf') format('truetype'),
+                url('/fonts/Metropolis-Thin.woff') format('woff'),
+                url('/fonts/Metropolis-Thin.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face { /*Metropolis-Regular*/
+            font-family: 'Metropolis-Regular';
+            src: url('/fonts/Metropolis-Regular.eot');
+            src: url('/fonts/Metropolis-Regular.eot?#iefix') format('embedded-opentype'),
+                url('/fonts/Metropolis-Regular.svg#Metropolis-Regular') format('svg'),
+                url('/fonts/Metropolis-Regular.ttf') format('truetype'),
+                url('/fonts/Metropolis-Regular.woff') format('woff'),
+                url('/fonts/Metropolis-Regular.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        .templates {
+            display: none;
+        }
+
+        h1 {            
+            font-family: Metropolis-Regular;
+            font-size: 4em;
+        }
+
+        body {            
+            width: calc(100% - 50px);
+            height: calc(100% - 50px);
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 25px;
+            margin-bottom: 25px;
+            background: #EEE;
+            font-family: Metropolis-Thin;
+        }
+
+        .page-header {
+            font-family: Metropolis-Thin;
+            background: #292929;
+            color: #FFFFFF;
+            padding: 10px;  
+        }
+
+        .page-header > h1 {
+            margin: 15px;
+        }
+
+        .post {
+            clear: both;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .post-images {
+            float: left;
+            position: relative;
+            border-right: solid 10px #EEE;
+        }
+
+        .post-images img {
+            height: 485px;
+        }
+
+        .post-images.collapsed img {
+            max-width: 200px;
+            object-fit: cover;
+        }
+
+        .image-button {
+            color: #292929AA; 
+            font-size: 3em;
+            display: block;
+            position: absolute;
+            background: rgba(255, 255, 255, 0.4);
+            width: 1em;
+            height: 1.2em;
+            border-radius: 20%;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .image-button:hover {            
+            background: rgba(200, 200, 200, 0.4);
+        }
+
+        .post-images .collapser {            
+            right: 10px;
+            top: 10px;            
+        }
+
+        .post-images .prev {
+            padding-right: 8px;
+            left: 10px;
+            top: calc(50% - 0.6em);
+        }
+
+        .post-images .next {
+            padding-left: 8px;
+            right: 10px;
+            top: calc(50% - 0.6em);
+        }
+
+        .post-images.collapsed .prev {
+            display: none;
+        }
+
+        .post-images.collapsed .next {
+            display: none;
+        }
+
+        .post-text {
+            background: #292929;
+            height: 485px;
+            color: #FFF;
+            overflow-y: scroll;
+            padding: 10px;
+            box-sizing: border-box;
+            border-bottom: solid 10px #292929;            
+            border-top: solid 10px #292929;
+        }
+
+        .post-text .title {
+            margin-left: 10px;
+            border-bottom: solid 2px #222;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+        }
+
+        .post-text .title h2 {
+            margin-top: 2px;
+            margin-bottom: 2px;
+        }
+
+        .post-text .title .date {
+            font-size: 0.80em;
+            font-style: italic;
+        }
+
+        .post-text .post-text-body {
+            margin: 10px;
+        }
+
+        ::-webkit-scrollbar {            
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #292929; 
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555; 
+        }
+
+        div.lightbox {
+            position: fixed;
+            top: 0px;     
+            right: 0px;
+            bottom: 0px;
+            left: 0px;       
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            cursor: pointer;
+        }
+
+        div.lightbox img {
+            max-height: calc(100% - 30px);
+            max-width: calc(100% - 30px);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: block;
+        }
+
+        div.lightbox .image-button.close {
+            position: fixed;
+            right: 10px;
+            top: 15px;
+            font-weight: bold;
+            padding-top: 6px;
+            padding-left: 0px;
+            padding-bottom: 5px;
+            height: 1em;
+        }
+    </style>
+    <script>
+        const mdRenderer = new showdown.Converter();
+        const getTemplate = scriptElement => document.currentScript.parentElement.children[0].innerHTML;
+        const renderMarkdown = markdown => mdRenderer.makeHtml(markdown);
+    </script>
+</head>
+
+<body>
+    <div id="app">
+        <page-header></page-header>
+        <post v-for="post of posts" :post="post" :key="post.id">
+        </post>
+        <lightbox v-if="lightbox != null" :image="lightbox" @closed="closeLightbox"></lightbox>
+    </div>
+    <div class="templates">
+        <div id="page-header">
+            <div class="template">
+                <div class="page-header">
+                    <h1>Just Call Me Ryan</h1>
+                </div>
+            </div>
+            <script>
+                Vue.component('page-header', {
+                    template: getTemplate()
+                })
+            </script>
+        </div>
+        <div id="post">
+            <div class="template">
+                <div class="post" :id="post.slug">
+                    <post-images :post="post"></post-images>
+                    <post-text :post="post"></post-text>
+                </div>
+            </div>
+            <script>
+                Vue.component('post', {
+                    template: getTemplate(),
+                    props: ['post']
+                })
+            </script>
+        </div>
+        <div id="post-images">
+            <div class="template">
+                <div class="post-images" :class="{collapsed: isCollapsed}">
+                    <span class="collapser image-button" @click="isCollapsed = !isCollapsed">{{ collapseText }}</span>
+                    <span class="image-button prev" v-if="post.images.length > 1" @click="imageIndex = imageIndex == 0 ? (post.images.length - 1) : imageIndex - 1">◄</span>
+                    <span class="image-button next" v-if="post.images.length > 1" @click="imageIndex = (imageIndex + 1) % post.images.length">►</span>
+                    <a :href="`#lightbox-${post.id}-${post.images.indexOf(currentImage)}`">
+                        <img :src="currentImage.thumb" />
+                    </a>
+                </div>
+            </div>
+            <script>
+                Vue.component('post-images', {
+                    template: getTemplate(),
+                    props: ['post'],
+                    computed: {
+                        currentImage: vm => vm.post.images[vm.imageIndex],
+                        collapseText: vm => vm.isCollapsed ? "⟫" : "⟪"
+                    },                    
+                    data: () => ({
+                        imageIndex: 0,
+                        isCollapsed: false
+                    })
+                })
+            </script>
+        </div>
+        <div id="post-text">
+            <div class="template">
+                <div class="post-text">
+                    <div class="title">
+                        <span class="date">{{ post.date.toDateString() }}</span>
+                        <h2>{{ post.title }}</h2>
+                    </div>
+                    <div class="post-text-body" v-html="html">
+
+                    </div>
+                </div>
+            </div>
+            <script>
+                Vue.component('post-text', {
+                    template: getTemplate(),
+                    props: ['post'],
+                    computed: {
+                        html: vm => renderMarkdown(vm.post.body)                        
+                    }
+                })
+            </script>
+        </div>
+        <div id="lightbox">
+            <div class="template">
+                <div class="lightbox" @click="close">                    
+                    <a :href="image.full" target="_blank">
+                        <img :src="image.full"></img>
+                    </a>                    
+                    <span class="image-button close" @click="close">X</span>
+                </div>
+            </div>
+            <script>
+                Vue.component('lightbox', {
+                    template: getTemplate(),
+                    props: ['image'],
+                    methods: {
+                        close: function() {
+                            this.$emit('closed');
+                        }
+                    }
+                })
+            </script>
+        </div>
+    </div>
+</body>
+<script id="app-start">
+    var app = new Vue({
+        el: '#app',
+        created: function () {
+            // `this` points to the vm instance
+            window.onhashchange = () => this.handleHashChange();
+            this.handleHashChange();
+        },
+        methods: {
+            handleHashChange: function() {
+                const hash = window.location.hash;
+                if (hash.indexOf("lightbox") != -1) {
+                    const [_, id, imageNumber] = hash.substring(hash.indexOf("lightbox")).split("-");
+                    this.lightbox = this.posts.filter(post => post.id == id)[0].images[imageNumber];                    
+                }
+            },
+            closeLightbox: function() {
+                const hash = window.location.hash;
+                const [_, id, imageNumber] = hash.substring(hash.indexOf("lightbox")).split("-");
+                window.location.hash = `#${this.posts[id].slug}`;
+                this.lightbox = null;
+            }
+        },
+        data: {
+            posts: [...Array(5).keys()].map(x => {
+                return {
+                    id: x,
+                    slug: `${x}-slug`,
+                    images: [
+                        {
+                            thumb: "https://i.imgur.com/dLN0hHa_d.jpg?maxwidth=520&shape=thumb&fidelity=high",
+                            full: "https://i.imgur.com/dLN0hHa.jpg"
+                        },
+                        {
+                            thumb: "https://i.imgur.com/McJB8Iy_d.jpg?maxwidth=520&shape=thumb&fidelity=high",
+                            full: "https://i.imgur.com/McJB8Iy.jpg"
+                        },
+                        {
+                            thumb: "https://preview.redd.it/oztm4f5k1oj21.jpg?width=1024&auto=webp&s=d6ebebb65cc0021728f11617fe3c0f88cb283c7a",
+                            full: "https://i.redd.it/oztm4f5k1oj21.jpg"
+                        }
+                    ],
+                    title: "I am a title",
+                    body: "###I am a h3\n\nI am a para\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc pretium ligula sit amet turpis sodales, eu laoreet elit volutpat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus ac lorem a nunc tempor vulputate eget non turpis. Sed ac felis ligula. Quisque metus purus, dignissim non est vitae, porta ultrices risus. Etiam eu consectetur metus. In eleifend id diam in feugiat. Duis bibendum cursus risus quis volutpat. Sed eget aliquet felis, a dictum risus. Mauris porttitor, lorem id iaculis bibendum, ex orci laoreet elit, nec suscipit magna mi vel purus. Suspendisse iaculis felis massa, id tempor odio ullamcorper eu.\n\nMorbi justo nunc, fermentum maximus nisl at, euismod laoreet purus. Nulla ex arcu, aliquam et lorem vel, tempor ullamcorper dui. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aenean ultricies condimentum vehicula. Pellentesque at hendrerit dolor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque sed neque nec est tristique condimentum. Aliquam ultrices vel lorem vel tempus. Nullam ultrices bibendum vehicula. Aliquam tincidunt nulla vel dolor lobortis, vitae posuere est sodales. Integer vel porta ipsum, ut consectetur elit. Proin vitae turpis ut nunc faucibus mattis sed sed nisl. Cras posuere placerat nulla quis dignissim.\n\nPhasellus sit amet nibh nec sapien malesuada lobortis. Nunc laoreet quis nunc ac congue. Nullam vitae libero eros. Proin semper, libero vel vestibulum gravida, nisi nisl faucibus neque, eu venenatis est orci eget augue. Sed dignissim lacinia lorem vitae ultrices. Proin accumsan lectus sit amet pulvinar dignissim. Proin rutrum sollicitudin felis vel scelerisque. Curabitur facilisis ac arcu et placerat. Nunc volutpat condimentum augue, vel elementum augue efficitur id. Aliquam sit amet leo felis. In auctor fermentum consequat.",
+                    date: new Date("3/2/2019")
+                }
+            }),
+            lightbox: null
+        }
+    })        
+</script>
+
+</html>
