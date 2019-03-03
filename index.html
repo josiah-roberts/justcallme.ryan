@@ -362,8 +362,8 @@
         </div>
         <div id="post-images">
             <div class="template">
-                <div class="post-images" :class="{collapsed: isCollapsed}">
-                    <span class="collapser image-button" @click="isCollapsed = !isCollapsed" v-html="collapseText"></span>
+                <div class="post-images" :class="{collapsed: isCollapsed}" @click="outerClick">
+                    <span class="collapser image-button" @click.stop="isCollapsed = !isCollapsed" v-html="collapseText"></span>
                     <span class="image-button prev" v-if="post.images.length > 1"
                         @click="imageIndex = imageIndex == 0 ? (post.images.length - 1) : imageIndex - 1">&#9668;</span>
                     <span class="image-button next" v-if="post.images.length > 1"
@@ -390,6 +390,13 @@
                         }
                     },
                     methods: {
+                        outerClick: function(e) {
+                            if (this.isCollapsed)
+                            {
+                                this.isCollapsed = false;
+                                e.preventDefault();
+                            }
+                        },
                         imageLoaded: function() {
                             this.loading = false;
                             this.loadingInternal = false;
@@ -516,7 +523,7 @@
             window.addEventListener("hashchange", this.handleHashChange);
             const postsResponse = await fetch("posts.json").then(response => response.json());
             for (let post of postsResponse) {
-                post.collapsed = false;
+                post.collapsed = (window.innerWidth / window.devicePixelRatio) < 500;
                 for (let image of post.images) {
                     image.date = "";
                 }
