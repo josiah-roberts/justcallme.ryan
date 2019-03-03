@@ -18,16 +18,16 @@
         "slug": "dark-sun",
         "images": [
             {
+                "thumb": "images/IMG_1750-t.jpg",
+                "full": "images/IMG_1750.jpg"
+            },
+            {
                 "thumb": "images/IMG_1744-t.jpg",
                 "full": "images/IMG_1744.jpg"
             },
             {
                 "thumb": "images/IMG_1745-t.jpg",
                 "full": "images/IMG_1745.jpg"
-            },
-            {
-                "thumb": "images/IMG_1750-t.jpg",
-                "full": "images/IMG_1750.jpg"
             }
         ],
         "title": "Dark Sun",
