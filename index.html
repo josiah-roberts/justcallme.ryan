@@ -339,11 +339,11 @@
         <div id="post-images">
             <div class="template">
                 <div class="post-images" :class="{collapsed: isCollapsed}">
-                    <span class="collapser image-button" @click="isCollapsed = !isCollapsed">{{ collapseText }}</span>
+                    <span class="collapser image-button" @click="isCollapsed = !isCollapsed" v-html="collapseText"></span>
                     <span class="image-button prev" v-if="post.images.length > 1"
-                        @click="imageIndex = imageIndex == 0 ? (post.images.length - 1) : imageIndex - 1">◄</span>
+                        @click="imageIndex = imageIndex == 0 ? (post.images.length - 1) : imageIndex - 1">&#9668;</span>
                     <span class="image-button next" v-if="post.images.length > 1"
-                        @click="imageIndex = (imageIndex + 1) % post.images.length">►</span>
+                        @click="imageIndex = (imageIndex + 1) % post.images.length">&#9658;</span>
                     <span v-if="currentImage.date" class="date">{{currentImage.date}}</span>
                     <a :href="`#lightbox_${post.slug}_${post.images.indexOf(currentImage)}`">
                         <img @load="imageLoaded" :src="currentImage.thumb" />
@@ -356,7 +356,7 @@
                     props: ['post'],
                     computed: {
                         currentImage: vm => vm.post.images[vm.imageIndex],
-                        collapseText: vm => vm.isCollapsed ? "⟫" : "⟪",
+                        collapseText: vm => vm.isCollapsed ? "&#10219;" : "&#10218;",
                         isCollapsed: {
                             get: vm => vm.post.collapsed,
                             set: function (val) { this.post.collapsed = val; }
