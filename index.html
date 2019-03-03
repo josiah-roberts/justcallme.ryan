@@ -504,8 +504,10 @@
                     <a :href="image.full" target="_blank">
                         <img :class="{zoomed}" 
                             :style="{'object-position': zoomed ? position : 'initial'}"
-                            @mousemove="mouseMove" 
-                            @click.prevent.stop="zoom" 
+                            @mousemove="mouseMove"
+                            @touchmove="mouseMove"
+                            @click.prevent.stop="zoom"
+                            @touchstart="zoom"
                             :src="image.full" 
                             @load="loaded" 
                             :style="{opacity: imageOpacity}">
@@ -527,7 +529,10 @@
                             this.mouseMove();
                         },
                         mouseMove: function(e) {
-                            let imageRect = e.target.getBoundingClientRect();
+                            console.log(e)
+                            let image = this.$el.querySelector("img");
+                            e = e.changedTouches ? [...e.changedTouches].filter(x => x.target == image)[0] : e;
+                            let imageRect = image.getBoundingClientRect();
                             let xPosition = e.clientX / imageRect.width;
                             let yPosition = e.clientY / imageRect.height;
                             this.position = `${Math.min(xPosition * 100, 100)}% ${Math.min(yPosition * 100, 100)}%`;
