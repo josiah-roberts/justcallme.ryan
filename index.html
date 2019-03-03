@@ -201,9 +201,10 @@
             margin-bottom: 2px;
         }
 
-        .post-text .title .date {
+        .post-text .title .post-date {
             font-size: 0.80em;
             font-style: italic;
+            color: #AAA;
         }
 
         .post-text .post-text-body {
@@ -283,7 +284,11 @@
         const mdRenderer = new showdown.Converter();
         const getTemplate = scriptElement => document.currentScript.parentElement.children[0].innerHTML;
         const renderMarkdown = markdown => mdRenderer.makeHtml(markdown);
-        const updateSlug = post => window.history.pushState(null, `Just Call Me Ryan | ${post.title}`, `#${post.slug}`);
+        const updateSlug = post => {
+            const title = `Just Call Me Ryan | ${post.title}`;
+            window.history.pushState(null, title, `#${post.slug}`);
+            document.title = title;
+        }
         const getViewportData = el => {
             const rect = el.getBoundingClientRect();
             const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
@@ -412,13 +417,18 @@
                             var img = this.$el.querySelector("img");
                             delete img.exifdata;
                             EXIF.getData(img, function() {
-                                var dateTime = EXIF.getTag(this, "DateTime");
+                                let all = EXIF.getAllTags(this);
+                                var dateTime = EXIF.getTag(this, "DateTimeOriginal");
 
                                 if (dateTime)
                                 {
                                     var b = dateTime.split(/\D/);
                                     var date = new Date(b[0],b[1]-1,b[2],b[3],b[4],b[5]).toLocaleString("en-US", {month: "long", "day": "numeric", "year": "numeric"});
                                     vm.currentImage.date = date;
+                                }
+                                else
+                                {
+                                    debugger;
                                 }
                             });
                         }
@@ -444,7 +454,7 @@
             <div class="template">
                 <div class="post-text">
                     <div class="title">
-                        <span class="date">{{ post.date }}</span>
+                        <span class="post-date">{{ post.date }}</span>
                         <h2>{{ post.title }}</h2>
                     </div>
                     <div class="post-text-body" v-html="html">

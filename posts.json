@@ -1,5 +1,24 @@
 [
     {
+        "slug": "sisyphean-friendship",
+        "images": [
+            {
+                "thumb": "images/t-.jpg",
+                "full": "images/53696696.jpg"
+            },
+            {
+                "thumb": "images/t-0197-2.jpg",
+                "full": "images/IMG_0197-2.jpg"
+            },
+            {
+                "thumb": "images/t-0267.jpg",
+                "full": "images/IMG_0267.jpg"
+            }
+        ],
+        "title": "Sisyphean Friendship",
+        "date": "March 3, 2019"
+    },
+    {
         "slug": "futile-memory",
         "images": [
             {
