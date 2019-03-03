@@ -66,6 +66,7 @@
             padding-top: 10px;
             padding-bottom: 10px;
             overflow: hidden;
+            min-height: 485px;
         }
 
         .post-images {
@@ -183,6 +184,7 @@
             z-index: 1000;
             background: rgba(0, 0, 0, 0.8);
             cursor: pointer;
+            transition: opacity 0.5s;
         }
 
         div.lightbox img {
@@ -230,7 +232,7 @@
 <body>
     <div id="app">
         <page-header></page-header>
-        <post v-for="post of posts" :post="post" :key="post.id">
+        <post v-for="post of posts" :post="post" :key="post.slug">
         </post>
         <lightbox v-if="lightbox != null" :image="lightbox" @closed="closeLightbox"></lightbox>
     </div>
@@ -252,14 +254,14 @@
                 <div class="post" :style="{'mask-image': mask, 'mask-mode': 'luminance'}">
                     <a :name="post.slug" class="anchor"></a>
                     <post-images v-if="inView" :post="post"></post-images>
-                    <post-text :post="post"></post-text>
+                    <post-text v-if="inView" :post="post"></post-text>
                 </div>
             </div>
             <script>
                 Vue.component('post', {
                     template: getTemplate(),
                     props: ['post'],
-                    computed: {
+                    computed: {                        
                         lossInfo: vm => {
                             const pixelLoss = -Math.min(vm.viewportData.topMargin, vm.viewportData.bottomMargin);
                             const direction = vm.viewportData.topMargin > vm.viewportData.bottomMargin
@@ -270,7 +272,8 @@
                         mask: vm => {
                             const loss = vm.lossInfo;
                             return `linear-gradient(to ${loss.direction}, rgba(255, 0, 0, 0) ${loss.pixelLoss + 20}px, black ${loss.pixelLoss + 120}px)`;
-                        }
+                        },
+                        inView: vm => vm.lossInfo.pixelLoss < vm.viewportData.height
                     },
                     methods: {
                         handleScroll() {
@@ -288,7 +291,7 @@
                     unmounted() {
                         window.removeEventListener('scroll', this.handleScroll);
                     },
-                    data: () => ({ viewportData: {}, inView: true })
+                    data: () => ({ viewportData: {}})
                 })
             </script>
         </div>
@@ -300,7 +303,7 @@
                         @click="imageIndex = imageIndex == 0 ? (post.images.length - 1) : imageIndex - 1">◄</span>
                     <span class="image-button next" v-if="post.images.length > 1"
                         @click="imageIndex = (imageIndex + 1) % post.images.length">►</span>
-                    <a :href="`#lightbox-${post.id}-${post.images.indexOf(currentImage)}`">
+                    <a :href="`#lightbox_${post.slug}_${post.images.indexOf(currentImage)}`">
                         <img :src="currentImage.thumb" />
                     </a>
                 </div>
@@ -311,11 +314,14 @@
                     props: ['post'],
                     computed: {
                         currentImage: vm => vm.post.images[vm.imageIndex],
-                        collapseText: vm => vm.isCollapsed ? "⟫" : "⟪"
+                        collapseText: vm => vm.isCollapsed ? "⟫" : "⟪",
+                        isCollapsed: {
+                            get: vm => vm.post.collapsed,
+                            set: function(val) {this.post.collapsed = val;}
+                        }
                     },
                     data: () => ({
-                        imageIndex: 0,
-                        isCollapsed: false
+                        imageIndex: 0
                     })
                 })
             </script>
@@ -324,7 +330,7 @@
             <div class="template">
                 <div class="post-text">
                     <div class="title">
-                        <span class="date">{{ post.date.toDateString() }}</span>
+                        <span class="date">{{ post.date }}</span>
                         <h2>{{ post.title }}</h2>
                     </div>
                     <div class="post-text-body" v-html="html">
@@ -344,7 +350,7 @@
         </div>
         <div id="lightbox">
             <div class="template">
-                <div class="lightbox" @click="close">
+                <div class="lightbox" @click="close" :style="{opacity}">
                     <a :href="image.full" target="_blank">
                         <img :src="image.full"></img>
                     </a>
@@ -357,9 +363,19 @@
                     props: ['image'],
                     methods: {
                         close: function () {
-                            this.$emit('closed');
+                            this.opacity = 0;
+                            setTimeout(() => {
+                                this.$emit('closed');                                
+                            }, 500);
                         }
-                    }
+                    },
+                    mounted() {
+                        setTimeout(() => this.opacity = 1, 100);
+                    },
+                    unmounted() {
+                        this.opacity = 0;
+                    },
+                    data: () => ({opacity: 0})
                 })
             </script>
         </div>
@@ -368,10 +384,10 @@
 <script id="app-start">
     var app = new Vue({
         el: '#app',
-        created: function () {
-            // `this` points to the vm instance
+        created: async function () {
             window.addEventListener("hashchange", this.handleHashChange);
-            this.handleHashChange();
+            const postsResponse = await fetch("posts.json").then(response => response.json());
+            this.posts = postsResponse;
         },
         destroyed() {
             window.removeEventListener('hashchange', this.handleHashChange);
@@ -380,41 +396,22 @@
             handleHashChange: function () {
                 const hash = window.location.hash;
                 if (hash.indexOf("lightbox") != -1) {
-                    const [_, id, imageNumber] = hash.substring(hash.indexOf("lightbox")).split("-");
-                    this.lightbox = this.posts.filter(post => post.id == id)[0].images[imageNumber];
+                    const [_, slug, imageNumber] = hash.substring(hash.indexOf("lightbox")).split("_");
+                    this.lightbox = this.posts.filter(post => post.slug == slug)[0].images[imageNumber];
                 }
             },
             closeLightbox: function () {
                 const hash = window.location.hash;
-                const [_, id, imageNumber] = hash.substring(hash.indexOf("lightbox")).split("-");
-                window.location.hash = `#${this.posts[id].slug}`;
+                const [_, slug, imageNumber] = hash.substring(hash.indexOf("lightbox")).split("_");
+                window.location.hash = `#${slug}`;
                 this.lightbox = null;
             }
         },
+        watch: {
+            posts: function(newValue) {if (newValue) this.handleHashChange();}
+        },
         data: {
-            posts: [...Array(5).keys()].map(x => {
-                return {
-                    id: x,
-                    slug: `${x}-slug`,
-                    images: [
-                        {
-                            thumb: "https://i.imgur.com/dLN0hHa_d.jpg?maxwidth=520&shape=thumb&fidelity=high",
-                            full: "https://i.imgur.com/dLN0hHa.jpg"
-                        },
-                        {
-                            thumb: "https://i.imgur.com/McJB8Iy_d.jpg?maxwidth=520&shape=thumb&fidelity=high",
-                            full: "https://i.imgur.com/McJB8Iy.jpg"
-                        },
-                        {
-                            thumb: "https://preview.redd.it/oztm4f5k1oj21.jpg?width=1024&auto=webp&s=d6ebebb65cc0021728f11617fe3c0f88cb283c7a",
-                            full: "https://i.redd.it/oztm4f5k1oj21.jpg"
-                        }
-                    ],
-                    title: "I am a title",
-                    body: "###I am a h3\n\nI am a para\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc pretium ligula sit amet turpis sodales, eu laoreet elit volutpat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus ac lorem a nunc tempor vulputate eget non turpis. Sed ac felis ligula. Quisque metus purus, dignissim non est vitae, porta ultrices risus. Etiam eu consectetur metus. In eleifend id diam in feugiat. Duis bibendum cursus risus quis volutpat. Sed eget aliquet felis, a dictum risus. Mauris porttitor, lorem id iaculis bibendum, ex orci laoreet elit, nec suscipit magna mi vel purus. Suspendisse iaculis felis massa, id tempor odio ullamcorper eu.\n\nMorbi justo nunc, fermentum maximus nisl at, euismod laoreet purus. Nulla ex arcu, aliquam et lorem vel, tempor ullamcorper dui. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aenean ultricies condimentum vehicula. Pellentesque at hendrerit dolor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque sed neque nec est tristique condimentum. Aliquam ultrices vel lorem vel tempus. Nullam ultrices bibendum vehicula. Aliquam tincidunt nulla vel dolor lobortis, vitae posuere est sodales. Integer vel porta ipsum, ut consectetur elit. Proin vitae turpis ut nunc faucibus mattis sed sed nisl. Cras posuere placerat nulla quis dignissim.\n\nPhasellus sit amet nibh nec sapien malesuada lobortis. Nunc laoreet quis nunc ac congue. Nullam vitae libero eros. Proin semper, libero vel vestibulum gravida, nisi nisl faucibus neque, eu venenatis est orci eget augue. Sed dignissim lacinia lorem vitae ultrices. Proin accumsan lectus sit amet pulvinar dignissim. Proin rutrum sollicitudin felis vel scelerisque. Curabitur facilisis ac arcu et placerat. Nunc volutpat condimentum augue, vel elementum augue efficitur id. Aliquam sit amet leo felis. In auctor fermentum consequat.",
-                    date: new Date("3/2/2019")
-                }
-            }),
+            posts: [],
             lightbox: null
         }
     })        
