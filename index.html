@@ -45,7 +45,8 @@
             margin-right: auto;
             margin-top: 25px;
             margin-bottom: 25px;
-            background: #EEE;
+            background: #111;
+            background-repeat: repeat-y;
             font-family: Metropolis-Thin;
         }
 
@@ -70,7 +71,7 @@
         .post-images {
             float: left;
             position: relative;
-            border-right: solid 10px #EEE;
+            border-right: solid 10px #00000000;
         }
 
         .post-images img {
@@ -204,16 +205,24 @@
             padding-bottom: 5px;
             height: 1em;
         }
+
+        a.anchor {
+            display: block;
+            position: relative;
+            top: -100px;
+            visibility: hidden;
+        }
     </style>
     <script>
         const mdRenderer = new showdown.Converter();
         const getTemplate = scriptElement => document.currentScript.parentElement.children[0].innerHTML;
         const renderMarkdown = markdown => mdRenderer.makeHtml(markdown);
-        const percentInViewport = (el) => {
-            const rect = el.getBoundingClientRect();            
+        const getViewportData = (el) => {
+            const rect = el.getBoundingClientRect();
             const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
-            const pixelsInView = rect.height + Math.min(rect.top, 0) - Math.max((rect.top + rect.height) - windowHeight, 0);
-            return Math.max(pixelsInView, -0.5) / rect.height;
+            const topMargin = rect.top;
+            const bottomMargin = windowHeight - (rect.top + rect.height);
+            return { topMargin, bottomMargin, height: rect.height };
         }
     </script>
 </head>
@@ -240,34 +249,46 @@
         </div>
         <div id="post">
             <div class="template">
-                <div class="post" :id="post.slug" :style="{opacity, filter: `contrast(${contrast}%)`}">
+                <div class="post" :style="{'mask-image': mask, 'mask-mode': 'luminance'}">
+                    <a :name="post.slug" class="anchor"></a>
                     <post-images v-if="inView" :post="post"></post-images>
                     <post-text :post="post"></post-text>
                 </div>
             </div>
             <script>
                 Vue.component('post', {
-                    template: getTemplate(),                    
+                    template: getTemplate(),
                     props: ['post'],
                     computed: {
-                        inView: vm => vm.percentInViewport > -0.5,
-                        opacity: vm => vm.percentInViewport > 0.8 ? 1 : (vm.percentInViewport - 0.2) / 0.6,
-                        contrast: vm => (100 + (1 - vm.opacity) * 100)
-                    },
-                    methods: {
-                        handleScroll () {
-                            const inViewport = percentInViewport(this.$el);
-                            if (inViewport > -0.6)
-                                this.percentInViewport = inViewport;
+                        lossInfo: vm => {
+                            const pixelLoss = -Math.min(vm.viewportData.topMargin, vm.viewportData.bottomMargin);
+                            const direction = vm.viewportData.topMargin > vm.viewportData.bottomMargin
+                                ? "top"
+                                : "bottom";
+                            return { pixelLoss, direction };
+                        },
+                        mask: vm => {
+                            const loss = vm.lossInfo;
+                            return `linear-gradient(to ${loss.direction}, rgba(255, 0, 0, 0) ${loss.pixelLoss + 20}px, black ${loss.pixelLoss + 120}px)`;
                         }
                     },
-                    created () {
-                        window.addEventListener('scroll', this.handleScroll);
+                    methods: {
+                        handleScroll() {
+                            const viewport = getViewportData(this.$el);
+                            const viewportOutMargin = Math.min(viewport.topMargin, viewport.bottomMargin);
+                            const viewportOutRatio = viewportOutMargin / viewport.height;
+                            if (viewportOutRatio > -1.6)
+                                this.viewportData = viewport;
+                        }
                     },
-                    destroyed () {
+                    mounted() {
+                        window.addEventListener('scroll', this.handleScroll);
+                        this.handleScroll();
+                    },
+                    unmounted() {
                         window.removeEventListener('scroll', this.handleScroll);
                     },
-                    data: () => ({percentInViewport: 1})
+                    data: () => ({ viewportData: {}, inView: true })
                 })
             </script>
         </div>
@@ -275,8 +296,10 @@
             <div class="template">
                 <div class="post-images" :class="{collapsed: isCollapsed}">
                     <span class="collapser image-button" @click="isCollapsed = !isCollapsed">{{ collapseText }}</span>
-                    <span class="image-button prev" v-if="post.images.length > 1" @click="imageIndex = imageIndex == 0 ? (post.images.length - 1) : imageIndex - 1">◄</span>
-                    <span class="image-button next" v-if="post.images.length > 1" @click="imageIndex = (imageIndex + 1) % post.images.length">►</span>
+                    <span class="image-button prev" v-if="post.images.length > 1"
+                        @click="imageIndex = imageIndex == 0 ? (post.images.length - 1) : imageIndex - 1">◄</span>
+                    <span class="image-button next" v-if="post.images.length > 1"
+                        @click="imageIndex = (imageIndex + 1) % post.images.length">►</span>
                     <a :href="`#lightbox-${post.id}-${post.images.indexOf(currentImage)}`">
                         <img :src="currentImage.thumb" />
                     </a>
@@ -289,7 +312,7 @@
                     computed: {
                         currentImage: vm => vm.post.images[vm.imageIndex],
                         collapseText: vm => vm.isCollapsed ? "⟫" : "⟪"
-                    },                    
+                    },
                     data: () => ({
                         imageIndex: 0,
                         isCollapsed: false
@@ -314,17 +337,17 @@
                     template: getTemplate(),
                     props: ['post'],
                     computed: {
-                        html: vm => renderMarkdown(vm.post.body)                        
+                        html: vm => renderMarkdown(vm.post.body)
                     }
                 })
             </script>
         </div>
         <div id="lightbox">
             <div class="template">
-                <div class="lightbox" @click="close">                    
+                <div class="lightbox" @click="close">
                     <a :href="image.full" target="_blank">
                         <img :src="image.full"></img>
-                    </a>                    
+                    </a>
                     <span class="image-button close" @click="close">X</span>
                 </div>
             </div>
@@ -333,7 +356,7 @@
                     template: getTemplate(),
                     props: ['image'],
                     methods: {
-                        close: function() {
+                        close: function () {
                             this.$emit('closed');
                         }
                     }
@@ -350,18 +373,18 @@
             window.addEventListener("hashchange", this.handleHashChange);
             this.handleHashChange();
         },
-        destroyed () {
+        destroyed() {
             window.removeEventListener('hashchange', this.handleHashChange);
         },
         methods: {
-            handleHashChange: function() {
+            handleHashChange: function () {
                 const hash = window.location.hash;
                 if (hash.indexOf("lightbox") != -1) {
                     const [_, id, imageNumber] = hash.substring(hash.indexOf("lightbox")).split("-");
-                    this.lightbox = this.posts.filter(post => post.id == id)[0].images[imageNumber];                    
+                    this.lightbox = this.posts.filter(post => post.id == id)[0].images[imageNumber];
                 }
             },
-            closeLightbox: function() {
+            closeLightbox: function () {
                 const hash = window.location.hash;
                 const [_, id, imageNumber] = hash.substring(hash.indexOf("lightbox")).split("-");
                 window.location.hash = `#${this.posts[id].slug}`;
@@ -369,7 +392,7 @@
             }
         },
         data: {
-            posts: [...Array(50).keys()].map(x => {
+            posts: [...Array(5).keys()].map(x => {
                 return {
                     id: x,
                     slug: `${x}-slug`,
