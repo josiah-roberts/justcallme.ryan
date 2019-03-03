@@ -249,6 +249,7 @@
         }
 
         div.lightbox img {
+            z-index: 1000;
             max-height: calc(100% - 30px);
             max-width: calc(100% - 30px);
             position: fixed;
@@ -256,9 +257,11 @@
             left: 50%;
             transform: translate(-50%, -50%);
             display: block;
+            transition: opacity 0.5s;
         }
 
         div.lightbox .image-button.close {
+            z-index: 1100;
             position: fixed;
             right: 10px;
             top: 15px;
@@ -471,9 +474,12 @@
             <div class="template">
                 <div class="lightbox" @click="close" :style="{opacity}">
                     <a :href="image.full" target="_blank">
-                        <img :src="image.full"></img>
+                        <img :src="image.full" @load="loaded" :style="{opacity: imageOpacity}"></img>
                     </a>
                     <span class="image-button close" @click="close">X</span>
+                    <div class="spinner">
+                        <span>r</span>
+                    </div>
                 </div>
             </div>
             <script>
@@ -486,6 +492,9 @@
                             setTimeout(() => {
                                 this.$emit('closed');
                             }, 500);
+                        },
+                        loaded: function () {
+                            this.imageOpacity = 1;
                         }
                     },
                     mounted() {
@@ -494,7 +503,7 @@
                     unmounted() {
                         this.opacity = 0;
                     },
-                    data: () => ({ opacity: 0 })
+                    data: () => ({ opacity: 0, imageOpacity: 0 })
                 })
             </script>
         </div>
