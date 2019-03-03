@@ -156,20 +156,20 @@
             margin: 10px;
         }
 
-        ::-webkit-scrollbar {            
+        .post-text::-webkit-scrollbar {            
             width: 10px;
         }
 
-        ::-webkit-scrollbar-track {
+        .post-text::-webkit-scrollbar-track {
             background: #292929; 
         }
 
-        ::-webkit-scrollbar-thumb {
+        .post-text::-webkit-scrollbar-thumb {
             background: #888;
             border-radius: 5px;
         }
 
-        ::-webkit-scrollbar-thumb:hover {
+        .post-text::-webkit-scrollbar-thumb:hover {
             background: #555; 
         }
 
@@ -209,6 +209,12 @@
         const mdRenderer = new showdown.Converter();
         const getTemplate = scriptElement => document.currentScript.parentElement.children[0].innerHTML;
         const renderMarkdown = markdown => mdRenderer.makeHtml(markdown);
+        const percentInViewport = (el) => {
+            const rect = el.getBoundingClientRect();            
+            const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
+            const pixelsInView = rect.height + Math.min(rect.top, 0) - Math.max((rect.top + rect.height) - windowHeight, 0);
+            return Math.max(pixelsInView, -0.5) / rect.height;
+        }
     </script>
 </head>
 
@@ -234,15 +240,34 @@
         </div>
         <div id="post">
             <div class="template">
-                <div class="post" :id="post.slug">
-                    <post-images :post="post"></post-images>
+                <div class="post" :id="post.slug" :style="{opacity, filter: `contrast(${contrast}%)`}">
+                    <post-images v-if="inView" :post="post"></post-images>
                     <post-text :post="post"></post-text>
                 </div>
             </div>
             <script>
                 Vue.component('post', {
-                    template: getTemplate(),
-                    props: ['post']
+                    template: getTemplate(),                    
+                    props: ['post'],
+                    computed: {
+                        inView: vm => vm.percentInViewport > -0.5,
+                        opacity: vm => vm.percentInViewport > 0.8 ? 1 : (vm.percentInViewport - 0.2) / 0.6,
+                        contrast: vm => (100 + (1 - vm.opacity) * 100)
+                    },
+                    methods: {
+                        handleScroll () {
+                            const inViewport = percentInViewport(this.$el);
+                            if (inViewport > -0.6)
+                                this.percentInViewport = inViewport;
+                        }
+                    },
+                    created () {
+                        window.addEventListener('scroll', this.handleScroll);
+                    },
+                    destroyed () {
+                        window.removeEventListener('scroll', this.handleScroll);
+                    },
+                    data: () => ({percentInViewport: 1})
                 })
             </script>
         </div>
@@ -322,8 +347,11 @@
         el: '#app',
         created: function () {
             // `this` points to the vm instance
-            window.onhashchange = () => this.handleHashChange();
+            window.addEventListener("hashchange", this.handleHashChange);
             this.handleHashChange();
+        },
+        destroyed () {
+            window.removeEventListener('hashchange', this.handleHashChange);
         },
         methods: {
             handleHashChange: function() {
@@ -341,7 +369,7 @@
             }
         },
         data: {
-            posts: [...Array(5).keys()].map(x => {
+            posts: [...Array(50).keys()].map(x => {
                 return {
                     id: x,
                     slug: `${x}-slug`,
