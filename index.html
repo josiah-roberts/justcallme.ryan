@@ -3,6 +3,7 @@
 <head>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.0/dist/showdown.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
     <style type="">
         @font-face { /*Metropolis-Thin*/
             font-family: 'Metropolis-Thin';
@@ -100,6 +101,19 @@
             object-fit: cover;
         }
 
+        span.date {
+            position: absolute;
+            right: 5px;
+            bottom: 5px;
+            color: #333;
+            font-size: 0.7em;
+            font-style: italic;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 3px;
+            border-radius: 8px;
+        }
+
         .image-button {
             color: #292929AA; 
             font-size: 3em;
@@ -172,6 +186,15 @@
 
         .post-text .post-text-body {
             margin: 10px;
+        }
+
+        .post-text-body {
+            line-height: 140%;
+            font-size: 0.95em;
+        }
+
+        .post-text-body p {
+            margin-bottom: 10px;
         }
 
         .post-text::-webkit-scrollbar {            
@@ -320,8 +343,9 @@
                         @click="imageIndex = imageIndex == 0 ? (post.images.length - 1) : imageIndex - 1">◄</span>
                     <span class="image-button next" v-if="post.images.length > 1"
                         @click="imageIndex = (imageIndex + 1) % post.images.length">►</span>
+                    <span v-if="currentImage.date" class="date">{{currentImage.date}}</span>
                     <a :href="`#lightbox_${post.slug}_${post.images.indexOf(currentImage)}`">
-                        <img :src="currentImage.thumb" />
+                        <img @load="imageLoaded" :src="currentImage.thumb" />
                     </a>
                 </div>
             </div>
@@ -335,6 +359,26 @@
                         isCollapsed: {
                             get: vm => vm.post.collapsed,
                             set: function (val) { this.post.collapsed = val; }
+                        }
+                    },
+                    methods: {
+                        imageLoaded: function() {
+                            if (this.currentImage.date)
+                                return;
+
+                            const vm = this;
+                            var img = this.$el.querySelector("img");
+                            delete img.exifdata;
+                            EXIF.getData(img, function() {
+                                var dateTime = EXIF.getTag(this, "DateTime");
+
+                                if (dateTime)
+                                {
+                                    var b = dateTime.split(/\D/);
+                                    var date = new Date(b[0],b[1]-1,b[2],b[3],b[4],b[5]).toLocaleString("en-US", {month: "long", "day": "numeric", "year": "numeric"});
+                                    vm.currentImage.date = date;
+                                }
+                            });
                         }
                     },
                     data: () => ({
@@ -424,6 +468,12 @@
         created: async function () {
             window.addEventListener("hashchange", this.handleHashChange);
             const postsResponse = await fetch("posts.json").then(response => response.json());
+            for (let post of postsResponse) {
+                post.collapsed = false;
+                for (let image of post.images) {
+                    image.date = "";
+                }
+            }
             this.posts = postsResponse;
         },
         destroyed() {
