@@ -245,7 +245,7 @@
             left: 0px;       
             z-index: 1000;
             background: rgba(0, 0, 0, 0.8);
-            cursor: pointer;
+            cursor: zoom-out;
             transition: opacity 0.5s;
         }
 
@@ -259,6 +259,12 @@
             transform: translate(-50%, -50%);
             display: block;
             transition: opacity 0.5s;
+            cursor: zoom-in;
+        }
+
+        div.lightbox img.zoomed {            
+            cursor: zoom-out;
+            object-fit: none;
         }
 
         div.lightbox .image-button.close {
@@ -496,7 +502,14 @@
             <div class="template">
                 <div class="lightbox" @click="close" :style="{opacity}">
                     <a :href="image.full" target="_blank">
-                        <img :src="image.full" @load="loaded" :style="{opacity: imageOpacity}"></img>
+                        <img :class="{zoomed}" 
+                            :style="{'object-position': zoomed ? position : 'initial'}"
+                            @mousemove="mouseMove" 
+                            @click.prevent.stop="zoom" 
+                            :src="image.full" 
+                            @load="loaded" 
+                            :style="{opacity: imageOpacity}">
+                        </img>
                     </a>
                     <span class="image-button close" @click="close">X</span>
                     <div class="spinner">
@@ -509,6 +522,16 @@
                     template: getTemplate(),
                     props: ['image'],
                     methods: {
+                        zoom: function() {
+                            this.zoomed = !this.zoomed;
+                            this.mouseMove();
+                        },
+                        mouseMove: function(e) {
+                            let imageRect = e.target.getBoundingClientRect();
+                            let xPosition = e.clientX / imageRect.width;
+                            let yPosition = e.clientY / imageRect.height;
+                            this.position = `${Math.min(xPosition * 100, 100)}% ${Math.min(yPosition * 100, 100)}%`;
+                        },
                         close: function () {
                             this.opacity = 0;
                             setTimeout(() => {
@@ -525,7 +548,7 @@
                     unmounted() {
                         this.opacity = 0;
                     },
-                    data: () => ({ opacity: 0, imageOpacity: 0 })
+                    data: () => ({ opacity: 0, imageOpacity: 0, zoomed: false, position: "initial" })
                 })
             </script>
         </div>
