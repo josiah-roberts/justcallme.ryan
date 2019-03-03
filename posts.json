@@ -3,12 +3,12 @@
         "slug": "futile-memory",
         "images": [
             {
-                "thumb": "images/IMG_1224-t.JPG",
-                "full": "images/IMG_1224.JPG"
+                "thumb": "images/IMG_1224-t.jpg",
+                "full": "images/IMG_1224.jpg"
             },
             {
-                "thumb": "images/IMG_1224b-t.JPG",
-                "full": "images/IMG_1224b.JPG"
+                "thumb": "images/IMG_1224b-t.jpg",
+                "full": "images/IMG_1224b.jpg"
             }
         ],
         "title": "Futile Memory",
@@ -18,16 +18,16 @@
         "slug": "dark-sun",
         "images": [
             {
-                "thumb": "images/IMG_1744-t.JPG",
-                "full": "images/IMG_1744.JPG"
+                "thumb": "images/IMG_1744-t.jpg",
+                "full": "images/IMG_1744.jpg"
             },
             {
-                "thumb": "images/IMG_1745-t.JPG",
-                "full": "images/IMG_1745.JPG"
+                "thumb": "images/IMG_1745-t.jpg",
+                "full": "images/IMG_1745.jpg"
             },
             {
-                "thumb": "images/IMG_1750-t.JPG",
-                "full": "images/IMG_1750.JPG"
+                "thumb": "images/IMG_1750-t.jpg",
+                "full": "images/IMG_1750.jpg"
             }
         ],
         "title": "Dark Sun",
@@ -37,16 +37,16 @@
         "slug": "desert-roads",
         "images": [
             {
-                "thumb": "images/IMG_2329-t.JPG",
-                "full": "images/IMG_2329.JPG"
+                "thumb": "images/IMG_2329-t.jpg",
+                "full": "images/IMG_2329.jpg"
             },
             {
-                "thumb": "images/IMG_2331-t.JPG",
-                "full": "images/IMG_2331.JPG"
+                "thumb": "images/IMG_2331-t.jpg",
+                "full": "images/IMG_2331.jpg"
             },
             {
-                "thumb": "images/IMG_2335-t.JPG",
-                "full": "images/IMG_2335.JPG"
+                "thumb": "images/IMG_2335-t.jpg",
+                "full": "images/IMG_2335.jpg"
             }
         ],
         "title": "Desert Roads",
