@@ -3,16 +3,16 @@
         "slug": "sisyphean-friendship",
         "images": [
             {
-                "thumb": "images/t-.jpg",
-                "full": "images/ryan-.jpg"
+                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-.jpg",
+                "full": "https://storage.googleapis.com/just-call-me-ryan/images/ryan-.jpg"
             },
             {
-                "thumb": "images/t-0197-2.jpg",
-                "full": "images/ryan-0197-2.jpg"
+                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-0197-2.jpg",
+                "full": "https://storage.googleapis.com/just-call-me-ryan/images/ryan-0197-2.jpg"
             },
             {
-                "thumb": "images/t-0267.jpg",
-                "full": "images/ryan-0267.jpg"
+                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-0267.jpg",
+                "full": "https://storage.googleapis.com/just-call-me-ryan/images/ryan-0267.jpg"
             }
         ],
         "title": "Sisyphean Friendship",
@@ -22,12 +22,12 @@
         "slug": "futile-memory",
         "images": [
             {
-                "thumb": "images/IMG_1224-t.jpg",
-                "full": "images/IMG_1224.jpg"
+                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/IMG_1224-t.jpg",
+                "full": "https://storage.googleapis.com/just-call-me-ryan/images/IMG_1224.jpg"
             },
             {
-                "thumb": "images/IMG_1224b-t.jpg",
-                "full": "images/IMG_1224b.jpg"
+                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/IMG_1224b-t.jpg",
+                "full": "https://storage.googleapis.com/just-call-me-ryan/images/IMG_1224b.jpg"
             }
         ],
         "title": "Futile Memory",
@@ -37,16 +37,16 @@
         "slug": "dark-sun",
         "images": [
             {
-                "thumb": "images/IMG_1750-t.jpg",
-                "full": "images/IMG_1750.jpg"
+                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/IMG_1750-t.jpg",
+                "full": "https://storage.googleapis.com/just-call-me-ryan/images/IMG_1750.jpg"
             },
             {
-                "thumb": "images/IMG_1744-t.jpg",
-                "full": "images/IMG_1744.jpg"
+                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/IMG_1744-t.jpg",
+                "full": "https://storage.googleapis.com/just-call-me-ryan/images/IMG_1744.jpg"
             },
             {
-                "thumb": "images/IMG_1745-t.jpg",
-                "full": "images/IMG_1745.jpg"
+                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/IMG_1745-t.jpg",
+                "full": "https://storage.googleapis.com/just-call-me-ryan/images/IMG_1745.jpg"
             }
         ],
         "title": "Dark Sun",
@@ -56,16 +56,16 @@
         "slug": "desert-roads",
         "images": [
             {
-                "thumb": "images/IMG_2329-t.jpg",
-                "full": "images/IMG_2329.jpg"
+                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/IMG_2329-t.jpg",
+                "full": "https://storage.googleapis.com/just-call-me-ryan/images/IMG_2329.jpg"
             },
             {
-                "thumb": "images/IMG_2331-t.jpg",
-                "full": "images/IMG_2331.jpg"
+                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/IMG_2331-t.jpg",
+                "full": "https://storage.googleapis.com/just-call-me-ryan/images/IMG_2331.jpg"
             },
             {
-                "thumb": "images/IMG_2335-t.jpg",
-                "full": "images/IMG_2335.jpg"
+                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/IMG_2335-t.jpg",
+                "full": "https://storage.googleapis.com/just-call-me-ryan/images/IMG_2335.jpg"
             }
         ],
         "title": "Desert Roads",
