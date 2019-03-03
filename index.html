@@ -287,6 +287,14 @@
         }
     </style>
     <script>
+        Number.prototype.clamp = function(min, max) {
+            return this <= min 
+                ? min 
+                : this >= max 
+                    ? max 
+                    : this;
+        }
+
         const mdRenderer = new showdown.Converter();
         const getTemplate = scriptElement => document.currentScript.parentElement.children[0].innerHTML;
         const renderMarkdown = markdown => mdRenderer.makeHtml(markdown);
@@ -424,6 +432,7 @@
                             delete img.exifdata;
                             EXIF.getData(img, function() {
                                 let all = EXIF.getAllTags(this);
+                                console.log(all)
                                 var dateTime = EXIF.getTag(this, "DateTimeOriginal");
 
                                 if (dateTime)
@@ -431,10 +440,6 @@
                                     var b = dateTime.split(/\D/);
                                     var date = new Date(b[0],b[1]-1,b[2],b[3],b[4],b[5]).toLocaleString("en-US", {month: "long", "day": "numeric", "year": "numeric"});
                                     vm.currentImage.date = date;
-                                }
-                                else
-                                {
-                                    debugger;
                                 }
                             });
                         }
@@ -505,7 +510,7 @@
                         <img :class="{zoomed}" 
                             :style="{'object-position': zoomed ? position : 'initial'}"
                             @mousemove="mouseMove"
-                            @touchmove="mouseMove"
+                            @touchmove.prevent="touchMove"
                             @click.prevent.stop="zoom"
                             @touchstart="zoom"
                             :src="image.full" 
@@ -526,16 +531,21 @@
                     methods: {
                         zoom: function() {
                             this.zoomed = !this.zoomed;
-                            this.mouseMove();
+                        },
+                        pan: function (position) {
+                            let imageRect = position.target.getBoundingClientRect();
+                            let xPosition = (position.clientX - imageRect.left) / imageRect.width;
+                            let yPosition = (position.clientY - imageRect.top) / imageRect.height;
+                            this.position = `${(xPosition * 100).clamp(0, 100)}% ${(yPosition * 100).clamp(0, 100)}%`;                            
+                        },
+                        touchMove: function(e) {
+                            let image = this.$el.querySelector("img");
+                            this.pan([...e.changedTouches].filter(x => x.target == image)[0]);
+                            if (this.zoomed)
+                                e.preventDefault();
                         },
                         mouseMove: function(e) {
-                            console.log(e)
-                            let image = this.$el.querySelector("img");
-                            e = e.changedTouches ? [...e.changedTouches].filter(x => x.target == image)[0] : e;
-                            let imageRect = image.getBoundingClientRect();
-                            let xPosition = e.clientX / imageRect.width;
-                            let yPosition = e.clientY / imageRect.height;
-                            this.position = `${Math.min(xPosition * 100, 100)}% ${Math.min(yPosition * 100, 100)}%`;
+                            this.pan(e);                            
                         },
                         close: function () {
                             this.opacity = 0;
