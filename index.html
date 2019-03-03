@@ -283,7 +283,8 @@
         const mdRenderer = new showdown.Converter();
         const getTemplate = scriptElement => document.currentScript.parentElement.children[0].innerHTML;
         const renderMarkdown = markdown => mdRenderer.makeHtml(markdown);
-        const getViewportData = (el) => {
+        const updateSlug = post => window.history.pushState(null, `Just Call Me Ryan | ${post.title}`, `#${post.slug}`);
+        const getViewportData = el => {
             const rect = el.getBoundingClientRect();
             const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
             const topMargin = rect.top;
@@ -296,7 +297,7 @@
 <body>
     <div id="app">
         <page-header></page-header>
-        <post v-for="post of posts" :post="post" :key="post.slug">
+        <post v-for="post of posts" :post="post" :key="post.slug" @became-active="activeChanged">
         </post>
         <page-footer></page-footer>
         <lightbox v-if="lightbox != null" :image="lightbox" @closed="closeLightbox"></lightbox>
@@ -325,7 +326,7 @@
             <script>
                 Vue.component('post', {
                     template: getTemplate(),
-                    props: ['post'],
+                    props: ['post', 'activeSlug'],
                     computed: {
                         lossInfo: vm => {
                             const pixelLoss = -Math.min(vm.viewportData.topMargin, vm.viewportData.bottomMargin);
@@ -346,7 +347,11 @@
                             const viewportOutMargin = Math.min(viewport.topMargin, viewport.bottomMargin);
                             const viewportOutRatio = viewportOutMargin / viewport.height;
                             if (viewportOutRatio > -1.6)
+                            {
                                 this.viewportData = viewport;
+                                if (!this.post.active && viewport.topMargin + (viewport.height / 4) > 0 && viewport.topMargin < viewport.height / 2)
+                                    this.$emit("became-active", this.post);
+                            }
                         }
                     },
                     mounted() {
@@ -544,17 +549,26 @@
             closeLightbox: function () {
                 const hash = window.location.hash;
                 const [_, slug, imageNumber] = hash.substring(hash.indexOf("lightbox")).split("_");
-                window.location.hash = `#${slug}`;
+                updateSlug(this.activePost);
                 this.lightbox = null;
+            },
+            activeChanged: function (newActivePost) {
+                if (this.activePost)
+                    this.activePost.active = false;
+
+                updateSlug(newActivePost);
+                newActivePost.active = true;
+                this.activePost = newActivePost;
             }
         },
         watch: {
             posts: function (newValue) { if (newValue) this.handleHashChange(); }
         },
-        data: {
+        data: () => ({
             posts: [],
-            lightbox: null
-        }
+            lightbox: null,
+            activePost: null
+        })
     })        
 </script>
 
