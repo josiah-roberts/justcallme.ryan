@@ -92,20 +92,51 @@
             object-fit: cover;
         }
 
+        @keyframes spin {
+            from {transform:rotate(0deg);}
+            to {transform:rotate(360deg);}
+        }
+
+        div.spinner {            
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.2);
+            color: #292929AA; 
+            font-size: 4em;
+            font-weight: bold;
+            display: block;
+            width: 1.05em;
+            height: 1.05em;
+            transform: translate(-50%, -50%);
+            position: absolute;
+            border-radius: 50%;
+            left: 50%;
+            top: 50%;
+            text-align: center;
+        }
+
+        .spinner span {
+            display: block;
+            animation-name: spin;
+            animation-duration: 1000ms;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+        }
+
         span.date {
             position: absolute;
             right: 5px;
             bottom: 5px;
-            color: #333;
+            color: #292929AA; 
             font-size: 0.7em;
             font-style: italic;
             font-weight: bold;
             background: rgba(255, 255, 255, 0.1);
             padding: 3px;
-            border-radius: 8px;
+            border-radius: 8px;            
         }
 
-        .image-button {
+        .image-button { 
+            z-index: 100;
             color: #292929AA; 
             font-size: 3em;
             display: block;
@@ -335,8 +366,11 @@
                     <span class="image-button next" v-if="post.images.length > 1"
                         @click="imageIndex = (imageIndex + 1) % post.images.length">&#9658;</span>
                     <span v-if="currentImage.date" class="date">{{currentImage.date}}</span>
+                    <div v-if="loading" class="spinner">
+                        <span>r</span>
+                    </div>
                     <a :href="`#lightbox_${post.slug}_${post.images.indexOf(currentImage)}`">
-                        <img @load="imageLoaded" :src="currentImage.thumb" />
+                        <img :style="{filter: loading ? 'brightness(50%)' : 'none'}" @load="imageLoaded" :src="currentImage.thumb" />
                     </a>
                 </div>
             </div>
@@ -354,6 +388,8 @@
                     },
                     methods: {
                         imageLoaded: function() {
+                            this.loading = false;
+                            this.loadingInternal = false;
                             if (this.currentImage.date)
                                 return;
 
@@ -372,8 +408,19 @@
                             });
                         }
                     },
+                    watch: {
+                        imageIndex: function() {
+                            this.loadingInternal = true;
+                            setTimeout(() => {
+                                if (this.loadingInternal)
+                                    this.loading = true;
+                            }, 100);
+                        }
+                    },
                     data: () => ({
-                        imageIndex: 0
+                        imageIndex: 0,
+                        loading: true,
+                        loadingInternal: true
                     })
                 })
             </script>
