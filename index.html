@@ -50,15 +50,28 @@
             font-family: Metropolis-Thin;
         }
 
-        .page-header {
+        .page-header, .page-footer {
             font-family: Metropolis-Thin;
             background: #292929;
             color: #FFFFFF;
             padding: 10px;  
         }
 
-        .page-header > h1 {
+        .page-header > h1, .page-footer h2 {
             margin: 15px;
+        }
+
+        .page-footer {
+            margin-bottom: 15px;
+        }
+
+        .page-footer h2 {
+            color: #353535;
+        }
+
+        .page-footer h2 span.right {
+            float: right;
+            color: #EEE;
         }
 
         .post {
@@ -73,6 +86,9 @@
             float: left;
             position: relative;
             border-right: solid 10px #00000000;
+            user-select: none;
+            max-width: 75%;
+            overflow: hidden;
         }
 
         .post-images img {
@@ -234,6 +250,7 @@
         <page-header></page-header>
         <post v-for="post of posts" :post="post" :key="post.slug">
         </post>
+        <page-footer></page-footer>
         <lightbox v-if="lightbox != null" :image="lightbox" @closed="closeLightbox"></lightbox>
     </div>
     <div class="templates">
@@ -261,7 +278,7 @@
                 Vue.component('post', {
                     template: getTemplate(),
                     props: ['post'],
-                    computed: {                        
+                    computed: {
                         lossInfo: vm => {
                             const pixelLoss = -Math.min(vm.viewportData.topMargin, vm.viewportData.bottomMargin);
                             const direction = vm.viewportData.topMargin > vm.viewportData.bottomMargin
@@ -291,7 +308,7 @@
                     unmounted() {
                         window.removeEventListener('scroll', this.handleScroll);
                     },
-                    data: () => ({ viewportData: {}})
+                    data: () => ({ viewportData: {} })
                 })
             </script>
         </div>
@@ -317,7 +334,7 @@
                         collapseText: vm => vm.isCollapsed ? "⟫" : "⟪",
                         isCollapsed: {
                             get: vm => vm.post.collapsed,
-                            set: function(val) {this.post.collapsed = val;}
+                            set: function (val) { this.post.collapsed = val; }
                         }
                     },
                     data: () => ({
@@ -343,8 +360,28 @@
                     template: getTemplate(),
                     props: ['post'],
                     computed: {
-                        html: vm => renderMarkdown(vm.post.body)
-                    }
+                        html: vm => renderMarkdown(vm.markdown)
+                    },
+                    mounted: async function () {
+                        if (this.post.markdown) {
+                            this.markdown = this.post.markdown;
+                            return;
+                        }
+                        this.markdown = await fetch("md/" + this.post.slug + ".md").then(response => response.text());
+                    },
+                    data: () => ({ markdown: "" })
+                })
+            </script>
+        </div>
+        <div id="page-footer">
+            <div class="template">
+                <div class="page-footer">
+                    <h2>ryan rosie boberts jobo dirty joze llama jo josiah <span class="right">Copyright {{ (new Date()).getFullYear() }}</span></h2>
+                </div>
+            </div>
+            <script>
+                Vue.component('page-footer', {
+                    template: getTemplate()
                 })
             </script>
         </div>
@@ -365,7 +402,7 @@
                         close: function () {
                             this.opacity = 0;
                             setTimeout(() => {
-                                this.$emit('closed');                                
+                                this.$emit('closed');
                             }, 500);
                         }
                     },
@@ -375,7 +412,7 @@
                     unmounted() {
                         this.opacity = 0;
                     },
-                    data: () => ({opacity: 0})
+                    data: () => ({ opacity: 0 })
                 })
             </script>
         </div>
@@ -408,7 +445,7 @@
             }
         },
         watch: {
-            posts: function(newValue) {if (newValue) this.handleHashChange();}
+            posts: function (newValue) { if (newValue) this.handleHashChange(); }
         },
         data: {
             posts: [],

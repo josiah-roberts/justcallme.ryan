@@ -1,0 +1,5 @@
+The other day I was talking to someone and they asked me what my Instagram handle was. I said, \"it's such and such, but I don't think I've ever uploaded anything.\" That got me thinking about whether I had anything worth sharing on Instagram.
+
+A couple of weeks ago marked two years since I returned from Niger. During those two years, I've thought very little about my time there, but I went back and skimmed through several thousand photos today, and decided that some of them are worth sharing.
+
+I'm not much of a photographer (see the reflection on the glass) - but I tried here to capture a bit of the sense of desolation in rural Niger. These photos were taken West of the capital Niamey, a region dominated more by rocks than sand. There are villages scattered around the flats, hiding in the stands of stubby trees, but for the most part it just feels empty. I think that for me these photos represent a blank emotional canvas, without humans or their creations to box you in. The thoughts and feelings the landscape evokes are all the product of the viewer.
