@@ -3,56 +3,53 @@
         "slug": "futile-memory",
         "images": [
             {
-                "thumb": "images/IMG_1224.JPG",
+                "thumb": "images/IMG_1224-t.JPG",
                 "full": "images/IMG_1224.JPG"
             },
             {
-                "thumb": "images/IMG_1224b.JPG",
+                "thumb": "images/IMG_1224b-t.JPG",
                 "full": "images/IMG_1224b.JPG"
             }
         ],
         "title": "Futile Memory",
-        "date": "January 4th, 2018",
-        "collapsed": false
+        "date": "January 4th, 2018"
     },
     {
         "slug": "dark-sun",
         "images": [
             {
-                "thumb": "images/IMG_1744.JPG",
+                "thumb": "images/IMG_1744-t.JPG",
                 "full": "images/IMG_1744.JPG"
             },
             {
-                "thumb": "images/IMG_1745.JPG",
+                "thumb": "images/IMG_1745-t.JPG",
                 "full": "images/IMG_1745.JPG"
             },
             {
-                "thumb": "images/IMG_1750.JPG",
+                "thumb": "images/IMG_1750-t.JPG",
                 "full": "images/IMG_1750.JPG"
             }
         ],
         "title": "Dark Sun",
-        "date": "January 3rd, 2018",
-        "collapsed": false
+        "date": "January 3rd, 2018"
     },
     {
         "slug": "desert-roads",
         "images": [
             {
-                "thumb": "images/IMG_2329.JPG",
+                "thumb": "images/IMG_2329-t.JPG",
                 "full": "images/IMG_2329.JPG"
             },
             {
-                "thumb": "images/IMG_2331.JPG",
+                "thumb": "images/IMG_2331-t.JPG",
                 "full": "images/IMG_2331.JPG"
             },
             {
-                "thumb": "images/IMG_2335.JPG",
+                "thumb": "images/IMG_2335-t.JPG",
                 "full": "images/IMG_2335.JPG"
             }
         ],
         "title": "Desert Roads",
-        "date": "January 2nd, 2018",
-        "collapsed": false
+        "date": "January 2nd, 2018"
     }
 ]
