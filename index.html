@@ -638,13 +638,13 @@
         created: function () {
             fetch("posts.json").then(response => response.json()).then(postsResponse => {
                 const visiblePosts = postsResponse.filter(x => !x.hide);
-                for (let post of postsResponse) {
+                for (let post of visiblePosts) {
                     post.collapsed = (window.innerWidth / window.devicePixelRatio) < 500;
                     for (let image of post.images) {
                         image.date = "";
                     }
                 }
-                this.posts = postsResponse;
+                this.posts = visiblePosts;
             });
         },
         methods: {
