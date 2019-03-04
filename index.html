@@ -24,6 +24,10 @@
             font-style: normal;
         }
 
+        .mobile .image-button {            
+            font-size: 5em;
+        }
+
         .templates {
             display: none;
         }
@@ -345,7 +349,7 @@
 </head>
 
 <body>
-    <div id="app">
+    <div id="app" :class="{mobile}">
         <page-header></page-header>
         <post v-for="post of posts" :post="post" :key="post.slug" @became-active="activeChanged" @lightbox="handleLightbox">
         </post>
@@ -652,10 +656,11 @@
     var app = new Vue({
         el: '#app',
         created: function () {
+            this.mobile = (window.innerWidth / window.devicePixelRatio) < 500;
             fetch("posts.json").then(response => response.json()).then(postsResponse => {
                 const visiblePosts = postsResponse.filter(x => !x.hide);
                 for (let post of visiblePosts) {
-                    post.collapsed = (window.innerWidth / window.devicePixelRatio) < 500;
+                    post.collapsed = this.mobile;
                     for (let image of post.images) {
                         image.date = "";
                     }
@@ -710,7 +715,8 @@
             posts: [],
             lightboxImage: null,
             lightboxPost: null,
-            activePost: null        
+            activePost: null,
+            mobile: false
         })
     })        
 </script>
