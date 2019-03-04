@@ -157,26 +157,25 @@
             height: 1.1em;
             box-sizing: border-box;
             user-select: none;
+            opacity: 0.5;
         }
 
-        @media (hover:hover) and (pointer:fine) {
-            .image-button:hover {            
-                color: #FFF;
-                mix-blend-mode: soft-light;
-            }
+        .image-button:hover {            
+            opacity: 1;
         }
 
-        .post-images .collapser {   
-            color: #292929AA;         
+        .post-images .collapser {
+            color: #555;
             right: 10px;
             top: 10px;
+            mix-blend-mode: difference;
         }
 
         .next, .prev {
             top: calc(50% - 0.3em);
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            color: #29292955; 
+            background: rgba(200, 200, 200, 0.65);
+            color: #292929; 
             padding-top: 0.035em;
         }
 
