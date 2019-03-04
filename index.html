@@ -158,13 +158,13 @@
             top: 10px;            
         }
 
-        .post-images .prev {
+        .prev {
             padding-right: 8px;
             left: 10px;
             top: calc(50% - 0.6em);
         }
 
-        .post-images .next {
+        .next {
             padding-left: 8px;
             right: 10px;
             top: calc(50% - 0.6em);
@@ -303,6 +303,13 @@
             window.history.pushState(null, title, `#${post.slug}`);
             document.title = title;
         }
+        const getLightboxSlug = (post, image) => {
+            return `#lightbox_${post.slug}_${post.images.indexOf(image)}`;
+        }
+        const updateLightboxSlug = (post, image) => {
+            const title = `Just Call Me Ryan | ${post.title}`;            
+            window.history.pushState(null, title, getLightboxSlug(post, image));
+        }
         const getViewportData = el => {
             const rect = el.getBoundingClientRect();
             const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
@@ -316,10 +323,10 @@
 <body>
     <div id="app">
         <page-header></page-header>
-        <post v-for="post of posts" :post="post" :key="post.slug" @became-active="activeChanged">
+        <post v-for="post of posts" :post="post" :key="post.slug" @became-active="activeChanged" @lightbox="handleLightbox">
         </post>
         <page-footer></page-footer>
-        <lightbox v-if="lightbox != null" :image="lightbox" @closed="closeLightbox"></lightbox>
+        <lightbox v-if="lightboxImage != null" :image="lightboxImage" :post="lightboxPost" @closed="closeLightbox" @prev="handleLightboxPrev" @next="handleLightboxNext"></lightbox>
     </div>
     <div class="templates">
         <div id="page-header">
@@ -338,7 +345,7 @@
             <div class="template">
                 <div class="post" :style="{'mask-image': mask, 'mask-mode': 'luminance'}">
                     <a :name="post.slug" class="anchor"></a>
-                    <post-images v-if="inView" :post="post"></post-images>
+                    <post-images v-if="inView" :post="post" @lightbox="handleLightbox"></post-images>
                     <post-text v-if="inView" :post="post"></post-text>
                 </div>
             </div>
@@ -361,6 +368,9 @@
                         inView: vm => vm.lossInfo.pixelLoss < vm.viewportData.height
                     },
                     methods: {
+                        handleLightbox(image) {
+                            this.$emit("lightbox", image, this.post);
+                        },
                         handleScroll() {
                             const viewport = getViewportData(this.$el);
                             const viewportOutMargin = Math.min(viewport.topMargin, viewport.bottomMargin);
@@ -396,7 +406,7 @@
                     <div v-if="loading" class="spinner">
                         <span>r</span>
                     </div>
-                    <a :href="`#lightbox_${post.slug}_${post.images.indexOf(currentImage)}`">
+                    <a :href="getLightboxSlug(post, currentImage)" @click.prevent="emitLightbox">
                         <img :style="{filter: loading ? 'brightness(50%)' : 'none'}" @load="imageLoaded" :src="currentImage.thumb" />
                     </a>
                 </div>
@@ -414,6 +424,9 @@
                         }
                     },
                     methods: {
+                        emitLightbox: function() {
+                            this.$emit("lightbox", this.currentImage);
+                        },
                         outerClick: function(e) {
                             if (this.isCollapsed)
                             {
@@ -506,17 +519,20 @@
         <div id="lightbox">
             <div class="template">
                 <div class="lightbox" @click="close" :style="{opacity}">
+                    <span class="image-button prev" v-if="post.images.length > 1 && currentIndex > 0"
+                          @click.stop="prev">&#9668;</span>
+                    <span class="image-button next" v-if="post.images.length > 1 && currentIndex < post.images.length - 1"
+                        @click.stop="next">&#9658;</span>
                     <a :href="image.full" target="_blank">
                         <img :class="{zoomed}" 
-                            :style="{'object-position': zoomed ? position : 'initial'}"
+                            :style="{'object-position': zoomed ? position : 'initial', opacity: imageOpacity}"
                             @mousemove="mouseMove"
                             @click.stop.prevent="zoom"
                             @touchstart.prevent="touchStart"
                             @touchend.prevent="touchEnd"
                             @touchmove.prevent="touchMove"
                             :src="image.full" 
-                            @load="loaded" 
-                            :style="{opacity: imageOpacity}">
+                            @load="loaded" >
                         </img>
                     </a>
                     <span class="image-button close" @click="close">X</span>
@@ -528,7 +544,10 @@
             <script>
                 Vue.component('lightbox', {
                     template: getTemplate(),
-                    props: ['image'],
+                    props: ['image', 'post'],
+                    computed: {
+                        currentIndex: vm => vm.post.images.indexOf(vm.image)
+                    },
                     methods: {
                         touchStart: function() {
                             this.wasZoomedBeforeLastTouch = this.zoomed;
@@ -566,6 +585,14 @@
                         },
                         loaded: function () {
                             this.imageOpacity = 1;
+                        },
+                        prev: function() {
+                            this.imageOpacity = 0;
+                            this.$emit('prev');
+                        },
+                        next: function() {
+                            this.imageOpacity = 0;
+                            this.$emit('next');
                         }
                     },
                     mounted() {
@@ -591,7 +618,6 @@
     var app = new Vue({
         el: '#app',
         created: async function () {
-            window.addEventListener("hashchange", this.handleHashChange);
             const postsResponse = await fetch("posts.json").then(response => response.json());
             for (let post of postsResponse) {
                 post.collapsed = (window.innerWidth / window.devicePixelRatio) < 500;
@@ -601,22 +627,32 @@
             }
             this.posts = postsResponse;
         },
-        destroyed() {
-            window.removeEventListener('hashchange', this.handleHashChange);
-        },
         methods: {
-            handleHashChange: function () {
+            handleLightbox: function (image, post) {
+                updateLightboxSlug(post, image);
+                this.lightboxPost = post;
+                this.lightboxImage = image;
+            },
+            handleLightboxPrev: function() {
+                this.lightboxImage = this.lightboxPost.images[this.lightboxPost.images.indexOf(this.lightboxImage) - 1];
+                updateLightboxSlug(this.lightboxPost, this.lightboxImage);
+            },
+            handleLightboxNext: function() {
+                this.lightboxImage = this.lightboxPost.images[this.lightboxPost.images.indexOf(this.lightboxImage) + 1];
+                updateLightboxSlug(this.lightboxPost, this.lightboxImage);
+            },
+            handlePostsLoaded: function () {
                 const hash = window.location.hash;
                 if (hash.indexOf("lightbox") != -1) {
                     const [_, slug, imageNumber] = hash.substring(hash.indexOf("lightbox")).split("_");
-                    this.lightbox = this.posts.filter(post => post.slug == slug)[0].images[imageNumber];
+                    this.lightboxPost = this.posts.filter(post => post.slug == slug)[0];
+                    this.lightboxImage = this.lightboxPost.images[imageNumber];
                 }
             },
             closeLightbox: function () {
-                const hash = window.location.hash;
-                const [_, slug, imageNumber] = hash.substring(hash.indexOf("lightbox")).split("_");
                 updateSlug(this.activePost);
-                this.lightbox = null;
+                this.lightboxImage = null;
+                this.lightboxPost = null;
             },
             activeChanged: function (newActivePost) {
                 if (this.activePost)
@@ -628,12 +664,13 @@
             }
         },
         watch: {
-            posts: function (newValue) { if (newValue) this.handleHashChange(); }
+            posts: function (newValue) { if (newValue) this.handlePostsLoaded(); }
         },
         data: () => ({
             posts: [],
-            lightbox: null,
-            activePost: null
+            lightboxImage: {},
+            lightboxPost: {},
+            activePost: {}            
         })
     })        
 </script>
