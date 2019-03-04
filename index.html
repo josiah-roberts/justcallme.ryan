@@ -531,19 +531,16 @@
                     props: ['image'],
                     methods: {
                         touchStart: function() {
-                            console.log("touchStart")
                             this.wasZoomedBeforeLastTouch = this.zoomed;
                             if (!this.zoomed)
                                 this.zoomed = true;
                             this.lastTouchStart = Date.now();
                         },
                         touchEnd: function() {
-                            console.log("touchEnd")
                             if (Date.now() - this.lastTouchStart < 200 && this.wasZoomedBeforeLastTouch)
                                 this.zoom();
                         },
                         zoom: function() {
-                            console.log("zoom")
                             this.zoomed = !this.zoomed;
                         },
                         pan: function (position) {
