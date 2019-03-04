@@ -3,6 +3,8 @@
 <head>
     <meta http-equiv="Content-type" value="text/html; charset=UTF-8" />
     <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/solid.css" integrity="sha384-r/k8YTFqmlOaqRkZuSiE9trsrDXkh07mRaoGBMoDcmA58OHILZPsk29i2BsFng1B" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/fontawesome.css" integrity="sha384-4aon80D8rXCGx9ayDt85LbyUHeMWd3UiBaWliBlJ53yzm9hqN21A+o1pqoyK04h+" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <!-- <script src="https://vuejs.org/js/vue.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.0/dist/showdown.min.js"></script>
@@ -139,37 +141,43 @@
 
         .image-button { 
             z-index: 100;
-            color: #292929AA; 
             font-size: 3em;
             display: block;
             position: absolute;
-            background: rgba(255, 255, 255, 0.4);
             width: 1em;
             height: 1.2em;
-            border-radius: 20%;
             text-align: center;
             cursor: pointer;
+            width: 1.1em;
+            height: 1.1em;
+            box-sizing: border-box;
         }
 
         .image-button:hover {            
-            background: rgba(200, 200, 200, 0.4);
+            color: #FFF;
+            mix-blend-mode: soft-light;
         }
 
-        .post-images .collapser {            
+        .post-images .collapser {   
+            color: #292929AA;         
             right: 10px;
-            top: 10px;            
+            top: 10px;
+        }
+
+        .next, .prev {
+            top: calc(50% - 0.3em);
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            color: #29292955; 
+            padding-top: 0.035em;
         }
 
         .prev {
-            padding-right: 8px;
             left: 10px;
-            top: calc(50% - 0.6em);
         }
 
         .next {
-            padding-left: 8px;
             right: 10px;
-            top: calc(50% - 0.6em);
         }
 
         .post-images.collapsed .prev {
@@ -274,13 +282,21 @@
         div.lightbox .image-button.close {
             z-index: 1100;
             position: fixed;
-            right: 10px;
-            top: 15px;
-            font-weight: bold;
-            padding-top: 6px;
-            padding-left: 0px;
-            padding-bottom: 5px;
-            height: 1em;
+            right: 0.4em;
+            top: 0.2em;
+            background: none;
+            color: #AAAAAA;
+            border-radius: 50%;
+        }
+
+        div.lightbox .image-button.close:hover {
+            color: #FFFFFF;
+            mix-blend-mode: exclusion;
+        }
+
+        div.lightbox .image-button {
+            background: rgba(255, 255, 255, 0.4);
+            color: #29292999; 
         }
 
         .lightbox .next, .lightbox .prev {
@@ -414,9 +430,9 @@
                 <div class="post-images" :class="{collapsed: isCollapsed}" @click="outerClick">
                     <span class="collapser image-button" @click.stop="isCollapsed = !isCollapsed" v-html="collapseText"></span>
                     <span class="image-button prev" v-if="post.images.length > 1"
-                        @click.stop="imageIndex = imageIndex == 0 ? (post.images.length - 1) : imageIndex - 1">&#9668;</span>
+                        @click.stop="imageIndex = imageIndex == 0 ? (post.images.length - 1) : imageIndex - 1"><i class="fas fa-arrow-left"></i></span>
                     <span class="image-button next" v-if="post.images.length > 1"
-                        @click.stop="imageIndex = (imageIndex + 1) % post.images.length">&#9658;</span>
+                        @click.stop="imageIndex = (imageIndex + 1) % post.images.length"><i class="fas fa-arrow-right"></i></span>
                     <span v-if="currentImage.date" class="date" :title="currentImage.date">{{currentImage.date}}</span>
                     <div v-if="loading" class="spinner">
                         <span>r</span>
@@ -432,7 +448,7 @@
                     props: ['post'],
                     computed: {
                         currentImage: vm => vm.post.images[vm.imageIndex],
-                        collapseText: vm => vm.isCollapsed ? "&#10219;" : "&#10218;",
+                        collapseText: vm => vm.isCollapsed ? "<i class='fas fas fa-chevron-right'></i>" : "<i class='fas fa-chevron-left'></i>",
                         isCollapsed: {
                             get: vm => vm.post.collapsed,
                             set: function (val) { this.post.collapsed = val; }
@@ -538,9 +554,9 @@
             <div class="template">
                 <div class="lightbox" @click="close" :style="{opacity}">
                     <span class="image-button prev" v-if="post.images.length > 1 && currentIndex > 0"
-                          @click.stop="prev">&#9668;</span>
+                          @click.stop="prev"><i class="fas fa-arrow-left"></i></span>
                     <span class="image-button next" v-if="post.images.length > 1 && currentIndex < post.images.length - 1"
-                        @click.stop="next">&#9658;</span>
+                        @click.stop="next"><i class="fas fa-arrow-right"></i></span>
                     <a :href="image.full" target="_blank">
                         <img :class="{zoomed}" 
                             :style="{'object-position': zoomed ? position : 'initial', opacity: imageOpacity}"
@@ -553,7 +569,7 @@
                             @load="loaded" >
                         </img>
                     </a>
-                    <span class="image-button close" @click="close">X</span>
+                    <span class="image-button close" @click="close">✕</span>
                     <div class="spinner">
                         <span>r</span>
                     </div>
