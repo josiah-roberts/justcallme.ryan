@@ -3,6 +3,7 @@
 <head>
     <meta http-equiv="Content-type" value="text/html; charset=UTF-8" />
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <!-- <script src="https://vuejs.org/js/vue.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.0/dist/showdown.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
     <style type="">
@@ -406,7 +407,7 @@
                     <div v-if="loading" class="spinner">
                         <span>r</span>
                     </div>
-                    <a :href="getLightboxSlug(post, currentImage)" @click.prevent="emitLightbox">
+                    <a :href="hash" @click.prevent="emitLightbox">
                         <img :style="{filter: loading ? 'brightness(50%)' : 'none'}" @load="imageLoaded" :src="currentImage.thumb" />
                     </a>
                 </div>
@@ -421,7 +422,8 @@
                         isCollapsed: {
                             get: vm => vm.post.collapsed,
                             set: function (val) { this.post.collapsed = val; }
-                        }
+                        },
+                        hash: vm => getLightboxSlug(vm.post, vm.currentImage)
                     },
                     methods: {
                         emitLightbox: function() {
@@ -445,7 +447,6 @@
                             delete img.exifdata;
                             EXIF.getData(img, function() {
                                 let all = EXIF.getAllTags(this);
-                                console.log(all)
                                 var dateTime = EXIF.getTag(this, "DateTimeOriginal");
 
                                 if (dateTime)
@@ -618,7 +619,8 @@
     var app = new Vue({
         el: '#app',
         created: async function () {
-            const postsResponse = await fetch("posts.json").then(response => response.json());
+            const postsResponse = (await fetch("posts.json").then(response => response.json()))
+                .filter(x => !x.hide);
             for (let post of postsResponse) {
                 post.collapsed = (window.innerWidth / window.devicePixelRatio) < 500;
                 for (let image of post.images) {
@@ -668,9 +670,9 @@
         },
         data: () => ({
             posts: [],
-            lightboxImage: {},
-            lightboxPost: {},
-            activePost: {}            
+            lightboxImage: null,
+            lightboxPost: null,
+            activePost: null        
         })
     })        
 </script>

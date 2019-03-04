@@ -16,7 +16,8 @@
             }
         ],
         "title": "Running to the Sea",
-        "date": "March 3, 2019"
+        "date": "March 3, 2019",
+        "hide": true
     },
     {
         "slug": "futile-memory",
