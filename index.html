@@ -189,6 +189,8 @@
             box-sizing: border-box;
             border-bottom: solid 10px #292929;            
             border-top: solid 10px #292929;
+            scrollbar-color: #888 #292929;
+            scrollbar-width: thin;
         }
 
         .post-text .title {
@@ -293,12 +295,12 @@
         }
     </style>
     <script>
-        Number.prototype.clamp = function(min, max) {
-            return this <= min 
+        const clamp = (num, min, max) => {
+            return num <= min 
                 ? min 
-                : this >= max 
+                : num >= max 
                     ? max 
-                    : this;
+                    : num;
         }
 
         const mdRenderer = new showdown.Converter();
@@ -507,12 +509,14 @@
                     computed: {
                         html: vm => renderMarkdown(vm.markdown)
                     },
-                    mounted: async function () {
+                    mounted: function () {
                         if (this.post.markdown) {
                             this.markdown = this.post.markdown;
                             return;
                         }
-                        this.markdown = await fetch("md/" + this.post.slug + ".md").then(response => response.text());
+                        fetch("md/" + this.post.slug + ".md")
+                            .then(response => response.text())
+                            .then(markdown => this.markdown = markdown);
                     },
                     data: () => ({ markdown: "" })
                 })
@@ -580,7 +584,7 @@
                             let imageRect = position.target.getBoundingClientRect();
                             let xPosition = (position.clientX - imageRect.left) / imageRect.width;
                             let yPosition = (position.clientY - imageRect.top) / imageRect.height;
-                            this.position = `${(xPosition * 100).clamp(0, 100)}% ${(yPosition * 100).clamp(0, 100)}%`;                            
+                            this.position = `${clamp(xPosition * 100, 0, 100)}% ${clamp(yPosition * 100, 0, 100)}%`;                            
                         },
                         touchMove: function(e) {
                             let image = this.$el.querySelector("img");
@@ -631,16 +635,17 @@
 <script id="app-start">
     var app = new Vue({
         el: '#app',
-        created: async function () {
-            const postsResponse = (await fetch("posts.json").then(response => response.json()))
-                .filter(x => !x.hide);
-            for (let post of postsResponse) {
-                post.collapsed = (window.innerWidth / window.devicePixelRatio) < 500;
-                for (let image of post.images) {
-                    image.date = "";
+        created: function () {
+            fetch("posts.json").then(response => response.json()).then(postsResponse => {
+                const visiblePosts = postsResponse.filter(x => !x.hide);
+                for (let post of postsResponse) {
+                    post.collapsed = (window.innerWidth / window.devicePixelRatio) < 500;
+                    for (let image of post.images) {
+                        image.date = "";
+                    }
                 }
-            }
-            this.posts = postsResponse;
+                this.posts = postsResponse;
+            });
         },
         methods: {
             handleLightbox: function (image, post) {
