@@ -159,9 +159,11 @@
             user-select: none;
         }
 
-        .image-button:hover {            
-            color: #FFF;
-            mix-blend-mode: soft-light;
+        @media (hover:hover) and (pointer:fine) {
+            .image-button:hover {            
+                color: #FFF;
+                mix-blend-mode: soft-light;
+            }
         }
 
         .post-images .collapser {   
@@ -299,7 +301,7 @@
             color: #FFFFFF;
             mix-blend-mode: exclusion;
         }
-
+ 
         div.lightbox .image-button {
             background: rgba(255, 255, 255, 0.4);
             color: #29292999; 
