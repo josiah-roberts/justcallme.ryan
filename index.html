@@ -401,9 +401,9 @@
                 <div class="post-images" :class="{collapsed: isCollapsed}" @click="outerClick">
                     <span class="collapser image-button" @click.stop="isCollapsed = !isCollapsed" v-html="collapseText"></span>
                     <span class="image-button prev" v-if="post.images.length > 1"
-                        @click="imageIndex = imageIndex == 0 ? (post.images.length - 1) : imageIndex - 1">&#9668;</span>
+                        @click.stop="imageIndex = imageIndex == 0 ? (post.images.length - 1) : imageIndex - 1">&#9668;</span>
                     <span class="image-button next" v-if="post.images.length > 1"
-                        @click="imageIndex = (imageIndex + 1) % post.images.length">&#9658;</span>
+                        @click.stop="imageIndex = (imageIndex + 1) % post.images.length">&#9658;</span>
                     <span v-if="currentImage.date" class="date" :title="currentImage.date">{{currentImage.date}}</span>
                     <div v-if="loading" class="spinner">
                         <span>r</span>
@@ -428,7 +428,8 @@
                     },
                     methods: {
                         emitLightbox: function() {
-                            this.$emit("lightbox", this.currentImage);
+                            if (!this.isCollapsed)
+                                this.$emit("lightbox", this.currentImage);
                         },
                         outerClick: function(e) {
                             if (this.isCollapsed)
