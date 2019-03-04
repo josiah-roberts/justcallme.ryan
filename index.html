@@ -332,7 +332,14 @@
         <post v-for="post of posts" :post="post" :key="post.slug" @became-active="activeChanged" @lightbox="handleLightbox">
         </post>
         <page-footer></page-footer>
-        <lightbox v-if="lightboxImage != null" :image="lightboxImage" :post="lightboxPost" @closed="closeLightbox" @prev="handleLightboxPrev" @next="handleLightboxNext"></lightbox>
+        <lightbox 
+            v-if="lightboxImage != null" 
+            :image="lightboxImage" 
+            :post="lightboxPost" 
+            @closed="closeLightbox" 
+            @prev="handleLightboxPrev"
+            @next="handleLightboxNext">
+        </lightbox>
     </div>
     <div class="templates">
         <div id="page-header">
