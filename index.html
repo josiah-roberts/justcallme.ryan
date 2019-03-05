@@ -447,17 +447,19 @@
         mdRenderer.setOption('emoji', true);
         const getTemplate = scriptElement => document.currentScript.parentElement.children[0].innerHTML;
         const renderMarkdown = markdown => mdRenderer.makeHtml(markdown);
-        const updateSlug = post => {
+        const updateSlug = (post, allposts) => {
             const title = `Just Call Me Ryan | ${post.title}`;
-            window.history.pushState(null, title, `#${post.slug}`);
             document.title = title;
+
+            if (post != allposts[0] || window.location.hash)
+                window.history.replaceState(null, title, `#${post.slug}`);            
         }
         const getLightboxSlug = (post, image) => {
             return `#lightbox_${post.slug}_${post.images.indexOf(image)}`;
         }
         const updateLightboxSlug = (post, image) => {
             const title = `Just Call Me Ryan | ${post.title}`;
-            window.history.pushState(null, title, getLightboxSlug(post, image));
+            window.history.replaceState(null, title, `#${post.slug}`);    
         }
         const getViewportData = el => {
             const rect = el.getBoundingClientRect();
@@ -908,7 +910,7 @@
                 }
             },
             closeLightbox: function () {
-                updateSlug(this.activePost != null ? this.activePost : this.posts[0]);
+                updateSlug(this.activePost != null ? this.activePost : this.posts[0], this.posts);
                 this.lightboxImage = null;
                 this.lightboxPost = null;
             },
@@ -919,7 +921,7 @@
                 if (this.activePost)
                     this.activePost.active = false;
 
-                updateSlug(newActivePost);
+                updateSlug(newActivePost, this.posts);
                 newActivePost.active = true;
                 this.activePost = newActivePost;
             }
