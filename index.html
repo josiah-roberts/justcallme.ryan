@@ -3,28 +3,32 @@
 <head>
     <meta http-equiv="Content-type" value="text/html; charset=UTF-8" />
     <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/solid.css" integrity="sha384-r/k8YTFqmlOaqRkZuSiE9trsrDXkh07mRaoGBMoDcmA58OHILZPsk29i2BsFng1B" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/fontawesome.css" integrity="sha384-4aon80D8rXCGx9ayDt85LbyUHeMWd3UiBaWliBlJ53yzm9hqN21A+o1pqoyK04h+" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-    <!-- <script src="https://vuejs.org/js/vue.js"></script> -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/solid.css"
+        integrity="sha384-r/k8YTFqmlOaqRkZuSiE9trsrDXkh07mRaoGBMoDcmA58OHILZPsk29i2BsFng1B" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/fontawesome.css"
+        integrity="sha384-4aon80D8rXCGx9ayDt85LbyUHeMWd3UiBaWliBlJ53yzm9hqN21A+o1pqoyK04h+" crossorigin="anonymous">
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+    <script src="https://vuejs.org/js/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.0/dist/showdown.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
     <style>
-        @font-face { /*Metropolis-Thin*/
+        @font-face {
+            /*Metropolis-Thin*/
             font-family: 'Metropolis-Thin';
             src: url('/fonts/Metropolis-Thin.woff2') format('woff2');
             font-weight: normal;
             font-style: normal;
         }
 
-        @font-face { /*Metropolis-Regular*/
+        @font-face {
+            /*Metropolis-Regular*/
             font-family: 'Metropolis-Regular';
             src: url('/fonts/Metropolis-Regular.woff2') format('woff2');
             font-weight: normal;
             font-style: normal;
         }
 
-        .mobile .image-button {            
+        .mobile .image-button {
             font-size: 5em;
         }
 
@@ -32,12 +36,12 @@
             display: none;
         }
 
-        h1 {            
+        h1 {
             font-family: Metropolis-Regular;
             font-size: 4em;
         }
 
-        body {            
+        body {
             width: calc(100% - 50px);
             height: calc(100% - 50px);
             max-width: 1000px;
@@ -50,14 +54,16 @@
             font-family: Metropolis-Thin;
         }
 
-        .page-header, .page-footer {
+        .page-header,
+        .page-footer {
             font-family: Metropolis-Thin;
             background: #292929;
             color: #FFFFFF;
-            padding: 10px;  
+            padding: 10px;
         }
 
-        .page-header > h1, .page-footer h2 {
+        .page-header>h1,
+        .page-footer h2 {
             margin: 15px;
         }
 
@@ -103,14 +109,19 @@
         }
 
         @keyframes spin {
-            from {transform:rotate(0deg);}
-            to {transform:rotate(360deg);}
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
         }
 
-        div.spinner {            
+        div.spinner {
             z-index: 100;
             background: rgba(255, 255, 255, 0.2);
-            color: #292929AA; 
+            color: #292929AA;
             font-size: 4em;
             font-weight: bold;
             display: block;
@@ -136,16 +147,16 @@
             position: absolute;
             right: 5px;
             bottom: 5px;
-            color: #292929AA; 
+            color: #292929AA;
             font-size: 0.7em;
             font-style: italic;
             font-weight: bold;
             background: rgba(255, 255, 255, 0.1);
             padding: 3px;
-            border-radius: 8px;  
+            border-radius: 8px;
         }
 
-        .image-button { 
+        .image-button {
             z-index: 100;
             font-size: 3em;
             display: block;
@@ -161,7 +172,7 @@
             opacity: 0.5;
         }
 
-        .image-button:hover {            
+        .image-button:hover {
             opacity: 1;
         }
 
@@ -172,11 +183,12 @@
             mix-blend-mode: difference;
         }
 
-        .next, .prev {
+        .next,
+        .prev {
             top: calc(50% - 0.3em);
             border-radius: 50%;
             background: rgba(200, 200, 200, 0.65);
-            color: #292929; 
+            color: #292929;
             padding-top: 0.035em;
         }
 
@@ -203,7 +215,7 @@
             overflow-y: scroll;
             padding: 10px;
             box-sizing: border-box;
-            border-bottom: solid 10px #292929;            
+            border-bottom: solid 10px #292929;
             border-top: solid 10px #292929;
             scrollbar-color: #888 #292929;
             scrollbar-width: thin;
@@ -240,12 +252,12 @@
             margin-bottom: 1em;
         }
 
-        .post-text::-webkit-scrollbar {            
+        .post-text::-webkit-scrollbar {
             width: 10px;
         }
 
         .post-text::-webkit-scrollbar-track {
-            background: #292929; 
+            background: #292929;
         }
 
         .post-text::-webkit-scrollbar-thumb {
@@ -254,15 +266,15 @@
         }
 
         .post-text::-webkit-scrollbar-thumb:hover {
-            background: #555; 
+            background: #555;
         }
 
         div.lightbox {
             position: fixed;
-            top: 0px;     
+            top: 0px;
             right: 0px;
             bottom: 0px;
-            left: 0px;       
+            left: 0px;
             z-index: 1000;
             background: rgba(0, 0, 0, 0.8);
             cursor: zoom-out;
@@ -282,7 +294,7 @@
             cursor: zoom-in;
         }
 
-        div.lightbox img.zoomed {            
+        div.lightbox img.zoomed {
             cursor: zoom-out;
             object-fit: none;
         }
@@ -301,13 +313,14 @@
             color: #FFFFFF;
             mix-blend-mode: exclusion;
         }
- 
+
         div.lightbox .image-button {
             background: rgba(255, 255, 255, 0.4);
-            color: #29292999; 
+            color: #29292999;
         }
 
-        .lightbox .next, .lightbox .prev {
+        .lightbox .next,
+        .lightbox .prev {
             z-index: 1100;
         }
 
@@ -317,17 +330,115 @@
             top: -100px;
             visibility: hidden;
         }
+
+        em.music {
+            background: #88888844;
+            border-radius: 0.3em;
+            padding-left: 0.2em;
+            padding-right: 0.28em;
+            padding-top: 0.2em;
+            padding-bottom: 0.1em;
+            cursor: pointer;
+            position: relative;
+            box-sizing: border-box;
+            border: solid 1px #88888800;
+        }
+
+        em.music:hover {
+            background: #88888855;
+        }
+
+        em.music.open {
+            background: none;
+            border: solid 1px #88888844;
+            border-bottom-right-radius: 0px;
+            border-bottom-left-radius: 0px;
+            border-bottom: none;
+        }
+
+        em.music div.music-popup {
+            display: block;
+            position: absolute;
+            background:#666666DD;
+            padding: 10px;
+            width: 12em;
+            font-style: normal;
+            text-align: center;
+            cursor: default;
+            font-weight: bold;
+            border-radius: 0.3em;
+            border-top-left-radius: 0px;
+        }
+
+        em.music div.music-popup > div.names {
+            text-align: left;
+        }
+
+        em.music div.music-popup > div.images {
+            margin-left: auto;
+            margin-right: auto;
+            display: inline-block;
+            padding: 0px;
+            margin-top: 10px;
+        }
+
+        em.music div.music-popup > div a {
+            margin-left: 0.4em;
+            margin-right: 0.4em;
+        }
+
+        em.music div.music-popup > div img {
+            width: 3em;
+            vertical-align: middle;
+            filter: saturate(0.9);
+        }
+
+        em.music div.music-popup > div img:hover {
+            width: 3em;
+            vertical-align: middle;
+            filter: saturate(1.2) contrast(1.2)
+        }
+
+        em.music div.music-popup > div img:first-child {
+            margin-left: 0;
+        }
+
+        em.music div.music-popup > div img:last-child {
+            margin-right: 0;
+        }
+
+        em.music .close-music {
+            font-weight: normal;
+            position: absolute;
+            right: 0.6em;
+            top: 0.5em;
+            display: block;
+            color: #000;
+            cursor: pointer;
+            filter: contrast(2);
+            border-radius: 50%;
+            height: 1.24em;
+            width: 1.24em;
+        }
+
+        em.music .close-music:hover {
+            color: #FFF;
+            background: #FFFFFF44;
+        }
     </style>
     <script>
         const clamp = (num, min, max) => {
-            return num <= min 
-                ? min 
-                : num >= max 
-                    ? max 
+            return num <= min
+                ? min
+                : num >= max
+                    ? max
                     : num;
         }
 
         const mdRenderer = new showdown.Converter();
+        mdRenderer.setOption('headerLevelStart', 3);
+        mdRenderer.setOption('strikethrough', true);
+        mdRenderer.setOption('emoji', true);
         const getTemplate = scriptElement => document.currentScript.parentElement.children[0].innerHTML;
         const renderMarkdown = markdown => mdRenderer.makeHtml(markdown);
         const updateSlug = post => {
@@ -339,7 +450,7 @@
             return `#lightbox_${post.slug}_${post.images.indexOf(image)}`;
         }
         const updateLightboxSlug = (post, image) => {
-            const title = `Just Call Me Ryan | ${post.title}`;            
+            const title = `Just Call Me Ryan | ${post.title}`;
             window.history.pushState(null, title, getLightboxSlug(post, image));
         }
         const getViewportData = el => {
@@ -349,22 +460,68 @@
             const bottomMargin = windowHeight - (rect.top + rect.height);
             return { topMargin, bottomMargin, height: rect.height };
         }
+        const parseOpts = innerText => {
+            const args = {};
+            let currentAttrName = "";
+            let currentValue = "";
+            let inValue = false;
+            for (let char of innerText.substring("music-item ".length)) {
+                if (!inValue)
+                {
+                    if (char == "=")
+                    {
+                        inValue = true;
+                        continue;
+                    }
+                
+                    if (char == " ")
+                        continue;
+                    currentAttrName += char;
+                    continue;
+                }
+
+                if (inValue)
+                {
+                    currentValue += char;
+                    if (char == '"' && currentValue.length > 1)
+                    {
+                        args[currentAttrName] = currentValue.substring(1, currentValue.length - 1);
+                        currentAttrName = "";
+                        currentValue = "";
+                        inValue = false;
+                    }
+                    continue;
+                }
+            }
+            return {spotify: args.spotify, google: args.google, youtube: args.youtube, track: args.track, artist: args.artist};
+        }
+        const insertMusic = html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, "text/html");
+            const musicItems = [...doc.querySelectorAll("del")].filter(del => del.innerText.startsWith("music-item"));
+            musicItems.forEach(item => {
+                const props = parseOpts(item.innerText);
+                const divElement = doc.createElement('div');
+                item.parentElement.replaceChild(divElement, item);
+                const musicComponent = new (Vue.component('music'))({
+                    el: divElement,
+                    propsData: props
+                });
+            })
+            return doc.body;
+        }
     </script>
 </head>
 
 <body>
     <div id="app" :class="{mobile}">
         <page-header></page-header>
-        <post v-for="post of posts" :post="post" :key="post.slug" @became-active="activeChanged" @lightbox="handleLightbox">
+        <post v-for="post of posts" :post="post" :key="post.slug" @became-active="activeChanged"
+            @lightbox="handleLightbox">
         </post>
         <page-footer></page-footer>
-        <lightbox 
-            v-if="lightboxImage != null" 
-            :image="lightboxImage" 
-            :post="lightboxPost" 
-            @closed="closeLightbox" 
-            @prev="handleLightboxPrev"
-            @next="handleLightboxNext">
+        <lightbox v-if="lightboxImage != null" :image="lightboxImage" :post="lightboxPost" @closed="closeLightbox"
+            @prev="handleLightboxPrev" @next="handleLightboxNext">
         </lightbox>
     </div>
     <div class="templates">
@@ -416,8 +573,7 @@
                         handleScroll() {
                             const viewport = getViewportData(this.$el);
                             const viewportOutRatio = Math.min(viewport.topMargin, viewport.bottomMargin) / viewport.height;
-                            if (viewportOutRatio > -2)
-                            {
+                            if (viewportOutRatio > -2) {
                                 this.viewportData = viewport;
                                 if (!this.post.active && viewport.topMargin + (viewport.height / 4) > 0 && viewport.topMargin < viewport.height / 2)
                                     this.$emit("became-active", this.post);
@@ -438,17 +594,21 @@
         <div id="post-images">
             <div class="template">
                 <div class="post-images" :class="{collapsed: isCollapsed}" @click="outerClick">
-                    <span class="collapser image-button" @click.stop="isCollapsed = !isCollapsed" v-html="collapseText"></span>
+                    <span class="collapser image-button" @click.stop="isCollapsed = !isCollapsed"
+                        v-html="collapseText"></span>
                     <span class="image-button prev" v-if="post.images.length > 1"
-                        @click.stop="imageIndex = imageIndex == 0 ? (post.images.length - 1) : imageIndex - 1"><i class="fas fa-arrow-left"></i></span>
+                        @click.stop="imageIndex = imageIndex == 0 ? (post.images.length - 1) : imageIndex - 1"><i
+                            class="fas fa-arrow-left"></i></span>
                     <span class="image-button next" v-if="post.images.length > 1"
-                        @click.stop="imageIndex = (imageIndex + 1) % post.images.length"><i class="fas fa-arrow-right"></i></span>
+                        @click.stop="imageIndex = (imageIndex + 1) % post.images.length"><i
+                            class="fas fa-arrow-right"></i></span>
                     <span v-if="currentImage.date" class="date" :title="currentImage.date">{{currentImage.date}}</span>
                     <div v-if="loading" class="spinner">
                         <span>r</span>
                     </div>
                     <a :href="hash" @click.prevent="emitLightbox">
-                        <img :style="{filter: loading ? 'brightness(50%)' : 'none'}" @load="imageLoaded" :src="currentImage.thumb" />
+                        <img :style="{filter: loading ? 'brightness(50%)' : 'none'}" @load="imageLoaded"
+                            :src="currentImage.thumb" />
                     </a>
                 </div>
             </div>
@@ -466,18 +626,17 @@
                         hash: vm => getLightboxSlug(vm.post, vm.currentImage)
                     },
                     methods: {
-                        emitLightbox: function() {
+                        emitLightbox: function () {
                             if (!this.isCollapsed)
                                 this.$emit("lightbox", this.currentImage);
                         },
-                        outerClick: function(e) {
-                            if (this.isCollapsed)
-                            {
+                        outerClick: function (e) {
+                            if (this.isCollapsed) {
                                 this.isCollapsed = false;
                                 e.preventDefault();
                             }
                         },
-                        imageLoaded: function() {
+                        imageLoaded: function () {
                             this.loading = false;
                             this.loadingInternal = false;
                             if (this.currentImage.date)
@@ -486,21 +645,20 @@
                             const vm = this;
                             var img = this.$el.querySelector("img");
                             delete img.exifdata;
-                            EXIF.getData(img, function() {
+                            EXIF.getData(img, function () {
                                 let all = EXIF.getAllTags(this);
                                 var dateTime = EXIF.getTag(this, "DateTimeOriginal");
 
-                                if (dateTime)
-                                {
+                                if (dateTime) {
                                     var b = dateTime.split(/\D/);
-                                    var date = new Date(b[0],b[1]-1,b[2],b[3],b[4],b[5]).toLocaleString("en-US", {month: "long", "day": "numeric", "year": "numeric"});
+                                    var date = new Date(b[0], b[1] - 1, b[2], b[3], b[4], b[5]).toLocaleString("en-US", { month: "long", "day": "numeric", "year": "numeric" });
                                     vm.currentImage.date = date;
                                 }
                             });
                         }
                     },
                     watch: {
-                        imageIndex: function() {
+                        imageIndex: function () {
                             this.loadingInternal = true;
                             setTimeout(() => {
                                 if (this.loadingInternal)
@@ -523,7 +681,7 @@
                         <span class="post-date">{{ post.date }}</span>
                         <h2>{{ post.title }}</h2>
                     </div>
-                    <div class="post-text-body" v-html="html">
+                    <div class="post-text-body">
 
                     </div>
                 </div>
@@ -532,9 +690,6 @@
                 Vue.component('post-text', {
                     template: getTemplate(),
                     props: ['post'],
-                    computed: {
-                        html: vm => renderMarkdown(vm.markdown)
-                    },
                     mounted: function () {
                         if (this.post.markdown) {
                             this.markdown = this.post.markdown;
@@ -544,6 +699,16 @@
                             .then(response => response.text())
                             .then(markdown => this.markdown = markdown);
                     },
+                    watch: {
+                        markdown: function() {
+                            const document = insertMusic(renderMarkdown(this.markdown))
+                            const textBody = this.$el.querySelector('.post-text-body');
+                            const newBody = textBody.cloneNode(false);
+                            textBody.parentNode.replaceChild(newBody, textBody);
+                            for(let child of document.childNodes)
+                                newBody.appendChild(child);
+                        }
+                    },
                     data: () => ({ markdown: "" })
                 })
             </script>
@@ -551,7 +716,8 @@
         <div id="page-footer">
             <div class="template">
                 <div class="page-footer">
-                    <h2>ryan rosie boberts jobo dirty joze llama jo josiah <span class="right">Copyright {{ (new Date()).getFullYear() }}</span></h2>
+                    <h2>ryan rosie boberts jobo dirty joze llama jo josiah <span class="right">Copyright
+                            {{ (new Date()).getFullYear() }}</span></h2>
                 </div>
             </div>
             <script>
@@ -564,19 +730,16 @@
             <div class="template">
                 <div class="lightbox" @click="close" :style="{opacity}">
                     <span class="image-button prev" v-if="post.images.length > 1 && currentIndex > 0"
-                          @click.stop="prev"><i class="fas fa-arrow-left"></i></span>
-                    <span class="image-button next" v-if="post.images.length > 1 && currentIndex < post.images.length - 1"
-                        @click.stop="next"><i class="fas fa-arrow-right"></i></span>
+                        @click.stop="prev"><i class="fas fa-arrow-left"></i></span>
+                    <span class="image-button next"
+                        v-if="post.images.length > 1 && currentIndex < post.images.length - 1" @click.stop="next"><i
+                            class="fas fa-arrow-right"></i></span>
                     <a :href="image.full" target="_blank">
-                        <img :class="{zoomed}" 
+                        <img :class="{zoomed}"
                             :style="{'object-position': zoomed ? position : 'initial', opacity: imageOpacity}"
-                            @mousemove="mouseMove"
-                            @click.stop.prevent="zoom"
-                            @touchstart.prevent="touchStart"
-                            @touchend.prevent="touchEnd"
-                            @touchmove.prevent="touchMove"
-                            :src="image.full" 
-                            @load="loaded" >
+                            @mousemove="mouseMove" @click.stop.prevent="zoom" @touchstart.prevent="touchStart"
+                            @touchend.prevent="touchEnd" @touchmove.prevent="touchMove" :src="image.full"
+                            @load="loaded">
                         </img>
                     </a>
                     <span class="image-button close" @click="close">&#x2715;</span>
@@ -593,33 +756,33 @@
                         currentIndex: vm => vm.post.images.indexOf(vm.image)
                     },
                     methods: {
-                        touchStart: function() {
+                        touchStart: function () {
                             this.wasZoomedBeforeLastTouch = this.zoomed;
                             if (!this.zoomed)
                                 this.zoomed = true;
                             this.lastTouchStart = Date.now();
                         },
-                        touchEnd: function() {
+                        touchEnd: function () {
                             if (Date.now() - this.lastTouchStart < 200 && this.wasZoomedBeforeLastTouch)
                                 this.zoom();
                         },
-                        zoom: function() {
+                        zoom: function () {
                             this.zoomed = !this.zoomed;
                         },
                         pan: function (position) {
                             let imageRect = position.target.getBoundingClientRect();
                             let xPosition = (position.clientX - imageRect.left) / imageRect.width;
                             let yPosition = (position.clientY - imageRect.top) / imageRect.height;
-                            this.position = `${clamp(xPosition * 100, 0, 100)}% ${clamp(yPosition * 100, 0, 100)}%`;                            
+                            this.position = `${clamp(xPosition * 100, 0, 100)}% ${clamp(yPosition * 100, 0, 100)}%`;
                         },
-                        touchMove: function(e) {
+                        touchMove: function (e) {
                             let image = this.$el.querySelector("img");
                             this.pan([...e.changedTouches].filter(x => x.target == image)[0]);
                             if (this.zoomed)
                                 e.preventDefault();
                         },
-                        mouseMove: function(e) {
-                            this.pan(e);                            
+                        mouseMove: function (e) {
+                            this.pan(e);
                         },
                         close: function () {
                             this.opacity = 0;
@@ -630,11 +793,11 @@
                         loaded: function () {
                             this.imageOpacity = 1;
                         },
-                        prev: function() {
+                        prev: function () {
                             this.imageOpacity = 0;
                             this.$emit('prev');
                         },
-                        next: function() {
+                        next: function () {
                             this.imageOpacity = 0;
                             this.$emit('next');
                         }
@@ -646,13 +809,52 @@
                         this.opacity = 0;
                     },
                     data: () => ({
-                        opacity: 0, 
-                        imageOpacity: 0, 
-                        zoomed: false, 
+                        opacity: 0,
+                        imageOpacity: 0,
+                        zoomed: false,
                         position: "initial",
                         lastTouchStart: 0,
                         wasZoomedBeforeLastTouch: false
                     })
+                })
+            </script>
+        </div>
+        <div id="music">
+            <div class="template">
+                <em class="music" @click.self="togglePopup" :class="{open: popup}">{{track}}<div class="music-popup" v-if="popup">
+                    <div class="names">
+                        {{track}}<br />
+                        <small>{{artist}}</small>
+                    </div>
+                    <div class="images">
+                        <a v-if="spotify" :href="spotify"><img src="spotify.png"></img></a>
+                        <a v-if="youtube" :href="youtube"><img src="youtube.png"></img></a>
+                        <a v-if="google" :href="google"><img src="google.png"></img></a>
+                    </div>
+                    <span class="close-music">&#x2715;</span>
+                </div></em>
+            </div>
+            <script>
+                Vue.component('music', {
+                    template: getTemplate(),
+                    props: ['spotify', 'youtube', 'google', 'track', 'artist', 'album'],
+                    methods: {
+                        togglePopup: function(e) {
+                            if (!this.popup)
+                                document.addEventListener("mousedown", this.clickToClose);
+                            else
+                                document.removeEventListener("mousedown", this.clickToClose);
+
+                            this.popup = !this.popup;
+                        },
+                        clickToClose: function(e) {
+                            if (this.$el && (e.target == this.$el || this.$el.contains(e.target)))
+                                return;
+                            
+                            this.togglePopup();
+                        }
+                    },
+                    data: () => ({popup: false})
                 })
             </script>
         </div>
@@ -680,11 +882,11 @@
                 this.lightboxPost = post;
                 this.lightboxImage = image;
             },
-            handleLightboxPrev: function() {
+            handleLightboxPrev: function () {
                 this.lightboxImage = this.lightboxPost.images[this.lightboxPost.images.indexOf(this.lightboxImage) - 1];
                 updateLightboxSlug(this.lightboxPost, this.lightboxImage);
             },
-            handleLightboxNext: function() {
+            handleLightboxNext: function () {
                 this.lightboxImage = this.lightboxPost.images[this.lightboxPost.images.indexOf(this.lightboxImage) + 1];
                 updateLightboxSlug(this.lightboxPost, this.lightboxImage);
             },
