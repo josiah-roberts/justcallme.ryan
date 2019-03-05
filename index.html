@@ -461,7 +461,7 @@
         }
         const updateLightboxSlug = (post, image) => {
             const title = `Just Call Me Ryan | ${post.title}`;
-            window.history.replaceState(null, title, `#${post.slug}`);    
+            window.history.replaceState(null, title, getLightboxSlug(post, image));  
         }
         const getViewportData = el => {
             const rect = el.getBoundingClientRect();
