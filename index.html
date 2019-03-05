@@ -451,7 +451,9 @@
             const title = `Just Call Me Ryan | ${post.title}`;
             document.title = title;
 
-            if (post != allposts[0] || window.location.hash)
+            if (post == allposts[0])
+                window.history.replaceState(null, title, window.location.pathname)
+            else
                 window.history.replaceState(null, title, `#${post.slug}`);            
         }
         const getLightboxSlug = (post, image) => {
