@@ -585,10 +585,12 @@
                     },
                     mounted() {
                         window.addEventListener('scroll', this.handleScroll);
+                        window.addEventListener('resize', this.handleScroll);
                         this.handleScroll();
                     },
                     unmounted() {
                         window.removeEventListener('scroll', this.handleScroll);
+                        window.removeEventListener('resize', this.handleScroll);
                     },
                     data: () => ({ viewportData: {} })
                 })
