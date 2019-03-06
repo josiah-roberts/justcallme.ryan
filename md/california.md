@@ -13,10 +13,10 @@ I've lived in California for a year now. I still live in that run-down house. I 
 >>> "I'm Max."  
 >>>> "Oh hi, I'm Sneha."  
 >>>>> "Hey, my name's Dahlia."  
->>>>>> "Hello, I'm Allison."  
->>>>>>> "Prateek - that's "pretty" with a K."  
->>>>>>>> "Hello, my name is Sebastian."  
->>>>>>>>> "My names is Emiliano."  
+>>>>>> "Hello, my name is Sebastian."  
+>>>>>>> "Prateek - "pretty" with a K."
+>>>>>>>> "Hello, I'm Allison."    
+>>>>>>>>> "I'm Emiliano."  
 >>>>>>>>>> "It's Melih."  
 >>>>>>>>>>> "Hey, I'm Stephanie."  
 >>>>>>>>>>>> "Karolina."  
@@ -35,4 +35,4 @@ I'm reminded of my road trip to California, just after I crossed the Nevada bord
 > Plenty of room at the Hotel California  
 > Any time of year you can find it here  
 
-Back then, the song was an evocative piece 
+Back then, the song was an evocative piece that woke me up a bit on a long drive to LA. Today, I feel it more deeply - perhaps I'm living in the Hotel California - people keep checking out, but I'm still here.

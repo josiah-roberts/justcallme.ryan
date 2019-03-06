@@ -1,7 +1,6 @@
 <html>
 
 <head>
-    <link rel="manifest" href="manifest.json">
     <meta name="viewport" content="width=device-width">
     <meta http-equiv="Content-type" value="text/html; charset=UTF-8" />
     <link rel="icon" type="image/png" href="favicon.png">
@@ -266,6 +265,16 @@
         .post-text .post-text-body blockquote {
             margin-inline-start: 1em;
             margin-inline-end: 0px;
+        }
+
+        blockquote blockquote, blockquote blockquote p {
+            margin-top: 0px !important;
+            margin-bottom: 0px !important;
+            line-height: 175%;
+        }
+
+        .post-text .post-text-body > blockquote > blockquote {
+            margin-top: -0.75em !important;
         }
 
         .post-text-body {
@@ -901,10 +910,9 @@
             window.addEventListener("resize", this.detectMobile);
             this.detectMobile();
             fetch("posts.json").then(response => response.json()).then(postsResponse => {
-                const visiblePosts = postsResponse.filter(x => !x.hide);
+                const visiblePosts = postsResponse.filter(x => !x.hide || window.location.hash.indexOf(x.slug) != -1);
                 for (let post of visiblePosts) {
-                    //post.collapsed = this.mobile;
-                    post.collapsed = false;
+                    post.collapsed = false; //makes it reactive
                     for (let image of post.images) {
                         image.date = "";
                     }
@@ -914,7 +922,7 @@
         },
         methods: {
             detectMobile: function() {
-                this.mobile = (window.innerWidth / window.devicePixelRatio) < 600;
+                this.mobile = (window.innerWidth / window.devicePixelRatio) < 500;
             },
             handleLightbox: function (image, post) {
                 updateLightboxSlug(post, image);
