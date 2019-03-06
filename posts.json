@@ -1,19 +1,23 @@
 [
     {
-        "slug": "the-long-year",
+        "slug": "california",
         "images": [
             {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-ryan-0855.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/ryan-0855.jpg"
+                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-ryan--3.jpg",
+                "full": "https://storage.googleapis.com/just-call-me-ryan/images/ryan--3.jpg"
             },
             {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-ryan-0856.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/ryan-0856.jpg"
+                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-ryan-145712543-2.jpg",
+                "full": "https://storage.googleapis.com/just-call-me-ryan/images/ryan-145712543-2.jpg"
+            },
+            {
+                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-ryan-183133389.jpg",
+                "full": "https://storage.googleapis.com/just-call-me-ryan/images/ryan-183133389.jpg"
             }
         ],
-        "title": "The Long Year",
+        "title": "California",
         "date": "March 5, 2019",
-        "hide": false
+        "hide": true
     },
     {
         "slug": "running-to-the-sea",
