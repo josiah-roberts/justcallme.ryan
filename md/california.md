@@ -1,5 +1,3 @@
-
-
 A month or so before I moved in California I reserved a bed for a month in an Airbnb in Palo Alto. I remember the night I arrived, driving north from LA, worried because it was past ten and I was supposed to have checked in by seven. I was starting work at my new job the next morning.
 
 "Katy" had arranged my booking online, but apparently she wasn't home that night - in fact, she didn't live there at all any more. The people who were home introduced themselves as Kevin and Derrick. The lawn was uncut, and when I poked my head in the door I saw that the house was a bit messy. The dining room table looked like it had been converted into someone's personal office. But Derrick assured me that I was in the right place, so I thankfully fell into my allocated bunk and tried to get some sleep.

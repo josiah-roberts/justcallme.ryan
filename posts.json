@@ -17,7 +17,7 @@
         ],
         "title": "California",
         "date": "March 5, 2019",
-        "hide": true
+        "hide": false
     },
     {
         "slug": "running-to-the-sea",
