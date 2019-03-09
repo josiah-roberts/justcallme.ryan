@@ -539,7 +539,7 @@
         const insertMusic = html => {
             const parser = new DOMParser();
             const doc = parser.parseFromString(html, "text/html");
-            const musicItems = [...doc.querySelectorAll("del")].filter(del => del.innerText.startsWith("music-item"));
+            const musicItems = [...doc.querySelectorAll("del")].filter(del => del.innerText && del.innerText.startsWith("music-item"));
             musicItems.forEach(item => {
                 const props = parseOpts(item.innerText);
                 const divElement = doc.createElement('div');
