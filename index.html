@@ -909,7 +909,11 @@
         created: function () {
             window.addEventListener("resize", this.detectMobile);
             this.detectMobile();
-            fetch("posts.json").then(response => response.json()).then(postsResponse => {
+            const requestConfig = {
+                method: 'GET',
+                headers: new Headers({'pragma': 'no-cache', 'cache-control': 'no-cache'}),
+            };
+            fetch("posts.json", requestConfig).then(response => response.json()).then(postsResponse => {
                 const visiblePosts = postsResponse.filter(x => !x.hide || window.location.hash.indexOf(x.slug) != -1);
                 for (let post of visiblePosts) {
                     post.collapsed = false; //makes it reactive
