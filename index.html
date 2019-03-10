@@ -994,7 +994,8 @@
 <script id="app-start">
     const styles = document.querySelectorAll(".templates style");
     const header = document.head;
-    styles.forEach(s => header.appendChild(s));
+    for (let s of styles)
+        header.appendChild(s);
     new Vue({
         el: '#application'
     })        
