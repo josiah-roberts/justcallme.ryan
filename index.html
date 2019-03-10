@@ -1,8 +1,10 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta name="viewport" content="width=device-width">
-    <meta http-equiv="Content-type" value="text/html; charset=UTF-8" />
+    <title>Just Call Me Ryan</title>
+
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/solid.css"
         integrity="sha384-r/k8YTFqmlOaqRkZuSiE9trsrDXkh07mRaoGBMoDcmA58OHILZPsk29i2BsFng1B" crossorigin="anonymous">
@@ -378,7 +380,7 @@
             </style>
             <div class="template">
                 <div class="post" :style="{'mask-image': mask, 'mask-mode': 'luminance'}">
-                    <a :name="post.slug" class="anchor"></a>
+                    <a :id="post.slug" class="anchor"></a>
                     <post-images v-if="inView" :post="post" @lightbox="handleLightbox"></post-images>
                     <post-text v-if="inView" :post="post"></post-text>
                 </div>
@@ -1004,11 +1006,11 @@
             </script>
         </div>
     </div>
+    <script id="app-start">
+        new Vue({
+            el: '#application'
+        })        
+    </script>
 </body>
-<script id="app-start">
-    new Vue({
-        el: '#application'
-    })        
-</script>
 
 </html>
