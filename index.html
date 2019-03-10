@@ -515,7 +515,7 @@
                     </div>
                     <a :href="currentImage.full" @click.prevent="emitLightbox">
                         <img :style="{filter: loading ? 'brightness(50%)' : 'none'}" @load="imageLoaded"
-                            :src="currentImage.thumb" />
+                            :src="currentImage.thumb" :alt="post.title + ' #' + (imageIndex + 1)" />
                     </a>
                 </div>
             </div>
