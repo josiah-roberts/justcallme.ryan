@@ -8,8 +8,8 @@
         integrity="sha384-r/k8YTFqmlOaqRkZuSiE9trsrDXkh07mRaoGBMoDcmA58OHILZPsk29i2BsFng1B" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/fontawesome.css"
         integrity="sha384-4aon80D8rXCGx9ayDt85LbyUHeMWd3UiBaWliBlJ53yzm9hqN21A+o1pqoyK04h+" crossorigin="anonymous">
-    <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
-    <script src="https://vuejs.org/js/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <!-- <script src="https://vuejs.org/js/vue.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.0/dist/showdown.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
     <style>
@@ -124,7 +124,11 @@
         }
     </style>
     <script>
-        const clamp = (num, min, max) => {
+        function makeTitle(postName) {
+            return `Just Call Me Ryan${postName ? ' | ' + postName : ''}`;
+        };
+
+        function clamp (num, min, max) {
             return num <= min
                 ? min
                 : num >= max
@@ -132,36 +136,46 @@
                     : num;
         }
 
-        const mdRenderer = new showdown.Converter();
-        mdRenderer.setOption('headerLevelStart', 3);
-        mdRenderer.setOption('strikethrough', true);
-        mdRenderer.setOption('emoji', true);
-        const getTemplate = () => [...document.currentScript.parentElement.children].filter(x => x.className == "template")[0].innerHTML;
-        const renderMarkdown = markdown => mdRenderer.makeHtml(markdown);
-        const updateSlug = (post, allposts) => {
-            const title = `Just Call Me Ryan | ${post.title}`;
-            document.title = title;
+        const mdRenderer = (() => {
+            const ret = new showdown.Converter();
+            ret.setOption('headerLevelStart', 3);
+            ret.setOption('strikethrough', true);
+            ret.setOption('emoji', true);
+            return ret; 
+        })();
+
+        function loadTemplate() {
+            const container = document.currentScript.parentElement;
+            const styles = container.querySelectorAll(".templates style");
+            for (let s of styles) document.head.appendChild(s);
+
+            const templateElement = container.querySelector(".template");
+            container.removeChild(templateElement);
+            return templateElement.innerHTML;
+        }
+
+        function updateSlug(post, allposts) {
+            document.title = makeTitle(post.title);
 
             if (post == allposts[0])
-                window.history.replaceState(null, title, window.location.pathname)
+                window.history.replaceState(null, document.title, window.location.pathname)
             else
-                window.history.replaceState(null, title, `#${post.slug}`);
+                window.history.replaceState(null, document.title, `#${post.slug}`);
         }
-        const getLightboxSlug = (post, image) => {
-            return `#lightbox_${post.slug}_${post.images.indexOf(image)}`;
+
+        function updateLightboxSlug(post, image) {
+            const lightboxSlug = `#lb_${post.slug}_${post.images.indexOf(image)}`;
+            window.history.replaceState(null, makeTitle(post.title), lightboxSlug);
         }
-        const updateLightboxSlug = (post, image) => {
-            const title = `Just Call Me Ryan | ${post.title}`;
-            window.history.replaceState(null, title, getLightboxSlug(post, image));
-        }
-        const getViewportData = el => {
+
+        function getViewportData(el) {
             const rect = el.getBoundingClientRect();
             const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
-            const topMargin = rect.top;
             const bottomMargin = windowHeight - (rect.top + rect.height);
-            return { topMargin, bottomMargin, height: rect.height };
+            return { topMargin: rect.top, bottomMargin, height: rect.height };
         }
-        const parseOpts = innerText => {
+
+        function parseMusicItem(innerText) {
             const args = {};
             let currentAttrName = "";
             let currentValue = "";
@@ -192,12 +206,13 @@
             }
             return { spotify: args.spotify, google: args.google, youtube: args.youtube, track: args.track, artist: args.artist };
         }
-        const insertMusic = html => {
+
+        function insertMusic(html) {
             const parser = new DOMParser();
             const doc = parser.parseFromString(html, "text/html");
             const musicItems = [...doc.querySelectorAll("del")].filter(del => del.textContent.startsWith("music-item"));
             musicItems.forEach(item => {
-                const props = parseOpts(item.textContent);
+                const props = parseMusicItem(item.textContent);
                 const divElement = doc.createElement('div');
                 item.parentElement.replaceChild(divElement, item);
                 const musicComponent = new (Vue.component('music'))({
@@ -264,7 +279,7 @@
             </div>
             <script>
                 Vue.component('app', {
-                    template: getTemplate(),
+                    template: loadTemplate(),
                     created: function () {
                         window.addEventListener("resize", this.detectMobile);
                         this.detectMobile();
@@ -302,8 +317,8 @@
                         },
                         handlePostsLoaded: function () {
                             const hash = window.location.hash;
-                            if (hash.indexOf("lightbox") != -1) {
-                                const [_, slug, imageNumber] = hash.substring(hash.indexOf("lightbox")).split("_");
+                            if (hash.indexOf("lb") != -1) {
+                                const [_, slug, imageNumber] = hash.substring(hash.indexOf("lb")).split("_");
                                 this.lightboxPost = this.posts.filter(post => post.slug == slug)[0];
                                 this.lightboxImage = this.lightboxPost.images[imageNumber];
                                 updateLightboxSlug(this.lightboxPost, this.lightboxImage);
@@ -347,7 +362,7 @@
             </div>
             <script>
                 Vue.component('page-header', {
-                    template: getTemplate()
+                    template: loadTemplate()
                 })
             </script>
         </div>
@@ -370,7 +385,7 @@
             </div>
             <script>
                 Vue.component('post', {
-                    template: getTemplate(),
+                    template: loadTemplate(),
                     props: ['post', 'activeSlug'],
                     computed: {
                         lossInfo: vm => {
@@ -496,7 +511,7 @@
                     <div v-if="loading" class="spinner">
                         <span>r</span>
                     </div>
-                    <a :href="hash" @click.prevent="emitLightbox">
+                    <a :href="currentImage.full" @click.prevent="emitLightbox">
                         <img :style="{filter: loading ? 'brightness(50%)' : 'none'}" @load="imageLoaded"
                             :src="currentImage.thumb" />
                     </a>
@@ -504,7 +519,7 @@
             </div>
             <script>
                 Vue.component('post-images', {
-                    template: getTemplate(),
+                    template: loadTemplate(),
                     props: ['post'],
                     computed: {
                         currentImage: vm => vm.post.images[vm.imageIndex],
@@ -512,8 +527,7 @@
                         isCollapsed: {
                             get: vm => vm.post.collapsed,
                             set: function (val) { this.post.collapsed = val; }
-                        },
-                        hash: vm => getLightboxSlug(vm.post, vm.currentImage)
+                        }
                     },
                     methods: {
                         emitLightbox: function () {
@@ -657,7 +671,7 @@
             </div>
             <script>
                 Vue.component('post-text', {
-                    template: getTemplate(),
+                    template: loadTemplate(),
                     props: ['post'],
                     mounted: function () {
                         if (this.post.markdown) {
@@ -670,7 +684,7 @@
                     },
                     watch: {
                         markdown: function () {
-                            const document = insertMusic(renderMarkdown(this.markdown))
+                            const document = insertMusic(mdRenderer.makeHtml(this.markdown))
                             const textBody = this.$el.querySelector('.post-text-body');
                             const newBody = textBody.cloneNode(false);
                             textBody.parentNode.replaceChild(newBody, textBody);
@@ -691,7 +705,7 @@
             </div>
             <script>
                 Vue.component('page-footer', {
-                    template: getTemplate()
+                    template: loadTemplate()
                 })
             </script>
         </div>
@@ -775,7 +789,7 @@
             </div>
             <script>
                 Vue.component('lightbox', {
-                    template: getTemplate(),
+                    template: loadTemplate(),
                     props: ['image', 'post'],
                     computed: {
                         currentIndex: vm => vm.post.images.indexOf(vm.image)
@@ -967,7 +981,7 @@
             </div>
             <script>
                 Vue.component('music', {
-                    template: getTemplate(),
+                    template: loadTemplate(),
                     props: ['spotify', 'youtube', 'google', 'track', 'artist', 'album'],
                     methods: {
                         togglePopup: function (e) {
@@ -992,10 +1006,6 @@
     </div>
 </body>
 <script id="app-start">
-    const styles = document.querySelectorAll(".templates style");
-    const header = document.head;
-    for (let s of styles)
-        header.appendChild(s);
     new Vue({
         el: '#application'
     })        
