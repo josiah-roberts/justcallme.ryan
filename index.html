@@ -206,7 +206,7 @@
                     continue;
                 }
             }
-            return { spotify: args.spotify, google: args.google, youtube: args.youtube, track: args.track, artist: args.artist };
+            return { spotify: args.spotify, google: args.google, youtube: args.youtube, track: args.track, artist: args.artist, title: args.title };
         }
 
         function insertMusic(html) {
@@ -967,7 +967,7 @@
                 }
             </style>
             <div class="template">
-                <em class="music" @click.self="togglePopup" :class="{open: popup}">{{track}}<div class="music-popup"
+                <em class="music" @click.self="togglePopup" :class="{open: popup}">{{title || track}}<div class="music-popup"
                         v-if="popup">
                         <div class="names">
                             {{track}}<br />
@@ -984,7 +984,7 @@
             <script>
                 Vue.component('music', {
                     template: loadTemplate(),
-                    props: ['spotify', 'youtube', 'google', 'track', 'artist', 'album'],
+                    props: ['spotify', 'youtube', 'google', 'track', 'artist', 'album', 'title'],
                     methods: {
                         togglePopup: function (e) {
                             if (!this.popup)
