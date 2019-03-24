@@ -1,24 +1,4 @@
-[
-    {
-        "slug": "california",
-        "images": [
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-180226--3.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/180226--3.jpg"
-            },
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-180302-145712543-2.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/180302-145712543-2.jpg"
-            },
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-180911-183133389.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/180911-183133389.jpg"
-            }
-        ],
-        "title": "California",
-        "date": "March 5, 2019",
-        "hide": false
-    },
+[    
     {
         "slug": "sisyphean-friendship",
         "images": [
@@ -38,6 +18,46 @@
         "title": "Sisyphean Friendship",
         "date": "March 9, 2019",
         "hide": true
+    },
+    {
+        "slug": "dead-songs",
+        "images": [
+            {
+                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-.jpg",
+                "full": "https://storage.googleapis.com/just-call-me-ryan/images/ryan-.jpg"
+            },
+            {
+                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-0197-2.jpg",
+                "full": "https://storage.googleapis.com/just-call-me-ryan/images/ryan-0197-2.jpg"
+            },
+            {
+                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-0267.jpg",
+                "full": "https://storage.googleapis.com/just-call-me-ryan/images/ryan-0267.jpg"
+            }
+        ],
+        "title": "Dead Songs",
+        "date": "March 23, 2019",
+        "hide": false
+    },
+    {
+        "slug": "california",
+        "images": [
+            {
+                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-180226--3.jpg",
+                "full": "https://storage.googleapis.com/just-call-me-ryan/images/180226--3.jpg"
+            },
+            {
+                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-180302-145712543-2.jpg",
+                "full": "https://storage.googleapis.com/just-call-me-ryan/images/180302-145712543-2.jpg"
+            },
+            {
+                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-180911-183133389.jpg",
+                "full": "https://storage.googleapis.com/just-call-me-ryan/images/180911-183133389.jpg"
+            }
+        ],
+        "title": "California",
+        "date": "March 5, 2019",
+        "hide": false
     },
     {
         "slug": "futile-memory",
