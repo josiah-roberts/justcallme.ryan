@@ -2,7 +2,7 @@ I'm not a musician. That's something that got left out of my somewhat unconventi
 
 I got Spotify in my freshman year in college. My "starred" playlist tells an interesting story: if arranged chronologically, I could use to go back to a particular time in my life, and see the particular songs that I was listening to back then. First semester freshman year, I was discovering sound-tracks and enjoying TobyMac. In the spring, I discovered Mumford and Sons, OneRepublic, Lady Gaga and Fun, and that there was more to music than CCM.
 
-There's more to that playlist than just a record of my shifting musical taste, though.
+There's more to that playlist than just a record of my shifting musical taste, though. <it's that moment, what I was doing, how I felt, who I was with>
 
 > _Boom Boom Pow_  
 > _I have a Western Civilization research paper due tomorrow. Actually, today. The sun is going to rise soon. I have a volume of Josephus's History of the Jewish Wars in front of me. I've been writing all night. I've been up so long I'm not tired anymore._
@@ -17,3 +17,8 @@ There's more to that playlist than just a record of my shifting musical taste, t
 > _It's evening in the study cubes. I've just finished my physics homework, and Adam has been asking for help on his. I should be tackling my Greek homework, but I don't want to. I feel like I'm not making any progress, and the existential dread that's been keeping me awake recently isn't helping. I feel trapped._
 
 When I return to these songs, 
+
+<but not all songs - most of my favorates don't mean anything>
+<they wear out>
+
+<I have a few songs that I don't listen to anymore>
