@@ -23,16 +23,24 @@
         "slug": "dead-songs",
         "images": [
             {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/ryan-.jpg"
+                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190202-0856.jpg",
+                "full": "https://storage.googleapis.com/just-call-me-ryan/images/190202-0856.jpg"
             },
             {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-0197-2.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/ryan-0197-2.jpg"
+                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190324-1655-2.jpg",
+                "full": "https://storage.googleapis.com/just-call-me-ryan/images/190324-1655-2.jpg"
             },
             {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-0267.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/ryan-0267.jpg"
+                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190324-1655-3.jpg",
+                "full": "https://storage.googleapis.com/just-call-me-ryan/images/190324-1655-3.jpg"
+            },
+            {
+                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190324-1651.jpg",
+                "full": "https://storage.googleapis.com/just-call-me-ryan/images/190324-1651.jpg"
+            },
+            {
+                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190324-1674.jpg",
+                "full": "https://storage.googleapis.com/just-call-me-ryan/images/190324-1674.jpg"
             }
         ],
         "title": "Dead Songs",
