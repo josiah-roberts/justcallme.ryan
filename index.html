@@ -302,7 +302,8 @@
                     },
                     methods: {
                         detectMobile: function () {
-                            this.mobile = (window.innerWidth / window.devicePixelRatio) < 500;
+                            this.mobile = (window.innerWidth / window.devicePixelRatio) < 700;
+                            console.log(this.mobile, (window.innerWidth / window.devicePixelRatio), window.innerWidth, window.devicePixelRatio);
                         },
                         handleLightbox: function (image, post) {
                             updateLightboxSlug(post, image);
@@ -471,7 +472,7 @@
                     position: absolute;
                     right: 5px;
                     bottom: 5px;
-                    color: rgba(41, 41, 41, 0.666);
+                    color: rgb(41, 41, 41);
                     font-size: 0.7em;
                     font-style: italic;
                     font-weight: bold;
