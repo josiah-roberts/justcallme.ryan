@@ -21,7 +21,7 @@
         ],
         "title": "The Silence",
         "date": "April 30, 2019",
-        "hide": false
+        "hide": true
     },
     {
         "slug": "running-to-the-sea",
@@ -45,7 +45,7 @@
         ],
         "title": "Running To The Sea",
         "date": "April 20, 2019",
-        "hide": false
+        "hide": true
     },
     {
         "slug": "sisyphean-friendship",
