@@ -11,3 +11,14 @@ We didn't spend much time together until the last few weeks Karolina was here. S
 You can stay in touch, but it's not the same. I wish I didn't have to say goodbye - I suppose that's part of the appeal of the heaven that I grew up believing in - somewhere else we will go where we can reunite with the people we love, no matter how far separated by time, space, or circumstance. But that's not the hand we've been dealt.
 
 This weekend, I'm in Santa Cruz, climbing that hill again.
+
+
+One must imagine Sisyphus happy.
+
+1. Reasonably strong, abrupt ending
+2. Okay
+3. Picture is good, but maybe in the wrong place. Poor opening.
+4. Again, picture is good. Unify? What is this paragraph for?
+5. Undeveloped
+6. Undeveloped
+Closing. Good material, Undeveloped

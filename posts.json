@@ -45,7 +45,7 @@
         ],
         "title": "Running To The Sea",
         "date": "April 20, 2019",
-        "hide": true
+        "hide": false
     },
     {
         "slug": "sisyphean-friendship",
@@ -65,7 +65,7 @@
         ],
         "title": "Sisyphean Friendship",
         "date": "April 15, 2019",
-        "hide": false
+        "hide": true
     },
     {
         "slug": "dead-songs",
