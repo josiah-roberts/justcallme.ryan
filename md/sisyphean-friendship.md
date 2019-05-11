@@ -8,7 +8,7 @@ What happened with Karol? I don't really know. It was just in the last week or t
 
 She's gone now — that's how it goes with Sisyphean Friendship. And I'm not sad about it, per-se: her time here was a short season and now she's back home, surrounded by other friends and family. Things are as they should be.
 
-Still, I can't help but feel melancholy at the inevitibility of it all: some people pass through like neutrinos, and others leave me asking, to plagarize a friend, "how did you become so important in such a short period of time?" But gravity has no favorites... they roll down the hill just the same.
+Still, I can't help but feel melancholy at the inevitability of it all: some people pass through like neutrinos, and others leave me asking, to plagiarize a friend, "how did you become so important in such a short period of time?" But gravity has no favorites... they roll down the hill just the same.
 
 You can try to stay in touch. But even then it's not the same. To a greater or lesser degree, you have to reckon with the reality that you can't rewind the clock and bring people back: in time, space, and stage of life, we're only in the same place for a short time. All the more in this Hotel California. So I try to enjoy the new friends I make, and appreciate those who are no longer here.
 
