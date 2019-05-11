@@ -6,7 +6,7 @@ Not all temporary friendships are created equal. Some people are forgotten quick
 
 What happened with Karol? I don't really know. It was just in the last week or two of her time here we started talking. Sharing the videos we liked, the music we listened to. The things we thought were beautiful. Our stories. Our struggles. Our fears. We shared meals and went on adventures. At some point, Karol became _one of us_, and I don't know how to express what that means other than how she did: "family." That quiet researcher from Poland ended up being one of the sweetest people I've ever been able to call my friend.
 
-She's gone now — that's how it goes with Sisyphean Friendship. And I'm not sad about it, per-se: her time here was a short season and now she's back home, surrounded by other friends and family.
+She's gone now — that's how it goes with Sisyphean Friendship. And I'm not sad about it, per-se: her time here was a short season and now she's back home, surrounded by other friends and family. Things are as they should be.
 
 Still, I can't help but feel melancholy at the inevitability of it all: some people pass through like neutrinos, and others leave me asking, to plagiarize a friend, "how did you become so important in such a short period of time?" But gravity has no favorites... they roll down the hill just the same.
 
