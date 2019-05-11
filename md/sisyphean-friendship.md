@@ -6,11 +6,11 @@ Not all temporary friendships are created equal. Some people are forgotten quick
 
 What happened with Karol? I don't really know. It was just in the last week or two of her time here we started talking. Sharing the videos we liked, the music we listened to. The things we thought were beautiful. Our stories. Our struggles. Our fears. We shared meals and went on adventures. At some point, Karol became _one of us_, and I don't know how to express what that means other than how she did: "family." That quiet researcher from Poland ended up being one of the sweetest people I've ever been able to call my friend.
 
-She's gone now — that's how it goes with Sisyphean Friendship. And I'm not sad about it, per-se: her time here was a short season and now she's back home, surrounded by other friends and family. Things are as they should be.
+She's gone now — that's how it goes with Sisyphean Friendship. And I'm not sad about it, per-se: her time here was a short season and now she's back home, surrounded by other friends and family.
 
 Still, I can't help but feel melancholy at the inevitability of it all: some people pass through like neutrinos, and others leave me asking, to plagiarize a friend, "how did you become so important in such a short period of time?" But gravity has no favorites... they roll down the hill just the same.
 
-You can try to stay in touch. But even then it's not the same. To a greater or lesser degree, you have to reckon with the reality that you can't rewind the clock and bring people back: in time, space, and stage of life, we're only in the same place for a short time. All the more in this Hotel California. So I try to enjoy the new friends I make, and appreciate those who are no longer here.
+You can try to stay in touch. But even then it's not the same. To a greater or lesser degree, you have to reckon with the reality that you can't rewind the clock and bring people back: in time, space, and stage of life, we're only in the same place for a short time. All the more in this Hotel California.
 
 "Don't cry because it's over, smile because it happened."  
 "One must imagine Sisyphus happy."  
