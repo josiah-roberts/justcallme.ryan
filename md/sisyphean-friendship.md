@@ -1,24 +1,19 @@
-Luca left last week. He was moving in with a friend in the area - cheaper rent, better accommodations. When he walked out the door I sighed and turned to Derrick, "There goes another one." Derrick seemed a bit bemused, "He's still in the area - he'll be around for another five months." I shook my head. "No. He's gone."
+Luca left last week. He was moving in with a friend in the area — cheaper rent, better accommodations. When he walked out the door I sighed and turned to Derrick, "There goes another one." Derrick seemed a bit bemused, "He's still in the area. He'll be around for another five months." I shook my head. "No. He's gone."
 
-Derrick is right of course - Luca will still be around. We could keep in touch. But I know we won't. Luca lived with us for a few months, became a casual friend, and now he's moving on. Our paths may cross again, but we're over the hill now: another boulder rolling down, another Sisyphean Friendship over.
+Derrick is right of course — Luca will still be around. We could keep in touch. But I know we won't. Luca lived with us for a few months, became a casual friend, and now he's moving on. Our paths may cross again, but we're over the hill now: another boulder rolling down, another Sisyphean Friendship over.
 
-I generally don't miss people. Even so, some departures hurt more than others. Take Karolina: I remember clearly sitting on the couch the first few evenings she was here – she would shyly putter around the kitchen, and then stand and watch in the doorway while we all talked in the living room. She worked a lot. We would mostly see her late at night – she wasn’t around for weekend outings, always at the lab.
+Not all temporary friendships are created equal. Some people are forgotten quickly, but others linger longer, leaving an impression that you carry with you. Such are my memories of Karol. She would shyly putter around the kitchen, and then stand watching in the doorway while we talked in the living room. She was always at the lab late, often working through the weekends, so we mostly saw her late at night, for an hour or two before sleep. I can see her sitting there on the end of the couch, shower-wet hair wrapped up in a towel, hands wrapped around a mug of magnesium.
 
-We didn't spend much time together until the last few weeks Karolina was here. She would be there in the evenings while Kevin, Derrick and I were there, chatting or watching a show. I can see her sitting there on the end of the couch, hair up in a towel from her shower, hands wrapped around a mug of magnesium, listening.
+What happened with Karol? I don't really know. It was just in the last week or two of her time here we started talking. Sharing the videos we liked, the music we listened to. The things we thought were beautiful. Our stories. Our struggles. Our fears. We shared meals and went on adventures. At some point, Karol became _one of us_, and I don't know how to express what that means other than how she did: "family." That quiet researcher from Poland ended up being one of the sweetest people I've ever been able to call my friend.
 
- and we all decided  I'm glad she's back home, where she is happy, but I'm sad  People you appreciate on a level beyond the superficial, whose company you enjoyed more than that of a casual acquaintance. But gravity has no favorites... they roll down the hill just the same.
+She's gone now — that's how it goes with Sisyphean Friendship. And I'm not sad about it, per-se: her time here was a short season and now she's back home, surrounded by other friends and family. Things are as they should be.
 
-You can stay in touch, but it's not the same. I wish I didn't have to say goodbye - I suppose that's part of the appeal of the heaven that I grew up believing in - somewhere else we will go where we can reunite with the people we love, no matter how far separated by time, space, or circumstance. But that's not the hand we've been dealt.
+Still, I can't help but feel melancholy at the inevitibility of it all: some people pass through like neutrinos, and others leave me asking, to plagarize a friend, "how did you become so important in such a short period of time?" But gravity has no favorites... they roll down the hill just the same.
+
+You can try to stay in touch. But even then it's not the same. To a greater or lesser degree, you have to reckon with the reality that you can't rewind the clock and bring people back: in time, space, and stage of life, we're only in the same place for a short time. All the more in this Hotel California. So I try to enjoy the new friends I make, and appreciate those who are no longer here.
+
+"Don't cry because it's over, smile because it happened."  
+"One must imagine Sisyphus happy."  
+Take your pick.
 
 This weekend, I'm in Santa Cruz, climbing that hill again.
-
-
-One must imagine Sisyphus happy.
-
-1. Reasonably strong, abrupt ending
-2. Okay
-3. Picture is good, but maybe in the wrong place. Poor opening.
-4. Again, picture is good. Unify? What is this paragraph for?
-5. Undeveloped
-6. Undeveloped
-Closing. Good material, Undeveloped
