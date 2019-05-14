@@ -65,7 +65,7 @@
         ],
         "title": "Sisyphean Friendship",
         "date": "May 10, 2019",
-        "hide": true
+        "hide": false
     },
     {
         "slug": "dead-songs",
