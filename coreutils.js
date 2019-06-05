@@ -42,6 +42,15 @@ function updateLightboxSlug(post, imageIndex) {
     window.history.replaceState(null, makeTitle(post.title), lightboxSlug);
 }
 
+function updateGalleryLightboxSlug(imageIndex) {
+    const lightboxSlug = `#lb_${imageIndex}`;
+    window.history.replaceState(null, "Just Call Me Ryan", lightboxSlug);
+}
+
+function clearSlug() {
+    window.history.replaceState(null, "Just Call Me Ryan", "#");
+}
+
 function getViewportData(el) {
     const rect = el.getBoundingClientRect();
     const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
@@ -97,7 +106,7 @@ function insertMusic(html) {
     return doc.body;
 }
 
-async function startApp() {
+async function startApp(elementName) {
     const promises = [...document.querySelectorAll("component")]
         .map(el => fetch(`/components/${el.id}.html`)
                     .then(res => res.text())
@@ -109,8 +118,8 @@ async function startApp() {
     for (let component of components) {
         component.el.innerHTML = component.html;
         for (let script of component.el.querySelectorAll('script')) {
-            var data = (script.text || script.textContent || script.innerHTML);
-            var newScript = document.createElement("script");
+            const data = (script.text || script.textContent || script.innerHTML);
+            const newScript = document.createElement("script");
             newScript.type = "text/javascript";
             newScript.appendChild(document.createTextNode(data));
             component.el.insertBefore(newScript, script);
@@ -119,6 +128,39 @@ async function startApp() {
     }
 
     new Vue({
-        el: '#application'
+        el: `#${elementName}`
     })
+}
+
+function getImageDate(img) {
+    return new Promise((res, rej) => {
+        delete img.exifdata;
+        EXIF.getData(img, function () {
+            let all = EXIF.getAllTags(this);
+            const dateTime = EXIF.getTag(this, "DateTimeOriginal");
+
+            if (dateTime) {
+                const b = dateTime.split(/\D/);
+                const date = new Date(b[0], b[1] - 1, b[2], b[3], b[4], b[5]);
+                res(date);
+            }
+            rej();
+        });
+    });
+}
+
+Array.prototype.groupBy = function(selector) {
+    const ret = {};
+    for (item of this) {
+        const key = selector(item);
+        if (!ret[key])
+            ret[key] = [];
+        ret[key].push(item);
+    }
+
+    return Object.keys(ret).map(key => ({key, items: ret[key]}));
+}
+
+Array.prototype.orderBy = function (selector) {
+    return this.sort((a, b) => selector(a) - selector(b));
 }

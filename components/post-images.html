@@ -104,25 +104,14 @@
                     e.preventDefault();
                 }
             },
-            imageLoaded: function () {
+            imageLoaded: async function () {
                 this.loading = false;
                 this.loadingInternal = false;
                 if (this.currentImage.date)
                     return;
 
-                const vm = this;
-                var img = this.$el.querySelector("img");
-                delete img.exifdata;
-                EXIF.getData(img, function () {
-                    let all = EXIF.getAllTags(this);
-                    var dateTime = EXIF.getTag(this, "DateTimeOriginal");
-
-                    if (dateTime) {
-                        var b = dateTime.split(/\D/);
-                        var date = new Date(b[0], b[1] - 1, b[2], b[3], b[4], b[5]).toLocaleString("en-US", { month: "long", "day": "numeric", "year": "numeric" });
-                        vm.currentImage.date = date;
-                    }
-                });
+                const img = this.$el.querySelector("img");
+                this.currentImage.date = (await getImageDate(img)).toLocaleString("en-US", { month: "long", "day": "numeric", "year": "numeric" });
             }
         },
         watch: {
