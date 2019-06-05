@@ -1,0 +1,144 @@
+<style>
+    div.lightbox {
+        position: fixed;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+        z-index: 1000;
+        background: rgba(0, 0, 0, 0.8);
+        cursor: zoom-out;
+        transition: opacity 0.5s;
+    }
+
+    div.lightbox img {
+        z-index: 1000;
+        max-height: calc(100% - 30px);
+        max-width: calc(100% - 30px);
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: block;
+        transition: opacity 0.5s;
+        cursor: zoom-in;
+    }
+
+    div.lightbox img.zoomed {
+        cursor: zoom-out;
+        object-fit: none;
+    }
+
+    div.lightbox .image-button.close {
+        z-index: 1100;
+        position: fixed;
+        right: 0.4em;
+        top: 0.2em;
+        background: none;
+        color: #AAAAAA;
+        border-radius: 50%;
+    }
+
+    div.lightbox .image-button.close:hover {
+        color: #FFFFFF;
+        mix-blend-mode: exclusion;
+    }
+
+    div.lightbox .image-button {
+        background: rgba(255, 255, 255, 0.4);
+        color: rgba(41, 41, 41, 0.6);
+    }
+
+    .lightbox .next,
+    .lightbox .prev {
+        z-index: 1100;
+    }
+</style>
+<div class="template">
+    <div class="lightbox" @click="close" :style="{opacity}">
+        <span class="image-button prev" v-if="images.length > 1 && index > 0" @click.stop="prev"><i
+                class="fas fa-arrow-left"></i></span>
+        <span class="image-button next" v-if="images.length > 1 && index < images.length - 1"
+            @click.stop="next"><i class="fas fa-arrow-right"></i></span>
+        <a :href="image.full" target="_blank">
+            <img :class="{zoomed}" :style="{'object-position': zoomed ? position : 'initial', opacity: imageOpacity}"
+                @mousemove="mouseMove" @click.stop.prevent="zoom" @touchstart.prevent="touchStart"
+                @touchend.prevent="touchEnd" @touchmove.prevent="touchMove" :src="image.full" @load="loaded">
+            </img>
+        </a>
+        <span class="image-button close" @click="close">&#x2715;</span>
+        <div class="spinner">
+            <span>r</span>
+        </div>
+    </div>
+</div>
+<script>
+    Vue.component('lightbox', {
+        template: loadTemplate(),
+        props: ['images', 'index'],
+        computed: {
+            image: vm => vm.images[vm.index]
+        },
+        methods: {
+            touchStart: function () {
+                this.wasZoomedBeforeLastTouch = this.zoomed;
+                if (!this.zoomed)
+                    this.zoomed = true;
+                this.lastTouchStart = Date.now();
+            },
+            touchEnd: function () {
+                if (Date.now() - this.lastTouchStart < 200 && this.wasZoomedBeforeLastTouch)
+                    this.zoom();
+            },
+            zoom: function () {
+                this.zoomed = !this.zoomed;
+            },
+            pan: function (position) {
+                let imageRect = position.target.getBoundingClientRect();
+                let xPosition = (position.clientX - imageRect.left) / imageRect.width;
+                let yPosition = (position.clientY - imageRect.top) / imageRect.height;
+                this.position = `${clamp(xPosition * 100, 0, 100)}% ${clamp(yPosition * 100, 0, 100)}%`;
+            },
+            touchMove: function (e) {
+                let image = this.$el.querySelector("img");
+                this.pan([...e.changedTouches].filter(x => x.target == image)[0]);
+                if (this.zoomed)
+                    e.preventDefault();
+            },
+            mouseMove: function (e) {
+                this.pan(e);
+            },
+            close: function () {
+                this.opacity = 0;
+                setTimeout(() => {
+                    this.$emit('closed');
+                }, 500);
+            },
+            loaded: function () {
+                this.imageOpacity = 1;
+            },
+            prev: function () {
+                this.imageOpacity = 0;
+                this.$emit('prev');
+            },
+            next: function () {
+                this.imageOpacity = 0;
+                this.$emit('next');
+            }
+        },
+        mounted() {
+            setTimeout(() => this.opacity = 1, 100);
+        },
+        unmounted() {
+            this.opacity = 0;
+        },
+        data: () => ({
+            opacity: 0,
+            imageOpacity: 0,
+            zoomed: false,
+            position: "initial",
+            lastTouchStart: 0,
+            wasZoomedBeforeLastTouch: false
+        })
+    })
+</script>
