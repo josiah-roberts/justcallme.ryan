@@ -15,7 +15,7 @@ function loadFiles() {
 
     if (!cache.loadingPromise) {
         cache.loadingPromise = new Promise((res, rej) => {
-            exec('gsutil ls gs://just-call-me-ryan/images', (err, stdout, stderr) => {
+            exec('gsutil ls gs://just-call-me-ryan/gallery/full', (err, stdout, stderr) => {
                 if (err)
                     rej(err);
 
@@ -39,9 +39,7 @@ const requestHandler = async (request, response) => {
   if (request.url == "/images") {
     response.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
     response.setHeader('Access-Control-Allow-Origin', '*');
-    if (request.method == "OPTIONS")
-    {
-      console.log("options")
+    if (request.method == "OPTIONS") {
       response.setHeader('Access-Control-Allow-Headers', 'pragma,cache-control');      
       response.setHeader('Access-Control-Request-Method', '*');
       response.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');

@@ -36,13 +36,12 @@
 <div class="template">
     <div :class="{mobile}">
         <page-header></page-header>
-        <div class="month"
-            v-for="group of displayImages.groupBy(x => `${x.date.getFullYear()}-${x.date.getMonth()}`)">
+        <div class="month" v-for="group of displayGroups">
             <div class="header">
-                <h2>{{group.items[0].date.toLocaleString("en-US", { month: "long", "year": "numeric" })}}</h2>
+                <h2>{{group.key}}</h2>
             </div>
             <img :style="calcStyle(group.items, index)" class="thumb"
-                v-for="(img, index) of group.items.orderBy(x => x.date)" :src="img.thumb"
+                v-for="(img, index) of group.items" :src="img.thumb"
                 @click="handleLightbox(img)" :myAttr="index" :myCount="group.items.length"/>
         </div>
 
@@ -53,7 +52,7 @@
             @lightbox="handleLightbox">
         </post>-->
         <page-footer></page-footer>
-        <lightbox v-if="lightbox.shown" :images="displayImages" :index="lightbox.index" @closed="closeLightbox"
+        <lightbox v-if="lightbox.shown" :images="lightboxImages" :index="lightbox.index" @closed="closeLightbox"
             @prev="handleLightboxPrev" @next="handleLightboxNext">
         </lightbox>
     </div>
@@ -70,11 +69,27 @@
             };
             fetch("http://localhost:3456/images", requestConfig).then(response => response.json()).then(imagesResponse => {
                 this.images = imagesResponse
-                    .filter(url => url.indexOf("images/t-") == -1)
-                    .filter(url => url.indexOf("-t-") == -1)
-                    .filter(url => url.indexOf("-t.") == -1)
-                    .map(url => ({ full: url, thumb: url.replace("images/", "images/t-") }));
+                    .map(url => ({ full: url, thumb: url.replace("full/", "thumbs/") }));
             });
+        },
+        computed: {
+            displayGroups: vm => vm.displayImages
+                .groupBy(x => `${x.date.getFullYear()}${x.date.getMonth().toString().padStart(2, '0')}`)
+                .map(x => ({...x, items: x.items.orderBy(x => x.date)}))
+                .orderByDesc(x => x.key)
+                .reduce((groups, nextGroup) => {
+                    let lastGroup = groups.last;
+                    if (groups.length > 0 && lastGroup.items.length < 3) {
+                        lastGroup.items.unshift(...nextGroup.items);
+                        let startDate = lastGroup.items.first.date;
+                        let endDate = lastGroup.items.last.date;
+                        lastGroup.key = `${startDate.toLocaleString("en-US", { month: "long", "year": "numeric" })} to ${endDate.toLocaleString("en-US", { month: "long", "year": "numeric" })}`;
+                        return groups;
+                    }
+                    nextGroup.key = nextGroup.items.first.date.toLocaleString("en-US", { month: "long", "year": "numeric" });
+                    return [...groups, nextGroup];
+                }, []),
+            lightboxImages: vm => vm.displayGroups.mapMany(x => x.items)
         },
         methods: {
             calcStyle: (items, index) => {
@@ -100,7 +115,6 @@
                 this.processedImages.push({ ...image, date });
                 if (this.processedImages.length == this.images.length) {
                     this.images.length = 0;
-                    this.processedImages.orderBy(x => x.date);
                     this.displayImages = this.processedImages;
                 }
             },
@@ -108,7 +122,7 @@
                 this.mobile = (window.innerWidth / window.devicePixelRatio) < 700;
             },
             handleLightbox: function (image) {
-                this.lightbox.index = this.displayImages.indexOf(image);
+                this.lightbox.index = this.lightboxImages.indexOf(image);
                 this.lightbox.shown = true;
                 updateLightboxSlug(post, this.lightbox.index);
             },

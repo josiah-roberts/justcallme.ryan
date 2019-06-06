@@ -162,5 +162,16 @@ Array.prototype.groupBy = function(selector) {
 }
 
 Array.prototype.orderBy = function (selector) {
-    return this.sort((a, b) => selector(a) - selector(b));
+    return [...this].sort((a, b) => selector(a) - selector(b));
 }
+
+Array.prototype.orderByDesc = function (selector) {
+    return [...this].sort((a, b) => selector(b) - selector(a));
+}
+
+Array.prototype.mapMany = function (selector) {
+    return this.reduce((a, b) => [...a, ...selector(b)], []);
+}
+
+Object.defineProperty(Array.prototype, "last", {get: function() { return this[this.length - 1]; }});
+Object.defineProperty(Array.prototype, "first", {get: function() { return this[0]; }});
