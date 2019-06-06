@@ -56,9 +56,9 @@
 </style>
 <div class="template">
     <div class="lightbox" @click="close" :style="{opacity}">
-        <span class="image-button prev" v-if="images.length > 1 && index > 0" @click.stop="prev"><i
+        <span class="image-button prev" v-if="canPrev" @click.stop="prev"><i
                 class="fas fa-arrow-left"></i></span>
-        <span class="image-button next" v-if="images.length > 1 && index < images.length - 1"
+        <span class="image-button next" v-if="canNext"
             @click.stop="next"><i class="fas fa-arrow-right"></i></span>
         <a :href="image.full" target="_blank">
             <img :class="{zoomed}" :style="{'object-position': zoomed ? position : 'initial', opacity: imageOpacity}"
@@ -77,7 +77,9 @@
         template: loadTemplate(),
         props: ['images', 'index'],
         computed: {
-            image: vm => vm.images[vm.index]
+            image: vm => vm.images[vm.index],
+            canNext: vm => vm.images.length > 1 && vm.index < vm.images.length - 1,
+            canPrev: vm => vm.images.length > 1 && vm.index > 0
         },
         methods: {
             touchStart: function () {
@@ -124,13 +126,31 @@
             next: function () {
                 this.imageOpacity = 0;
                 this.$emit('next');
+            },
+            keyListener: function(event) {
+                if (event.key == "ArrowRight" && this.canNext)
+                {
+                    event.cancelBubble = true;
+                    this.next();
+                }
+                else if (event.key == "ArrowLeft" && this.canPrev)
+                {
+                    event.cancelBubble = true;
+                    this.prev();
+                }
+                else if (event.key == "Escape")
+                {
+                    this.close();
+                }
             }
         },
         mounted() {
             setTimeout(() => this.opacity = 1, 100);
+            document.addEventListener("keydown", this.keyListener, true);
         },
         unmounted() {
             this.opacity = 0;
+            document.removeEventListener("keydown", this.keyListener);
         },
         data: () => ({
             opacity: 0,
