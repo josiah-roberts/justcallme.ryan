@@ -10,12 +10,9 @@ let cache = {
 }
 
 function loadFiles() {
-    if ((new Date() / 1000) - (cache.lastLoad / 1000) < cache.lifetime)
-        return cache.files;
-
-    if (!cache.loadingPromise) {
+    if ((new Date() / 1000) - (cache.lastLoad / 1000) > cache.lifetime && !cache.loadingPromise) {
         cache.loadingPromise = new Promise((res, rej) => {
-            exec('gsutil ls gs://just-call-me-ryan/gallery/full', (err, stdout, stderr) => {
+            exec('gsutil ls gs://just-call-me-ryan/gallery/thumbs', (err, stdout, stderr) => {
                 if (err)
                     rej(err);
 
@@ -32,6 +29,10 @@ function loadFiles() {
             });
         });
     }
+    
+    if (cache.lastLoad != 0)
+      return cache.files;
+
     return cache.loadingPromise;
 }
 

@@ -69,7 +69,7 @@
             };
             fetch("http://localhost:3456/images", requestConfig).then(response => response.json()).then(imagesResponse => {
                 this.images = imagesResponse
-                    .map(url => ({ full: url, thumb: url.replace("full/", "thumbs/") }));
+                    .map(url => ({ full: url.replace("thumbs/", "full/"), thumb: url }));
             });
         },
         computed: {
@@ -124,43 +124,20 @@
             handleLightbox: function (image) {
                 this.lightbox.index = this.lightboxImages.indexOf(image);
                 this.lightbox.shown = true;
-                updateLightboxSlug(post, this.lightbox.index);
+                updateGalleryLightboxSlug(this.lightbox.index);
             },
             handleLightboxPrev: function () {
                 this.lightbox.index = this.lightbox.index - 1;
-                updateLightboxSlug(this.lightbox.post, this.lightbox.index);
+                updateGalleryLightboxSlug(this.lightbox.index);
             },
             handleLightboxNext: function () {
                 this.lightbox.index = this.lightbox.index + 1;
-                updateLightboxSlug(this.lightbox.post, this.lightbox.index);
-            },
-            handlePostsLoaded: function () {
-                const hash = window.location.hash;
-                if (hash.indexOf("lb") != -1) {
-                    const [_, slug, imageNumber] = hash.substring(hash.indexOf("lb")).split("_");
-                    this.lightbox.post = this.posts.filter(post => post.slug == slug)[0];
-                    this.lightbox.index = Number.parseInt(imageNumber);
-                    updateLightboxSlug(this.lightbox.post, this.lightbox.index);
-                }
+                updateGalleryLightboxSlug(this.lightbox.index);
             },
             closeLightbox: function () {
                 clearSlug();
                 this.lightbox.shown = false;
-            },
-            activeChanged: function (newActivePost) {
-                if (this.lightbox.post)
-                    return;
-
-                if (this.activePost)
-                    this.activePost.active = false;
-
-                updateSlug(newActivePost, this.posts);
-                newActivePost.active = true;
-                this.activePost = newActivePost;
             }
-        },
-        watch: {
-            posts: function (newValue) { if (newValue) this.handlePostsLoaded(); }
         },
         data: () => ({
             images: [],
