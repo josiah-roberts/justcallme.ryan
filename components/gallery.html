@@ -42,15 +42,10 @@
             </div>
             <img :style="calcStyle(group.items, index)" class="thumb"
                 v-for="(img, index) of group.items" :src="img.thumb"
-                @click="handleLightbox(img)" :myAttr="index" :myCount="group.items.length"/>
+                @click="handleLightbox(img)"/>
         </div>
 
-        <img v-for="image of images" :src="image.thumb" @load="loaded" style="display: none;" />
-
-        <!-- 
-        <post v-for="post of posts" :post="post" :key="post.slug" @became-active="activeChanged"
-            @lightbox="handleLightbox">
-        </post>-->
+        <img v-for="image of loadingImages" :src="image.thumb" @load="loaded" style="display: none;" />
         <page-footer></page-footer>
         <lightbox v-if="lightbox.shown" :images="lightboxImages" :index="lightbox.index" @closed="closeLightbox"
             @prev="handleLightboxPrev" @next="handleLightboxNext">
@@ -61,14 +56,17 @@
     Vue.component('gallery', {
         template: loadTemplate(),
         created: function () {
+            const servicePort = 3456;
+            
             window.addEventListener("resize", this.detectMobile);
             this.detectMobile();
             const requestConfig = {
                 method: 'GET',
                 headers: new Headers({ 'pragma': 'no-cache', 'cache-control': 'no-cache' }),
             };
-            fetch("http://localhost:3456/images", requestConfig).then(response => response.json()).then(imagesResponse => {
-                this.images = imagesResponse
+            var {protocol, hostname} = window.location;
+            fetch(`${protocol}//${hostname}:${servicePort}/images`, requestConfig).then(response => response.json()).then(imagesResponse => {
+                this.loadingImages = imagesResponse
                     .map(url => ({ full: url.replace("thumbs/", "full/"), thumb: url }));
             });
         },
@@ -79,42 +77,54 @@
                 .orderByDesc(x => x.key)
                 .reduce((groups, nextGroup) => {
                     let lastGroup = groups.last;
-                    if (groups.length > 0 && lastGroup.items.length < 3) {
+                    if (groups.length > 0 && lastGroup.items.length < 4) {
                         lastGroup.items.unshift(...nextGroup.items);
                         let startDate = lastGroup.items.first.date;
                         let endDate = lastGroup.items.last.date;
-                        lastGroup.key = `${startDate.toLocaleString("en-US", { month: "long", "year": "numeric" })} to ${endDate.toLocaleString("en-US", { month: "long", "year": "numeric" })}`;
+                        lastGroup.key = `${startDate.toMonthYear()} to ${endDate.toMonthYear()}`;
                         return groups;
                     }
-                    nextGroup.key = nextGroup.items.first.date.toLocaleString("en-US", { month: "long", "year": "numeric" });
-                    return [...groups, nextGroup];
+
+                    nextGroup.key = nextGroup.items.first.date.toMonthYear();
+                    groups.push(nextGroup);
+                    return groups;
                 }, []),
             lightboxImages: vm => vm.displayGroups.mapMany(x => x.items)
         },
         methods: {
             calcStyle: (items, index) => {
                 const itemsRemaining = items.length - index;
-                if (items.length < 6)
-                    index += 3;
 
                 if (items.length % 3 == 1 && itemsRemaining < 5)                    
-                    return {width: "calc(970px / 4)", height: "calc(980px / 4)", marginRight: index % 4 == 2 ? 0 : undefined, marginLeft: index % 4 == 3 ? 0 : undefined};
+                    return {
+                        width: "calc(970px / 4)", height: "calc(980px / 4)",                         
+                        marginLeft: items.length - index == 4 ? 0 : undefined,
+                        marginRight: items.length - index == 1 ? 0 : undefined
+                    };
                 else if (items.length % 3 == 2 && itemsRemaining < 6)
-                    return {width: "calc(960px / 5)", height: "calc(980px / 5)", marginRight: index % 5 == 2 ? 0 : undefined, marginLeft: index % 5 == 3 ? 0 : undefined};
+                    return { 
+                        width: "calc(960px / 5)", height: "calc(980px / 5)",            
+                        marginLeft: items.length - index == 5 ? 0 : undefined,
+                        marginRight: items.length - index == 1 ? 0 : undefined
+                    };
 
-                return {width: "calc(980px / 3)", height: "calc(980px / 3)", marginRight: index % 3 == 2 ? 0 : undefined, marginLeft: index % 3 == 0 ? 0 : undefined};
+                return {
+                    width: "calc(980px / 3)", height: "calc(980px / 3)", 
+                    marginRight: index % 3 == 2 ? 0 : undefined, 
+                    marginLeft: index % 3 == 0 ? 0 : undefined
+                };
             },
             loaded: async function (sender) {
                 var el = sender.target;
-                var image = this.images.filter(x => x.thumb == el.src)[0];
+                var image = this.loadingImages.filter(x => x.thumb == el.src)[0];
                 let date = new Date();
                 try {
                     date = await getImageDate(el);
                 } catch { /*screw you*/ }
 
                 this.processedImages.push({ ...image, date });
-                if (this.processedImages.length == this.images.length) {
-                    this.images.length = 0;
+                if (this.processedImages.length == this.loadingImages.length) {
+                    this.loadingImages.length = 0;
                     this.displayImages = this.processedImages;
                 }
             },
@@ -140,14 +150,13 @@
             }
         },
         data: () => ({
-            images: [],
+            loadingImages: [],
             processedImages: [],
             displayImages: [],
             lightbox: {
                 shown: false,
                 index: 0
             },
-            activePost: null,
             mobile: false
         })
     });

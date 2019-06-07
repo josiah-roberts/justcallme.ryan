@@ -28,6 +28,9 @@
             },
             gradientEnabled: vm => vm.viewportData.height + 110 < (window.innerHeight || document.documentElement.clientHeight),
             mask: vm => {
+                if (vm.firefox)
+                    return "none";
+
                 const loss = vm.lossInfo;
                 return vm.gradientEnabled
                     ? `linear-gradient(to ${loss.direction}, rgba(255, 0, 0, 0) ${loss.pixelLoss + 20}px, black ${loss.pixelLoss + 120}px)`
@@ -58,6 +61,6 @@
             window.removeEventListener('scroll', this.handleScroll);
             window.removeEventListener('resize', this.handleScroll);
         },
-        data: () => ({ viewportData: {} })
+        data: () => ({ viewportData: {}, firefox: navigator.userAgent.toLowerCase().indexOf('firefox') > -1 })
     })
 </script>

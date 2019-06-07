@@ -173,5 +173,9 @@ Array.prototype.mapMany = function (selector) {
     return this.reduce((a, b) => [...a, ...selector(b)], []);
 }
 
+Date.prototype.toMonthYear = function() {
+    return this.toLocaleString("en-US", { month: "long", "year": "numeric" });
+}
+
 Object.defineProperty(Array.prototype, "last", {get: function() { return this[this.length - 1]; }});
 Object.defineProperty(Array.prototype, "first", {get: function() { return this[0]; }});
