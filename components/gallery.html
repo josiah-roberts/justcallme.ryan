@@ -20,12 +20,6 @@
         margin: 0px;
     }
 
-    .mobile .imgBox {
-	    width: 100% !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-    }
-
     .imgBox {
         height: unset;
         display: inline-block;
@@ -59,7 +53,7 @@
     }
 </style>
 <div class="template">
-    <div :class="{mobile}">
+    <div>
         <page-header></page-header>
         <div class="month" v-for="group of displayGroups">
             <div class="header">
@@ -83,8 +77,8 @@
         created: function () {
             const servicePort = 3456;
             
-            window.addEventListener("resize", this.detectMobile);
-            this.detectMobile();
+            window.addEventListener("resize", this.determineSize);
+            this.determineSize();
             const requestConfig = {
                 method: 'GET',
                 headers: new Headers({ 'pragma': 'no-cache', 'cache-control': 'no-cache' }),
@@ -96,6 +90,7 @@
             });
         },
         computed: {
+            maxPerRow: vm => vm.nominalPerRow * 2 - 1,
             displayGroups: vm => vm.displayImages
                 .groupBy(x => `${x.date.getFullYear()}${x.date.getMonth().toString().padStart(2, '0')}`)
                 .map(x => ({...x, items: x.items.orderBy(x => x.date)}))
@@ -117,27 +112,29 @@
             lightboxImages: vm => vm.displayGroups.mapMany(x => x.items)
         },
         methods: {
-            calcStyle: (items, index) => {
-                const itemsRemaining = items.length - index;
+            generateRule: (total, current, maxPerRow, nominalPerRow) => {
+                const remaining = total - current;
 
-                if (items.length % 3 == 1 && itemsRemaining < 5)                    
-                    return {
-                        width: "calc(100% / 4 - 30px / 4)",
-                        marginLeft: items.length - index == 4 ? 0 : undefined,
-                        marginRight: items.length - index == 1 ? 0 : undefined
-                    };
-                else if (items.length % 3 == 2 && itemsRemaining < 6)
-                    return { 
-                        width: "calc(100% / 5 - 40px / 5)",        
-                        marginLeft: items.length - index == 5 ? 0 : undefined,
-                        marginRight: items.length - index == 1 ? 0 : undefined
-                    };
+                for (let increase = 1; nominalPerRow + increase < maxPerRow + 1; increase++) {
+                    let rowSize = nominalPerRow + increase;
 
+                    if (total % nominalPerRow == increase && remaining < rowSize + 1) {
+                        return {
+                            width: `calc(100% / ${rowSize} - ${rowSize - 1}0px / ${rowSize})`,
+                            marginLeft: total - current == rowSize ? 0 : undefined,
+                            marginRight: total - current == 1 ? 0 : undefined
+                        }
+                    }
+                }
+                
                 return {
-                    width: "calc(100% / 3 - 20px / 3)",
-                    marginRight: index % 3 == 2 ? 0 : undefined, 
-                    marginLeft: index % 3 == 0 ? 0 : undefined
+                    width: `calc(100% / ${nominalPerRow} - ${nominalPerRow - 1}0px / ${nominalPerRow})`,
+                    marginRight: current % nominalPerRow == nominalPerRow - 1 ? 0 : undefined, 
+                    marginLeft: current % nominalPerRow == 0 ? 0 : undefined
                 };
+            },
+            calcStyle: function (items, index) {
+                return this.generateRule(items.length, index, this.maxPerRow, this.nominalPerRow);
             },
             loaded: async function (sender) {
                 var el = sender.target;
@@ -153,8 +150,11 @@
                     this.displayImages = this.processedImages;
                 }
             },
-            detectMobile: function () {
-                this.mobile = (window.innerWidth / window.devicePixelRatio) < 600;
+            determineSize: function () {
+                var pixels = (window.innerWidth / window.devicePixelRatio);
+                if (pixels < 500) this.nominalPerRow = 1;
+                if (pixels >= 500 && pixels < 700) this.nominalPerRow = 2;
+                if (pixels >= 700) this.nominalPerRow = 3;
             },
             handleLightbox: function (image) {
                 this.lightbox.index = this.lightboxImages.indexOf(image);
@@ -182,7 +182,7 @@
                 shown: false,
                 index: 0
             },
-            mobile: false
+            nominalPerRow: 3
         })
     });
 </script>
