@@ -11,10 +11,12 @@ let cache = {
 
 function loadFiles() {
     if ((new Date() / 1000) - (cache.lastLoad / 1000) > cache.lifetime && !cache.loadingPromise) {
+        console.log("Loading files...");
         cache.loadingPromise = new Promise((res, rej) => {
             exec('gsutil ls gs://just-call-me-ryan/gallery/thumbs', (err, stdout, stderr) => {
                 if (err)
                     rej(err);
+                console.log("Loaded files");
 
                 var files = stdout
                     .split("\n")
@@ -31,12 +33,16 @@ function loadFiles() {
     }
     
     if (cache.lastLoad != 0)
+    {
+      console.log("Returning cache")
       return cache.files;
+    }
 
     return cache.loadingPromise;
 }
 
 const requestHandler = async (request, response) => {
+  console.log(`Incoming ${request.method} to ${request.url}`);
   if (request.url == "/images") {
     response.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
     response.setHeader('Access-Control-Allow-Origin', '*');
