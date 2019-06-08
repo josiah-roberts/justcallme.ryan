@@ -92,7 +92,7 @@
             var {protocol, hostname} = window.location;
             fetch(`${protocol}//${hostname}:${servicePort}/images`, requestConfig).then(response => response.json()).then(imagesResponse => {
                 this.loadingImages = imagesResponse
-                    .map(url => ({ full: url.replace("thumbs/", "full/"), thumb: url })).slice(0, 15);
+                    .map(url => ({ full: url.replace("thumbs/", "full/"), thumb: url }));
             });
         },
         computed: {
@@ -154,7 +154,7 @@
                 }
             },
             detectMobile: function () {
-                this.mobile = (window.innerWidth / window.devicePixelRatio) < 700;
+                this.mobile = (window.innerWidth / window.devicePixelRatio) < 600;
             },
             handleLightbox: function (image) {
                 this.lightbox.index = this.lightboxImages.indexOf(image);
