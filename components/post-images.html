@@ -1,0 +1,132 @@
+<style>
+    .post-images {
+        float: left;
+        position: relative;
+        border-right: solid 10px rgba(0, 0, 0, 0.0);
+        user-select: none;
+        max-width: 75%;
+        overflow: hidden;
+        user-select: none;
+    }
+
+    .mobile .post-images {
+        float: none;
+        max-width: unset;
+        border-right: none;
+        border-bottom: solid 10px rgba(0, 0, 0, 0.0);
+    }
+
+    .post-images img {
+        height: 485px;
+        object-fit: cover;
+    }
+
+    .mobile .post-images img,
+    .mobile .post-images.collapsed img {
+        max-width: unset;
+        width: 100%;
+    }
+
+    .post-images.collapsed img {
+        max-width: 200px;
+    }
+
+    span.date {
+        position: absolute;
+        right: 5px;
+        bottom: 5px;
+        color: rgb(41, 41, 41);
+        font-size: 0.7em;
+        font-style: italic;
+        font-weight: bold;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 3px;
+        border-radius: 8px;
+    }
+
+    .post-images .collapser {
+        color: #555;
+        right: 10px;
+        top: 10px;
+        mix-blend-mode: difference;
+    }
+
+    .mobile .post-images .collapser {
+        display: none;
+    }
+
+    .post-images.collapsed .prev {
+        display: none;
+    }
+
+    .post-images.collapsed .next {
+        display: none;
+    }
+</style>
+<div class="template">
+    <div class="post-images" :class="{collapsed: isCollapsed}" @click="outerClick">
+        <span class="collapser image-button" @click.stop="isCollapsed = !isCollapsed" v-html="collapseText"></span>
+        <span class="image-button prev" v-if="post.images.length > 1"
+            @click.stop="imageIndex = imageIndex == 0 ? (post.images.length - 1) : imageIndex - 1"><i
+                class="fas fa-arrow-left"></i></span>
+        <span class="image-button next" v-if="post.images.length > 1"
+            @click.stop="imageIndex = (imageIndex + 1) % post.images.length"><i class="fas fa-arrow-right"></i></span>
+        <span v-if="currentImage.date" class="date" :title="currentImage.date">{{currentImage.date}}</span>
+        <div v-if="loading" class="spinner">
+            <span>r</span>
+        </div>
+        <a :href="currentImage.full" @click.prevent="emitLightbox">
+            <img :style="{filter: loading ? 'brightness(50%)' : 'none'}" @load="imageLoaded" :src="currentImage.thumb"
+                :alt="post.title + ' #' + (imageIndex + 1)" />
+        </a>
+    </div>
+</div>
+<script>
+    Vue.component('post-images', {
+        template: loadTemplate(),
+        props: ['post'],
+        computed: {
+            currentImage: vm => vm.post.images[vm.imageIndex],
+            collapseText: vm => vm.isCollapsed ? "<i class='fas fas fa-chevron-right'></i>" : "<i class='fas fa-chevron-left'></i>",
+            isCollapsed: {
+                get: vm => vm.post.collapsed,
+                set: function (val) { this.post.collapsed = val; }
+            }
+        },
+        methods: {
+            emitLightbox: function () {
+                if (!this.isCollapsed)
+                    this.$emit("lightbox", this.currentImage);
+            },
+            outerClick: function (e) {
+                if (this.isCollapsed) {
+                    this.isCollapsed = false;
+                    e.preventDefault();
+                }
+            },
+            imageLoaded: async function () {
+                this.loading = false;
+                this.loadingInternal = false;
+                if (this.currentImage.date)
+                    return;
+
+                const img = this.$el.querySelector("img");
+                this.currentImage.date = (await getImageDate(img)).toLocaleString("en-US", { month: "long", "day": "numeric", "year": "numeric" });
+            }
+        },
+        watch: {
+            imageIndex: function () {
+                this.loadingInternal = true;
+                setTimeout(() => {
+                    if (this.loadingInternal)
+                        this.loading = true;
+                }, 100);
+            }
+        },
+        data: () => ({
+            imageIndex: 0,
+            loading: true,
+            loadingInternal: true
+        })
+    })
+</script>

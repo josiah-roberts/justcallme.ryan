@@ -1,0 +1,66 @@
+<style>
+    .post {
+        clear: both;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        overflow: hidden;
+        min-height: 485px;
+    }
+</style>
+<div class="template">
+    <div class="post" :style="{'mask-image': mask, 'mask-mode': 'luminance'}">
+        <a :id="post.slug" class="anchor"></a>
+        <post-images v-if="inView" :post="post" @lightbox="handleLightbox"></post-images>
+        <post-text v-if="inView" :post="post"></post-text>
+    </div>
+</div>
+<script>
+    Vue.component('post', {
+        template: loadTemplate(),
+        props: ['post', 'activeSlug'],
+        computed: {
+            lossInfo: vm => {
+                const pixelLoss = -Math.min(vm.viewportData.topMargin, vm.viewportData.bottomMargin);
+                const direction = vm.viewportData.topMargin > vm.viewportData.bottomMargin
+                    ? "top"
+                    : "bottom";
+                return { pixelLoss, direction };
+            },
+            gradientEnabled: vm => vm.viewportData.height + 110 < (window.innerHeight || document.documentElement.clientHeight),
+            mask: vm => {
+                if (vm.firefox)
+                    return "none";
+
+                const loss = vm.lossInfo;
+                return vm.gradientEnabled
+                    ? `linear-gradient(to ${loss.direction}, rgba(255, 0, 0, 0) ${loss.pixelLoss + 20}px, black ${loss.pixelLoss + 120}px)`
+                    : `none`;
+            },
+            inView: vm => vm.lossInfo.pixelLoss < vm.viewportData.height * 1.6
+        },
+        methods: {
+            handleLightbox(image) {
+                this.$emit("lightbox", image, this.post);
+            },
+            handleScroll() {
+                const viewport = getViewportData(this.$el);
+                const viewportOutRatio = Math.min(viewport.topMargin, viewport.bottomMargin) / viewport.height;
+                if (viewportOutRatio > -2) {
+                    this.viewportData = viewport;
+                    if (!this.post.active && viewport.topMargin + (viewport.height / 4) > 0 && viewport.topMargin < viewport.height / 2)
+                        this.$emit("became-active", this.post);
+                }
+            }
+        },
+        mounted() {
+            window.addEventListener('scroll', this.handleScroll);
+            window.addEventListener('resize', this.handleScroll);
+            this.handleScroll();
+        },
+        unmounted() {
+            window.removeEventListener('scroll', this.handleScroll);
+            window.removeEventListener('resize', this.handleScroll);
+        },
+        data: () => ({ viewportData: {}, firefox: navigator.userAgent.toLowerCase().indexOf('firefox') > -1 })
+    })
+</script>

@@ -1,0 +1,116 @@
+<style>
+    .post-text {
+        background: #292929;
+        height: 485px;
+        color: #FFF;
+        overflow-y: scroll;
+        padding: 10px;
+        box-sizing: border-box;
+        border-bottom: solid 10px #292929;
+        border-top: solid 10px #292929;
+        scrollbar-color: #888 #292929;
+        scrollbar-width: thin;
+    }
+
+    .post-text .title {
+        margin-left: 10px;
+        border-bottom: solid 2px #222;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+    }
+
+    .post-text .title h2 {
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
+
+    .post-text .title .post-date {
+        font-size: 0.80em;
+        font-style: italic;
+        color: #AAA;
+    }
+
+    .post-text .post-text-body {
+        margin: 10px;
+    }
+
+    .post-text .post-text-body blockquote {
+        margin-inline-start: 1em;
+        margin-inline-end: 0px;
+    }
+
+    blockquote blockquote,
+    blockquote blockquote p {
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+        line-height: 175%;
+    }
+
+    .post-text .post-text-body>blockquote>blockquote {
+        margin-top: -0.75em !important;
+    }
+
+    .post-text-body {
+        line-height: 140%;
+        font-size: 0.95em;
+        user-select: text;
+    }
+
+    .post-text-body p {
+        margin-bottom: 1em;
+    }
+
+    .post-text::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    .post-text::-webkit-scrollbar-track {
+        background: #292929;
+    }
+
+    .post-text::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 5px;
+    }
+
+    .post-text::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+</style>
+<div class="template">
+    <div class="post-text">
+        <div class="title">
+            <span class="post-date">{{ post.date }}</span>
+            <h2>{{ post.title }}</h2>
+        </div>
+        <div class="post-text-body">
+
+        </div>
+    </div>
+</div>
+<script>
+    Vue.component('post-text', {
+        template: loadTemplate(),
+        props: ['post'],
+        mounted: function () {
+            if (this.post.markdown) {
+                this.markdown = this.post.markdown;
+                return;
+            }
+            fetch("md/" + this.post.slug + ".md")
+                .then(response => response.text())
+                .then(markdown => this.markdown = markdown);
+        },
+        watch: {
+            markdown: function () {
+                const document = insertMusic(mdRenderer.makeHtml(this.markdown))
+                const textBody = this.$el.querySelector('.post-text-body');
+                const newBody = textBody.cloneNode(false);
+                textBody.parentNode.replaceChild(newBody, textBody);
+                for (let child of document.childNodes)
+                    newBody.appendChild(child);
+            }
+        },
+        data: () => ({ markdown: "" })
+    })
+</script>
