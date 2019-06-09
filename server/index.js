@@ -1,6 +1,10 @@
 const http = require('http')
 const port = 3456
 const { exec } = require('child_process');
+const fetch = require('node-fetch');
+const xmpReader = require('xmp-reader');
+const altXmp = require('kopparmora-xmp-reader');
+const exif = require('exif').ExifImage;
 
 let cache = {
     files: [],
@@ -21,11 +25,18 @@ function getRawFiles () {
 
 async function loadFilenamesFromGcloud() {
   let raw = await getRawFiles();
-  return raw.split("\n")
+  let filenames = raw.split("\n")
             .map(ln => ln.trim())
             .filter(ln => ln.startsWith("gs://"))
             .filter(ln => ln.endsWith(".jpg"))
             .map(ln => ln.replace("gs://", "https://storage.googleapis.com/"));
+  var buffer = await fetch(filenames[0]).then(x => x.buffer());
+  var exifData = await new Promise((res, rej) => new exif(buffer, (err, data) => err ? rej(error) : res(data)));
+  var xmpData = await altXmp.fromBuffer(buffer);
+  console.log(xmpData);
+  console.log(exifData);
+  console.log(buffer);
+  return filenames;
 }
 
 async function loadAndCache() {

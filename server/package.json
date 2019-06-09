@@ -9,6 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "nodemon": "^1.19.1"
+    "exif": "^0.6.0",
+    "kopparmora-xmp-reader": "^1.1.2",
+    "node-fetch": "^2.6.0",
+    "nodemon": "^1.19.1",
+    "xmp-reader": "0.0.3"
   }
 }
