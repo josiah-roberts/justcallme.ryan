@@ -126,7 +126,7 @@
                         }
                     }
                 }
-                
+
                 return {
                     width: `calc(100% / ${nominalPerRow} - ${nominalPerRow - 1}0px / ${nominalPerRow})`,
                     marginRight: current % nominalPerRow == nominalPerRow - 1 ? 0 : undefined, 
@@ -153,8 +153,8 @@
             determineSize: function () {
                 var pixels = (window.innerWidth / window.devicePixelRatio);
                 if (pixels < 500) this.nominalPerRow = 1;
-                if (pixels >= 500 && pixels < 700) this.nominalPerRow = 2;
-                if (pixels >= 700) this.nominalPerRow = 3;
+                if (pixels >= 500 && pixels < 800) this.nominalPerRow = 2;
+                if (pixels >= 800) this.nominalPerRow = 3;
             },
             handleLightbox: function (image) {
                 this.lightbox.index = this.lightboxImages.indexOf(image);
