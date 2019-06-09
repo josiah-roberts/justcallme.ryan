@@ -46,6 +46,8 @@
         object-fit: cover;
         cursor: pointer;
         transition: filter 0.25s;
+        transition: opacity 0.75s;
+        opacity: 0;
     }
 
     img.thumb:hover {
@@ -60,11 +62,10 @@
                 <h2>{{group.key}}</h2>
             </div>
             <div class="imgBox" :style="calcStyle(group.items, index)" v-for="(img, index) of group.items">
-                <img class="thumb" :src="img.thumb" @click="handleLightbox(img)"/>
+                <img class="thumb" :src="img.thumb" @click="handleLightbox(img)" @load="loaded"/>
             </div>
         </div>
 
-        <img v-for="image of loadingImages" :src="image.thumb" @load="loaded" style="display: none;" />
         <page-footer></page-footer>
         <lightbox v-if="lightbox.shown" :images="lightboxImages" :index="lightbox.index" @closed="closeLightbox"
             @prev="handleLightboxPrev" @next="handleLightboxNext">
@@ -84,10 +85,9 @@
                 headers: new Headers({ 'pragma': 'no-cache', 'cache-control': 'no-cache' }),
             };
             var {protocol, hostname} = window.location;
-            fetch(`${protocol}//${hostname}:${servicePort}/images`, requestConfig).then(response => response.json()).then(imagesResponse => {
-                this.loadingImages = imagesResponse
-                    .map(url => ({ full: url.replace("thumbs/", "full/"), thumb: url }));
-            });
+            fetch(`${protocol}//${hostname}:${servicePort}/images`, requestConfig)
+                .then(response => response.json())
+                .then(imagesResponse => this.displayImages = imagesResponse.map(x => ({...x, date: new Date(x.date)})));
         },
         computed: {
             maxPerRow: vm => vm.nominalPerRow * 2 - 1,
@@ -112,6 +112,21 @@
             lightboxImages: vm => vm.displayGroups.mapMany(x => x.items)
         },
         methods: {
+            loadedInternal: function(target) {
+                let pics = [...document.querySelectorAll(".imgBox img")];
+
+                let prev = pics[pics.indexOf(target) - 1];
+                if (!prev || prev.style.opacity == 1)
+                    target.style.opacity = 1;
+                else if (prev)
+                    prev.shouldLoad = target;
+
+                if (target.shouldLoad)
+                    setTimeout(() => this.loadedInternal(target.shouldLoad), 20);
+            },
+            loaded: function(event) {
+                this.loadedInternal(event.target);
+            },
             generateRule: (total, current, maxPerRow, nominalPerRow) => {
                 const remaining = total - current;
 
@@ -135,20 +150,6 @@
             },
             calcStyle: function (items, index) {
                 return this.generateRule(items.length, index, this.maxPerRow, this.nominalPerRow);
-            },
-            loaded: async function (sender) {
-                var el = sender.target;
-                var image = this.loadingImages.filter(x => x.thumb == el.src)[0];
-                let date = new Date();
-                try {
-                    date = await getImageDate(el);
-                } catch { /*screw you*/ }
-
-                this.processedImages.push({ ...image, date });
-                if (this.processedImages.length == this.loadingImages.length) {
-                    this.loadingImages.length = 0;
-                    this.displayImages = this.processedImages;
-                }
             },
             determineSize: function () {
                 var pixels = (window.innerWidth / window.devicePixelRatio);
@@ -175,8 +176,6 @@
             }
         },
         data: () => ({
-            loadingImages: [],
-            processedImages: [],
             displayImages: [],
             lightbox: {
                 shown: false,

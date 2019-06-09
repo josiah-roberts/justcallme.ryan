@@ -132,6 +132,11 @@ async function startApp(elementName) {
     })
 }
 
+function parseExifDate(dateTime) {
+    const b = dateTime.split(/\D/);
+    return new Date(b[0], b[1] - 1, b[2], b[3], b[4], b[5]);
+}
+
 function getImageDate(img) {
     return new Promise((res, rej) => {
         delete img.exifdata;
@@ -140,9 +145,7 @@ function getImageDate(img) {
             const dateTime = EXIF.getTag(this, "DateTimeOriginal");
 
             if (dateTime) {
-                const b = dateTime.split(/\D/);
-                const date = new Date(b[0], b[1] - 1, b[2], b[3], b[4], b[5]);
-                res(date);
+                res(parseExifDate(dateTime));
             }
             rej();
         });

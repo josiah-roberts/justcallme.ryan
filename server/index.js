@@ -2,36 +2,21 @@ const http = require('http')
 const port = 3456
 const { exec } = require('child_process');
 const fetch = require('node-fetch');
-const xmpReader = require('xmp-reader');
-const altXmp = require('kopparmora-xmp-reader');
-const exif = require('exif').ExifImage;
 const tmp = require('tmp-promise');
 const fs = require('fs').promises;
-const moreAdv = require('node-exiftool');
-const exiftoolBin = require('dist-exiftool')
-
-const { Readable } = require('stream');
-
-/**
- * @param binary Buffer
- * returns readableInstanceStream Readable
- */
-function bufferToStream(binary) {
-    const readableInstanceStream = new Readable({
-      read() {
-        this.push(binary);
-        this.push(null);
-      }
-    });
-
-    return readableInstanceStream;
-  }
+const ExiftoolProcess = require('node-exiftool').ExiftoolProcess;
+const exiftoolBin = require('dist-exiftool');
 
 let cache = {
     files: [],
     lastLoad: 0,
     loadingPromise: null,
-    lifetime: 120
+    lifetime: 240
+}
+
+function parseExifDate(dateTime) {
+  const b = dateTime.split(/\D/);
+  return new Date(b[0], b[1] - 1, b[2], b[3], b[4], b[5]);
 }
 
 function getRawFiles () {
@@ -46,40 +31,58 @@ function getRawFiles () {
 
 async function loadFilenamesFromGcloud() {
   let raw = await getRawFiles();
-  let filenames = raw.split("\n")
+  return raw.split("\n")
             .map(ln => ln.trim())
             .filter(ln => ln.startsWith("gs://"))
             .filter(ln => ln.endsWith(".jpg"))
-            .map(ln => ln.replace("gs://", "https://storage.googleapis.com/"));
-  var fileBodies = await Promise.all(filenames.map(
-    name => fetch(name)
-            .then(result => result.buffer())
-            .then(binary => 
-              tmp.file()
-              .then(tf => fs.writeFile(tf.path, binary)
-                            .then(() => tf))
-              .then(tf => ({tmpFile: tf, filename: name})))
-  ));
+            .map(ln => ln.replace("gs://", "https://storage.googleapis.com/"))
+            .map(thumb => ({thumb, full: thumb.replace("thumbs/", "full/")}));
+}
 
-  let reader = new moreAdv.ExiftoolProcess(exiftoolBin);
-  await reader.open()
-    .then((pid) => console.log('Started exiftool process %s', pid));
-
-  for (let file of fileBodies)
-  {
-    file.metadata = (await reader.readMetadata(file.tmpFile.path, ['-File:all'])).data[0];
-    await file.tmpFile.cleanup();
+function loadFileData(files) {
+  const loadToTmpFile = async names => {
+      let response = await fetch(names.thumb);
+      let [binary, tf] = await Promise.all([response.buffer(), tmp.file()]);
+      await fs.writeFile(tf.path, binary);
+      return {...names, tmp: tf};
   }
+  return Promise.all(files.map(loadToTmpFile));
+}
 
-  console.log(fileBodies[0].metadata)
+async function loadMetadata(files) {
+  let reader = new ExiftoolProcess(exiftoolBin);
 
-  await reader.close();
+  try {
+    await reader.open().then(pid => console.log('Started exiftool process %s', pid));
 
-  return fileBodies.map(file => ({url: file.filename, rating: file.metadata.Rating, date: file.metadata.DateTimeOriginal}));
+    for (let file of files) {
+      file.metadata = (await reader.readMetadata(file.tmp.path, ['-File:all']))
+        .data[0];
+    }
+
+    return files.map(file => ({
+      thumb: file.thumb, 
+      full: file.full, 
+      rating: file.metadata.Rating, 
+      date: parseExifDate(file.metadata.DateTimeOriginal)
+    }));
+  } finally {
+    await reader.close();
+  }
+}
+
+async function loadFilesWithMetadata() {
+  let files = await loadFilenamesFromGcloud();
+  let populatedFiles = await loadFileData(files);
+  try {
+    return await loadMetadata(populatedFiles);
+  } finally {
+    await Promise.all(populatedFiles.map(x => x.tmp.cleanup()));
+  }
 }
 
 async function loadAndCache() {
-  let files = await loadFilenamesFromGcloud();
+  let files = await loadFilesWithMetadata();
   cache.files = files;
   cache.lastLoad = new Date();
   cache.loadingPromise = null;

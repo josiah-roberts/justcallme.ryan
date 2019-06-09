@@ -10,12 +10,9 @@
   "license": "ISC",
   "dependencies": {
     "dist-exiftool": "^10.53.0",
-    "exif": "^0.6.0",
-    "kopparmora-xmp-reader": "^1.1.2",
     "node-exiftool": "^2.3.0",
     "node-fetch": "^2.6.0",
     "nodemon": "^1.19.1",
-    "tmp-promise": "^2.0.1",
-    "xmp-reader": "0.0.3"
+    "tmp-promise": "^2.0.1"
   }
 }
