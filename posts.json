@@ -65,7 +65,7 @@
         ],
         "title": "The Ratchet",
         "date": "May 10, 2019",
-        "hide": false
+        "hide": true
     },
     {
         "slug": "sisyphean-friendship",
