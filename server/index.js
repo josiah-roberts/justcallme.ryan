@@ -9,27 +9,37 @@ let cache = {
     lifetime: 120
 }
 
+function getRawFiles () {
+  return new Promise((res, rej) => {
+    exec('gsutil ls gs://just-call-me-ryan/gallery/thumbs', (err, stdout, stderr) => {
+        if (err)
+            rej(err);
+        res(stdout)
+    })
+  });
+}
+
+async function loadFilenamesFromGcloud() {
+  let raw = await getRawFiles();
+  return raw.split("\n")
+            .map(ln => ln.trim())
+            .filter(ln => ln.startsWith("gs://"))
+            .filter(ln => ln.endsWith(".jpg"))
+            .map(ln => ln.replace("gs://", "https://storage.googleapis.com/"));
+}
+
+async function loadAndCache() {
+  let files = await loadFilenamesFromGcloud();
+  cache.files = files;
+  cache.lastLoad = new Date();
+  cache.loadingPromise = null;
+  return files;
+}
+
 function loadFiles() {
     if ((new Date() / 1000) - (cache.lastLoad / 1000) > cache.lifetime && !cache.loadingPromise) {
         console.log("Loading files...");
-        cache.loadingPromise = new Promise((res, rej) => {
-            exec('gsutil ls gs://just-call-me-ryan/gallery/thumbs', (err, stdout, stderr) => {
-                if (err)
-                    rej(err);
-                console.log("Loaded files");
-
-                var files = stdout
-                    .split("\n")
-                    .map(ln => ln.trim())
-                    .filter(ln => ln.startsWith("gs://"))
-                    .filter(ln => ln.endsWith(".jpg"))
-                    .map(ln => ln.replace("gs://", "https://storage.googleapis.com/"));                
-                cache.files = files;
-                cache.lastLoad = new Date();
-                cache.loadingPromise = null;
-                res(files);
-            });
-        });
+        cache.loadingPromise = loadAndCache();
     }
     
     if (cache.lastLoad != 0)
