@@ -5,6 +5,27 @@ const fetch = require('node-fetch');
 const xmpReader = require('xmp-reader');
 const altXmp = require('kopparmora-xmp-reader');
 const exif = require('exif').ExifImage;
+const tmp = require('tmp-promise');
+const fs = require('fs').promises;
+const moreAdv = require('node-exiftool');
+const exiftoolBin = require('dist-exiftool')
+
+const { Readable } = require('stream');
+
+/**
+ * @param binary Buffer
+ * returns readableInstanceStream Readable
+ */
+function bufferToStream(binary) {
+    const readableInstanceStream = new Readable({
+      read() {
+        this.push(binary);
+        this.push(null);
+      }
+    });
+
+    return readableInstanceStream;
+  }
 
 let cache = {
     files: [],
@@ -30,13 +51,31 @@ async function loadFilenamesFromGcloud() {
             .filter(ln => ln.startsWith("gs://"))
             .filter(ln => ln.endsWith(".jpg"))
             .map(ln => ln.replace("gs://", "https://storage.googleapis.com/"));
-  var buffer = await fetch(filenames[0]).then(x => x.buffer());
-  var exifData = await new Promise((res, rej) => new exif(buffer, (err, data) => err ? rej(error) : res(data)));
-  var xmpData = await altXmp.fromBuffer(buffer);
-  console.log(xmpData);
-  console.log(exifData);
-  console.log(buffer);
-  return filenames;
+  var fileBodies = await Promise.all(filenames.map(
+    name => fetch(name)
+            .then(result => result.buffer())
+            .then(binary => 
+              tmp.file()
+              .then(tf => fs.writeFile(tf.path, binary)
+                            .then(() => tf))
+              .then(tf => ({tmpFile: tf, filename: name})))
+  ));
+
+  let reader = new moreAdv.ExiftoolProcess(exiftoolBin);
+  await reader.open()
+    .then((pid) => console.log('Started exiftool process %s', pid));
+
+  for (let file of fileBodies)
+  {
+    file.metadata = (await reader.readMetadata(file.tmpFile.path, ['-File:all'])).data[0];
+    await file.tmpFile.cleanup();
+  }
+
+  console.log(fileBodies[0].metadata)
+
+  await reader.close();
+
+  return fileBodies.map(file => ({url: file.filename, rating: file.metadata.Rating, date: file.metadata.DateTimeOriginal}));
 }
 
 async function loadAndCache() {
