@@ -53,10 +53,31 @@
     img.thumb:hover {
         filter: brightness(0.7) contrast(1.2);
     }
+
+    .filter-star {
+        color: #CCC;
+        font-size: 3em;
+        position: absolute;
+        bottom: 0.25em;
+        right: 0.25em;
+        width: 1em;
+        height: 1em;
+        cursor: pointer;
+    }
+
+    .filter-star.all::before {
+        content: "☆";
+    }
+
+    .filter-star.some::before {
+        content: "★";
+    }
 </style>
 <div class="template">
     <div>
-        <page-header></page-header>
+        <page-header style="position:relative;">
+            <span class="filter-star" :class="{all: all, some: !all}" @click="all = !all"></span>
+        </page-header>
         <div class="month" v-for="group of displayGroups">
             <div class="header">
                 <h2>{{group.key}}</h2>
@@ -92,6 +113,7 @@
         computed: {
             maxPerRow: vm => vm.nominalPerRow * 2 - 1,
             displayGroups: vm => vm.displayImages
+                .filter(x => vm.all ? true : x.rating >= 4)
                 .groupBy(x => `${x.date.getFullYear()}${x.date.getMonth().toString().padStart(2, '0')}`)
                 .map(x => ({...x, items: x.items.orderBy(x => x.date)}))
                 .orderByDesc(x => x.key)
@@ -181,7 +203,8 @@
                 shown: false,
                 index: 0
             },
-            nominalPerRow: 3
+            nominalPerRow: 3,
+            all: true
         })
     });
 </script>
