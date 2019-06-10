@@ -113,7 +113,7 @@
         computed: {
             maxPerRow: vm => vm.nominalPerRow * 2 - 1,
             displayGroups: vm => vm.displayImages
-                .filter(x => vm.all ? true : x.rating >= 4)
+                .filter(x => vm.all || x.rating >= 4)
                 .groupBy(x => `${x.date.getFullYear()}${x.date.getMonth().toString().padStart(2, '0')}`)
                 .map(x => ({...x, items: x.items.orderBy(x => x.date)}))
                 .orderByDesc(x => x.key)
