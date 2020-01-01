@@ -1,8 +1,9 @@
 <script>
     const table = {
-        "0": "https://youtu.be/jXJawwVI03E?t=643"
+        "0": () => document.location = "https://youtu.be/jXJawwVI03E?t=643",
+        "1": () => alert("ayyyo")
     };
 
     const hash = document.location.hash.substring(1);
-    document.location = table[hash];
+    table[hash]();
 </script>
