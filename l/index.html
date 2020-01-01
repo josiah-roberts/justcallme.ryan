@@ -3,6 +3,6 @@
         "0": "https://youtu.be/jXJawwVI03E?t=643"
     };
 
-    const query = document.location.query;
-    document.location = table[query];
+    const hash = document.location.hash.substring(1);
+    document.location = table[hash];
 </script>
