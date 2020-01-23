@@ -29,7 +29,7 @@
             fetch("posts.json", requestConfig).then(response => response.json()).then(postsResponse => {
                 const visiblePosts = postsResponse.filter(x => !x.hide || window.location.hash.indexOf(x.slug) != -1);
                 for (let post of visiblePosts) {
-                    post.collapsed = false; //makes it reactive
+                    post.collapsed = this.mobile ? false : true; //makes it reactive
                     for (let image of post.images) {
                         image.date = "";
                     }
