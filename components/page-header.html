@@ -2,23 +2,33 @@
     .page-header {
         font-family: Metropolis-Thin;
         background: #292929;
-        color: #FFFFFF;
         padding: 10px;
         user-select: none;
     }
 
-    .page-header>h1 {
+    .page-header>a {
+        color: #FFFFFF;
+        text-decoration: none;
+    }
+
+    .page-header>a>h1 {
         margin: 15px;
     }
 </style>
 <div class="template">
     <div class="page-header">
-        <h1>Just Call Me Ryan</h1>    
+        <a :href="titleHref">
+            <h1>Just Call Me Ryan</h1>
+        </a> 
         <slot></slot>
     </div>
 </div>
 <script>
     Vue.component('page-header', {
-        template: loadTemplate()
+        template: loadTemplate(),
+        props: ["titleLocation"],
+        computed: {
+            titleHref: vm => vm.titleLocation ? vm.titleLocation : undefined
+        }
     })
 </script>

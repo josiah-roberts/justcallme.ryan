@@ -6,7 +6,7 @@
 </style>
 <div class="template">
     <div :class="{mobile}">
-        <page-header></page-header>
+        <page-header :title-location="'/gallery'"></page-header>
         <post v-for="post of posts" :post="post" :key="post.slug" @became-active="activeChanged"
             @lightbox="handleLightbox">
         </post>
