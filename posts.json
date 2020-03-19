@@ -17,7 +17,7 @@
         ],
         "title": "Now",
         "date": "March 19, 2020",
-        "hide": false
+        "hide": true
     } ,
     {
         "slug": "the-silence",
