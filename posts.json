@@ -1,6 +1,6 @@
 [   
     {
-        "slug": "time",
+        "slug": "now",
         "images": [
             {
                 "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190217-0965-3.jpg",
@@ -15,8 +15,8 @@
                 "full": "https://storage.googleapis.com/just-call-me-ryan/gallery/full/19-02-02-11-53-07.jpg"
             }
         ],
-        "title": "Leaving",
-        "date": "January 30th, 2020",
+        "title": "Now",
+        "date": "March 19, 2020",
         "hide": false
     } ,
     {
