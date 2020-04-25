@@ -61,7 +61,7 @@
         <span class="image-button next" v-if="canNext"
             @click.stop="next"><i class="fas fa-arrow-right"></i></span>
         <a :href="image.full" target="_blank">
-            <img :class="{zoomed}" :style="{'object-position': zoomed ? position : 'initial', opacity: imageOpacity}"
+            <img :class="{zoomed}" :style="{'object-position': zoomed ? position : 'initial', opacity: imageOpacity, background: `url(${image.full})`}"
                 @mousemove="mouseMove" @click.stop.prevent="zoom" @touchstart.prevent="touchStart"
                 @touchend.prevent="touchEnd" @touchmove.prevent="touchMove" :src="image.full" @load="loaded">
             </img>
