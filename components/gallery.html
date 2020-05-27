@@ -1,210 +1,256 @@
 <style>
-    h1 {
-        font-family: Metropolis-Regular;
-        font-size: 4em;
-    }
+  h1 {
+    font-family: Metropolis-Regular;
+    font-size: 4em;
+  }
 
-    div.month {
-        margin-top: 10px;
-        margin-bottom: 20px;
-    }
+  div.month {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
 
-    div.month .header {
-        background-color: rgb(41, 41, 41);
-        padding: 20px;
-    }
+  div.month .header {
+    background-color: rgb(41, 41, 41);
+    padding: 20px;
+  }
 
-    div.month .header h2 {
-        font-size: 1.5em;
-        color: rgb(255, 255, 255);
-        margin: 0px;
-    }
+  div.month .header h2 {
+    font-size: 1.5em;
+    color: rgb(255, 255, 255);
+    margin: 0px;
+  }
 
-    .imgBox {
-        height: unset;
-        display: inline-block;
-        position: relative;
-        margin-left: 5px;
-        margin-right: 5px;
-        margin-top: 10px;
-    }
+  .imgBox {
+    height: unset;
+    display: inline-block;
+    position: relative;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 10px;
+  }
 
-    .imgBox:before {
-        content: "";
-        display: block;
-        padding-top: 100%; 	/* initial ratio of 1:1*/
-    }
+  .imgBox:before {
+    content: "";
+    display: block;
+    padding-top: 100%; /* initial ratio of 1:1*/
+  }
 
-    img.thumb {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        object-fit: cover;
-        cursor: pointer;
-        transition: filter 0.25s;
-        transition: opacity 0.75s;
-        opacity: 0;
-    }
+  img.thumb {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    object-fit: cover;
+    cursor: pointer;
+    transition: filter 0.25s;
+    transition: opacity 0.75s;
+    opacity: 0;
+  }
 
-    img.thumb:hover {
-        filter: brightness(0.7) contrast(1.2);
-    }
+  img.thumb:hover {
+    filter: brightness(0.7) contrast(1.2);
+  }
 
-    .filter-star {
-        color: #CCC;
-        font-size: 3em;
-        position: absolute;
-        bottom: 0.25em;
-        right: 0.25em;
-        width: 1em;
-        height: 1em;
-        cursor: pointer;
-    }
+  .filter-star {
+    color: #ccc;
+    font-size: 3em;
+    position: absolute;
+    bottom: 0.25em;
+    right: 0.25em;
+    width: 1em;
+    height: 1em;
+    cursor: pointer;
+  }
 
-    .filter-star.all::before {
-        content: "☆";
-    }
+  .filter-star.all::before {
+    content: "☆";
+  }
 
-    .filter-star.some::before {
-        content: "★";
-    }
+  .filter-star.some::before {
+    content: "★";
+  }
 </style>
 <div class="template">
-    <div>
-        <page-header style="position:relative;" :title-location="'/'">
-            <span title="Professionals have standards!" class="filter-star" :class="{all: all, some: !all}" @click="all = !all"></span>
-        </page-header>
-        <div class="month" v-for="group of displayGroups">
-            <div class="header">
-                <h2>{{group.key}}</h2>
-            </div>
-            <div class="imgBox" :style="calcStyle(group.items, index)" v-for="(img, index) of group.items">
-                <img class="thumb" :src="img.thumb" @click="handleLightbox(img)" @load="loaded"/>
-            </div>
-        </div>
-
-        <page-footer></page-footer>
-        <lightbox v-if="lightbox.shown" :images="lightboxImages" :index="lightbox.index" @closed="closeLightbox"
-            @prev="handleLightboxPrev" @next="handleLightboxNext">
-        </lightbox>
+  <div>
+    <page-header style="position: relative;" :title-location="'/'">
+      <span
+        title="Professionals have standards!"
+        class="filter-star"
+        :class="{all: all, some: !all}"
+        @click="all = !all"
+      ></span>
+    </page-header>
+    <div class="month" v-for="group of displayGroups">
+      <div class="header">
+        <h2>{{group.key}}</h2>
+      </div>
+      <div
+        class="imgBox"
+        :style="calcStyle(group.items, index)"
+        v-for="(img, index) of group.items"
+      >
+        <img
+          class="thumb"
+          :src="img.thumb"
+          @click="handleLightbox(img)"
+          @load="loaded"
+        />
+      </div>
     </div>
+
+    <page-footer></page-footer>
+    <lightbox
+      v-if="lightbox.shown"
+      :images="lightboxImages"
+      :index="lightbox.index"
+      @closed="closeLightbox"
+      @prev="handleLightboxPrev"
+      @next="handleLightboxNext"
+    >
+    </lightbox>
+  </div>
 </div>
 <script>
-    Vue.component('gallery', {
-        template: loadTemplate(),
-        created: function () {
-            const servicePort = 3456;
-            
-            window.addEventListener("resize", this.determineSize);
-            this.determineSize();
-            const requestConfig = {
-                method: 'GET',
-                headers: new Headers({ 'pragma': 'no-cache', 'cache-control': 'no-cache' }),
-            };
-            var {protocol, hostname} = window.location;
-            fetch(`${protocol}//${hostname}:${servicePort}/images`, requestConfig)
-                .then(response => response.json())
-                .then(imagesResponse => this.displayImages = imagesResponse.map(x => ({...x, date: new Date(x.date)})));
-        },
-        computed: {
-            maxPerRow: vm => vm.nominalPerRow * 2 - 1,
-            displayGroups: vm => vm.displayImages
-                .filter(x => vm.all || x.rating >= 4)
-                .groupBy(x => `${x.date.getFullYear()}${x.date.getMonth().toString().padStart(2, '0')}`)
-                .map(x => ({...x, items: x.items.orderBy(x => x.date)}))
-                .orderByDesc(x => x.key)
-                .reduce((groups, nextGroup) => {
-                    let lastGroup = groups.last;
-                    if (groups.length > 0 && lastGroup.items.length < 4) {
-                        lastGroup.items.unshift(...nextGroup.items);
-                        let startDate = lastGroup.items.first.date;
-                        let endDate = lastGroup.items.last.date;
-                        lastGroup.key = `${startDate.toMonthYear()} to ${endDate.toMonthYear()}`;
-                        return groups;
-                    }
+  Vue.component("gallery", {
+    template: loadTemplate(),
+    created: function () {
+      const servicePort = 3456;
 
-                    nextGroup.key = nextGroup.items.first.date.toMonthYear();
-                    groups.push(nextGroup);
-                    return groups;
-                }, []),
-            lightboxImages: vm => vm.displayGroups.mapMany(x => x.items)
-        },
-        methods: {
-            loadedInternal: function(target) {
-                let pics = [...document.querySelectorAll(".imgBox img")];
-
-                let prev = pics[pics.indexOf(target) - 1];
-                if (!prev || prev.style.opacity == 1)
-                    target.style.opacity = 1;
-                else if (prev)
-                    prev.shouldLoad = target;
-
-                if (target.shouldLoad)
-                    setTimeout(() => this.loadedInternal(target.shouldLoad), 20);
-            },
-            loaded: function(event) {
-                this.loadedInternal(event.target);
-            },
-            generateRule: (total, current, maxPerRow, nominalPerRow) => {
-                const remaining = total - current;
-
-                for (let increase = 1; nominalPerRow + increase < maxPerRow + 1; increase++) {
-                    let rowSize = nominalPerRow + increase;
-
-                    if (total % nominalPerRow == increase && remaining < rowSize + 1) {
-                        return {
-                            width: `calc(100% / ${rowSize} - ${rowSize - 1}0px / ${rowSize})`,
-                            marginLeft: total - current == rowSize ? 0 : undefined,
-                            marginRight: total - current == 1 ? 0 : undefined
-                        }
-                    }
-                }
-
-                return {
-                    width: `calc(100% / ${nominalPerRow} - ${nominalPerRow - 1}0px / ${nominalPerRow})`,
-                    marginRight: current % nominalPerRow == nominalPerRow - 1 ? 0 : undefined, 
-                    marginLeft: current % nominalPerRow == 0 ? 0 : undefined
-                };
-            },
-            calcStyle: function (items, index) {
-                return this.generateRule(items.length, index, this.maxPerRow, this.nominalPerRow);
-            },
-            determineSize: function () {
-                var pixels = (window.innerWidth / window.devicePixelRatio);
-                if (pixels < 500) this.nominalPerRow = 1;
-                if (pixels >= 500 && pixels < 800) this.nominalPerRow = 2;
-                if (pixels >= 800) this.nominalPerRow = 3;
-            },
-            handleLightbox: function (image) {
-                this.lightbox.index = this.lightboxImages.indexOf(image);
-                this.lightbox.shown = true;
-                updateGalleryLightboxSlug(this.lightbox.index);
-            },
-            handleLightboxPrev: function () {
-                this.lightbox.index = this.lightbox.index - 1;
-                updateGalleryLightboxSlug(this.lightbox.index);
-            },
-            handleLightboxNext: function () {
-                this.lightbox.index = this.lightbox.index + 1;
-                updateGalleryLightboxSlug(this.lightbox.index);
-            },
-            closeLightbox: function () {
-                clearSlug();
-                this.lightbox.shown = false;
+      window.addEventListener("resize", this.determineSize);
+      this.determineSize();
+      const requestConfig = {
+        method: "GET",
+        headers: new Headers({
+          pragma: "no-cache",
+          "cache-control": "no-cache",
+        }),
+      };
+      var { protocol, hostname } = window.location;
+      fetch(`${protocol}//${hostname}:${servicePort}/images`, requestConfig)
+        .then((response) => response.json())
+        .then(
+          (imagesResponse) =>
+            (this.displayImages = imagesResponse.map((x) => ({
+              ...x,
+              date: new Date(x.date),
+            })))
+        );
+    },
+    computed: {
+      maxPerRow: (vm) => vm.nominalPerRow * 2 - 1,
+      displayGroups: (vm) =>
+        vm.displayImages
+          .filter((x) => vm.all || x.rating >= 4)
+          .groupBy(
+            (x) =>
+              `${x.date.getFullYear()}${x.date
+                .getMonth()
+                .toString()
+                .padStart(2, "0")}`
+          )
+          .map((x) => ({ ...x, items: x.items.orderBy((x) => x.date) }))
+          .orderByDesc((x) => x.key)
+          .reduce((groups, nextGroup) => {
+            let lastGroup = groups.last;
+            if (groups.length > 0 && lastGroup.items.length < 4) {
+              lastGroup.items.unshift(...nextGroup.items);
+              let startDate = lastGroup.items.first.date;
+              let endDate = lastGroup.items.last.date;
+              lastGroup.key = `${startDate.toMonthYear()} to ${endDate.toMonthYear()}`;
+              return groups;
             }
-        },
-        data: () => ({
-            displayImages: [],
-            lightbox: {
-                shown: false,
-                index: 0
-            },
-            nominalPerRow: 3,
-            all: true
-        })
-    });
+
+            nextGroup.key = nextGroup.items.first.date.toMonthYear();
+            groups.push(nextGroup);
+            return groups;
+          }, []),
+      lightboxImages: (vm) => vm.displayGroups.mapMany((x) => x.items),
+    },
+    methods: {
+      loadedInternal: function (target) {
+        let pics = [...document.querySelectorAll(".imgBox img")];
+
+        let prev = pics[pics.indexOf(target) - 1];
+        if (!prev || prev.style.opacity == 1) target.style.opacity = 1;
+        else if (prev) prev.shouldLoad = target;
+
+        if (target.shouldLoad)
+          setTimeout(() => this.loadedInternal(target.shouldLoad), 20);
+      },
+      loaded: function (event) {
+        this.loadedInternal(event.target);
+      },
+      generateRule: (total, current, maxPerRow, nominalPerRow) => {
+        const remaining = total - current;
+
+        for (
+          let increase = 1;
+          nominalPerRow + increase < maxPerRow + 1;
+          increase++
+        ) {
+          let rowSize = nominalPerRow + increase;
+
+          if (total % nominalPerRow == increase && remaining < rowSize + 1) {
+            return {
+              width: `calc(100% / ${rowSize} - ${rowSize - 1}0px / ${rowSize})`,
+              marginLeft: total - current == rowSize ? 0 : undefined,
+              marginRight: total - current == 1 ? 0 : undefined,
+            };
+          }
+        }
+
+        return {
+          width: `calc(100% / ${nominalPerRow} - ${
+            nominalPerRow - 1
+          }0px / ${nominalPerRow})`,
+          marginRight:
+            current % nominalPerRow == nominalPerRow - 1 ? 0 : undefined,
+          marginLeft: current % nominalPerRow == 0 ? 0 : undefined,
+        };
+      },
+      calcStyle: function (items, index) {
+        return this.generateRule(
+          items.length,
+          index,
+          this.maxPerRow,
+          this.nominalPerRow
+        );
+      },
+      determineSize: function () {
+        var pixels = window.innerWidth / window.devicePixelRatio;
+        if (pixels < 500) this.nominalPerRow = 1;
+        if (pixels >= 500 && pixels < 800) this.nominalPerRow = 2;
+        if (pixels >= 800) this.nominalPerRow = 3;
+      },
+      handleLightbox: function (image) {
+        this.lightbox.index = this.lightboxImages.indexOf(image);
+        this.lightbox.shown = true;
+        updateGalleryLightboxSlug(this.lightbox.index);
+      },
+      handleLightboxPrev: function () {
+        this.lightbox.index = this.lightbox.index - 1;
+        updateGalleryLightboxSlug(this.lightbox.index);
+      },
+      handleLightboxNext: function () {
+        this.lightbox.index = this.lightbox.index + 1;
+        updateGalleryLightboxSlug(this.lightbox.index);
+      },
+      closeLightbox: function () {
+        clearSlug();
+        this.lightbox.shown = false;
+      },
+    },
+    data: () => ({
+      displayImages: [],
+      lightbox: {
+        shown: false,
+        index: 0,
+      },
+      nominalPerRow: 3,
+      all: true,
+    }),
+  });
 </script>
