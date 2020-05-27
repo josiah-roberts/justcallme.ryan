@@ -113,7 +113,7 @@
     </lightbox>
   </div>
 </div>
-<script>
+<script defer>
   Vue.component("gallery", {
     template: loadTemplate(),
     created: function () {
@@ -129,7 +129,10 @@
         }),
       };
       var { protocol, hostname } = window.location;
-      fetch(`${protocol}//${hostname}:${servicePort}/images`, requestConfig)
+      fetch(
+        `${protocol}//${"ryans.photos"}:${servicePort}/images`,
+        requestConfig
+      )
         .then((response) => response.json())
         .then(
           (imagesResponse) =>
@@ -228,19 +231,38 @@
       handleLightbox: function (image) {
         this.lightbox.index = this.lightboxImages.indexOf(image);
         this.lightbox.shown = true;
-        updateGalleryLightboxSlug(this.lightbox.index);
+
+        const fileName = image.thumb.split("/").slice(-1)[0];
+        updateGalleryLightboxSlug(fileName);
       },
       handleLightboxPrev: function () {
         this.lightbox.index = this.lightbox.index - 1;
-        updateGalleryLightboxSlug(this.lightbox.index);
+        const image = this.lightboxImages[this.lightbox.index];
+        const fileName = image.thumb.split("/").slice(-1)[0];
+        updateGalleryLightboxSlug(fileName);
       },
       handleLightboxNext: function () {
         this.lightbox.index = this.lightbox.index + 1;
-        updateGalleryLightboxSlug(this.lightbox.index);
+        const image = this.lightboxImages[this.lightbox.index];
+        const fileName = image.thumb.split("/").slice(-1)[0];
+        updateGalleryLightboxSlug(fileName);
       },
       closeLightbox: function () {
         clearSlug();
         this.lightbox.shown = false;
+      },
+    },
+    watch: {
+      displayImages: function () {
+        const hash = window.location.hash;
+        if (hash.indexOf("lb") != -1) {
+          const [_, imageName] = hash.substring(hash.indexOf("lb")).split("_");
+          console.log(imageName);
+          this.lightbox.index = this.lightboxImages.findIndex((x) =>
+            x.thumb.includes(imageName)
+          );
+          this.lightbox.shown = true;
+        }
       },
     },
     data: () => ({
