@@ -1,34 +1,34 @@
 <style>
-    .page-header {
-        font-family: Metropolis-Thin;
-        background: #292929;
-        padding: 10px;
-        user-select: none;
-    }
+  .page-header {
+    font-family: Metropolis-Thin;
+    background: #292929;
+    padding: 10px;
+    user-select: none;
+  }
 
-    .page-header>a {
-        color: #FFFFFF;
-        text-decoration: none;
-    }
+  .page-header > a {
+    color: #ffffff;
+    text-decoration: none;
+  }
 
-    .page-header>a>h1 {
-        margin: 15px;
-    }
+  .page-header > a > h1 {
+    margin: 15px;
+  }
 </style>
 <div class="template">
-    <div class="page-header">
-        <a :href="titleHref">
-            <h1>Just Call Me Ryan</h1>
-        </a> 
-        <slot></slot>
-    </div>
+  <div class="page-header">
+    <a :href="titleHref">
+      <h1>/ Just Call Me Ryan</h1>
+    </a>
+    <slot></slot>
+  </div>
 </div>
 <script>
-    Vue.component('page-header', {
-        template: loadTemplate(),
-        props: ["titleLocation"],
-        computed: {
-            titleHref: vm => vm.titleLocation ? vm.titleLocation : undefined
-        }
-    })
+  Vue.component("page-header", {
+    template: loadTemplate(),
+    props: ["titleLocation"],
+    computed: {
+      titleHref: (vm) => (vm.titleLocation ? vm.titleLocation : undefined),
+    },
+  });
 </script>

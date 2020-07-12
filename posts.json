@@ -1,215 +1,263 @@
-[   
-    {
-        "slug": "now",
-        "images": [
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/gallery/thumbs/19-06-12-07-11-10.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/gallery/full/19-06-12-07-11-10.jpg"
-            },
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/IMG_3487-t.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/IMG_3487.jpg"
-            },
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/IMG_4144-t.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/IMG_4144.jpg"
-            },
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/gallery/thumbs/18-10-13-17-07-33.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/gallery/full/18-10-13-17-07-33.jpg"
-            }
-        ],
-        "title": "Now",
-        "date": "March 19, 2020",
-        "hide": false
-    } ,
-    {
-        "slug": "the-silence",
-        "images": [
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190217-0965-3.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/190217-0965-3.jpg"
-            },
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190217-1024-2.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/190217-1024-2.jpg"
-            },
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190126-0197-2.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/190126-0197-2.jpg"
-            },
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190217-0978.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/190217-0978.jpg"
-            }
-        ],
-        "title": "The Silence",
-        "date": "April 30, 2019",
-        "hide": true
-    },
-    {
-        "slug": "running-to-the-sea",
-        "images": [
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-181013-170733352-2.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/181013-170733352-2.jpg"
-            },
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190217-0883-2.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/190217-0883-2.jpg"
-            },
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-181013-181943933.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/181013-181943933.jpg"
-            },
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-181013-170918758.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/181013-170918758.jpg"
-            }
-        ],
-        "title": "Running To The Sea",
-        "date": "April 20, 2019",
-        "hide": true
-    },
-    {
-        "slug": "the-ratchet",
-        "images": [
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190223-1402-2.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/190223-1402-2.jpg"
-            },
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190223-1363-5.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/190223-1363-5.jpg"
-            },      
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190223-1325.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/190223-1325.jpg"
-            }        
-        ],
-        "title": "The Ratchet",
-        "date": "May 10, 2019",
-        "hide": true
-    },
-    {
-        "slug": "sisyphean-friendship",
-        "images": [
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190223-1402-2.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/190223-1402-2.jpg"
-            },
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190223-1363-5.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/190223-1363-5.jpg"
-            },      
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190223-1325.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/190223-1325.jpg"
-            }        
-        ],
-        "title": "Sisyphean Friendship",
-        "date": "May 10, 2019",
-        "hide": false
-    },
-    {
-        "slug": "dead-songs",
-        "images": [
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190202-0856.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/190202-0856.jpg"
-            },
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190324-1655-2.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/190324-1655-2.jpg"
-            },
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190324-1655-3.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/190324-1655-3.jpg"
-            },
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190324-1651.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/190324-1651.jpg"
-            },
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190324-1674.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/190324-1674.jpg"
-            }
-        ],
-        "title": "Dead Songs",
-        "date": "April 7, 2019",
-        "hide": false
-    },
-    {
-        "slug": "california",
-        "images": [
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-180226--3.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/180226--3.jpg"
-            },
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-180302-145712543-2.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/180302-145712543-2.jpg"
-            },
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-180911-183133389.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/180911-183133389.jpg"
-            }
-        ],
-        "title": "California",
-        "date": "March 5, 2019",
-        "hide": false
-    },
-    {
-        "slug": "futile-memory",
-        "images": [
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-150902-1224-2.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/150902-1224-2.jpg"
-            },
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-150902-12245-2.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/150902-12245-2.jpg"
-            }
-        ],
-        "title": "Futile Memory",
-        "date": "January 4th, 2018"
-    },
-    {
-        "slug": "dark-sun",
-        "images": [
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-151031-1750-2.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/151031-1750-2.jpg"
-            },
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-151031-1744.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/151031-1744.jpg"
-            },
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-151031-1745.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/151031-1745.jpg"
-            }
-        ],
-        "title": "Dark Sun",
-        "date": "January 3rd, 2018"
-    },
-    {
-        "slug": "desert-roads",
-        "images": [
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-151115-2329-2.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/151115-2329-2.jpg"
-            },
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-151115-2331-2.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/151115-2331-2.jpg"
-            },
-            {
-                "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-151115-2335.jpg",
-                "full": "https://storage.googleapis.com/just-call-me-ryan/images/151115-2335.jpg"
-            }
-        ],
-        "title": "Desert Roads",
-        "date": "January 2nd, 2018"
-    }
+[
+  {
+    "slug": "shadows",
+    "images": [
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/gallery/thumbs/19-10-29-15-10-24.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/gallery/full/19-10-29-15-10-24.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/gallery/thumbs/19-11-02-15-08-01.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/gallery/full/19-11-02-15-08-01.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/gallery/thumbs/20-02-22-12-08-02.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/gallery/full/20-02-22-12-08-02.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/gallery/thumbs/19-11-02-16-11-59.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/gallery/full/19-11-02-16-11-59.jpg"
+      }
+    ],
+    "title": "The Shadow Is All There Is",
+    "date": "July 6, 2020",
+    "hide": true
+  },
+  {
+    "slug": "untethered",
+    "images": [
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/gallery/thumbs/20-06-18-01-24-58.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/gallery/full/20-06-18-01-24-58.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/gallery/thumbs/19-02-02-16-41-06.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/gallery/full/19-02-02-16-41-06.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/gallery/thumbs/19-11-03-16-57-43.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/gallery/full/19-11-03-16-57-43.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/gallery/thumbs/15-10-28-11-15-17.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/gallery/full/15-10-28-11-15-17.jpg"
+      }
+    ],
+    "title": "Untethered",
+    "date": "July 12, 2020",
+    "hide": false
+  },
+  {
+    "slug": "now",
+    "images": [
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/gallery/thumbs/19-06-12-07-11-10.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/gallery/full/19-06-12-07-11-10.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/IMG_3487-t.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/IMG_3487.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/IMG_4144-t.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/IMG_4144.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/gallery/thumbs/18-10-13-17-07-33.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/gallery/full/18-10-13-17-07-33.jpg"
+      }
+    ],
+    "title": "Now",
+    "date": "March 19, 2020",
+    "hide": false
+  },
+  {
+    "slug": "the-silence",
+    "images": [
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190217-0965-3.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/190217-0965-3.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190217-1024-2.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/190217-1024-2.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190126-0197-2.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/190126-0197-2.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190217-0978.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/190217-0978.jpg"
+      }
+    ],
+    "title": "The Silence",
+    "date": "April 30, 2019",
+    "hide": true
+  },
+  {
+    "slug": "running-to-the-sea",
+    "images": [
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-181013-170733352-2.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/181013-170733352-2.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190217-0883-2.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/190217-0883-2.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-181013-181943933.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/181013-181943933.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-181013-170918758.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/181013-170918758.jpg"
+      }
+    ],
+    "title": "Running To The Sea",
+    "date": "April 20, 2019",
+    "hide": true
+  },
+  {
+    "slug": "the-ratchet",
+    "images": [
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190223-1402-2.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/190223-1402-2.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190223-1363-5.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/190223-1363-5.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190223-1325.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/190223-1325.jpg"
+      }
+    ],
+    "title": "The Ratchet",
+    "date": "May 10, 2019",
+    "hide": true
+  },
+  {
+    "slug": "sisyphean-friendship",
+    "images": [
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190223-1402-2.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/190223-1402-2.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190223-1363-5.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/190223-1363-5.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190223-1325.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/190223-1325.jpg"
+      }
+    ],
+    "title": "Sisyphean Friendship",
+    "date": "May 10, 2019",
+    "hide": false
+  },
+  {
+    "slug": "dead-songs",
+    "images": [
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190202-0856.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/190202-0856.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190324-1655-2.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/190324-1655-2.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190324-1655-3.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/190324-1655-3.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190324-1651.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/190324-1651.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-190324-1674.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/190324-1674.jpg"
+      }
+    ],
+    "title": "Dead Songs",
+    "date": "April 7, 2019",
+    "hide": false
+  },
+  {
+    "slug": "california",
+    "images": [
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-180226--3.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/180226--3.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-180302-145712543-2.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/180302-145712543-2.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-180911-183133389.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/180911-183133389.jpg"
+      }
+    ],
+    "title": "California",
+    "date": "March 5, 2019",
+    "hide": false
+  },
+  {
+    "slug": "futile-memory",
+    "images": [
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-150902-1224-2.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/150902-1224-2.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-150902-12245-2.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/150902-12245-2.jpg"
+      }
+    ],
+    "title": "Futile Memory",
+    "date": "January 4th, 2018"
+  },
+  {
+    "slug": "dark-sun",
+    "images": [
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-151031-1750-2.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/151031-1750-2.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-151031-1744.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/151031-1744.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-151031-1745.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/151031-1745.jpg"
+      }
+    ],
+    "title": "Dark Sun",
+    "date": "January 3rd, 2018"
+  },
+  {
+    "slug": "desert-roads",
+    "images": [
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-151115-2329-2.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/151115-2329-2.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-151115-2331-2.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/151115-2331-2.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/images/t-151115-2335.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/images/151115-2335.jpg"
+      }
+    ],
+    "title": "Desert Roads",
+    "date": "January 2nd, 2018"
+  }
 ]
