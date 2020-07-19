@@ -1,0 +1,60 @@
+<style>
+  h1 {
+    font-family: Metropolis-Regular;
+    font-size: 4em;
+  }
+</style>
+<div class="template">
+  <div :class="{mobile}">
+    <page-header whereami="blag"></page-header>
+    <blag-post
+      v-for="post of posts"
+      :post="post"
+      :key="post.slug"
+      @became-active="activeChanged"
+    >
+    </blag-post>
+    <page-footer></page-footer>
+  </div>
+</div>
+<script>
+  Vue.component("blag", {
+    template: loadTemplate(),
+    created: function () {
+      window.addEventListener("resize", this.detectMobile);
+      this.detectMobile();
+      const requestConfig = {
+        method: "GET",
+        headers: new Headers({
+          pragma: "no-cache",
+          "cache-control": "no-cache",
+        }),
+      };
+      fetch("posts.json", requestConfig)
+        .then((response) => response.json())
+        .then((postsResponse) => {
+          const visiblePosts = postsResponse.filter(
+            (x) => !x.hide || window.location.hash.indexOf(x.slug) != -1
+          );
+          this.posts = visiblePosts;
+        });
+    },
+    methods: {
+      detectMobile: function () {
+        this.mobile = window.innerWidth / window.devicePixelRatio < 700;
+      },
+      activeChanged: function (newActivePost) {
+        if (this.activePost) this.activePost.active = false;
+
+        updateSlug(newActivePost, this.posts);
+        newActivePost.active = true;
+        this.activePost = newActivePost;
+      },
+    },
+    data: () => ({
+      posts: [],
+      activePost: null,
+      mobile: false,
+    }),
+  });
+</script>

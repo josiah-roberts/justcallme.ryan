@@ -1,35 +1,38 @@
 <style>
-    .page-footer {
-        margin-bottom: 15px;
-        font-family: Metropolis-Thin;
-        background: #292929;
-        color: #FFFFFF;
-        padding: 10px;
-        user-select: none;
-    }
+  .page-footer {
+    margin-bottom: 15px;
+    font-family: Metropolis-Thin;
+    background: #292929;
+    color: #ffffff;
+    padding: 10px;
+    user-select: none;
+    overflow: hidden;
+  }
 
-    .page-footer h2 {
-        color: #353535;
-        font-size: 2em;
-    }
+  .page-footer h2 {
+    color: #353535;
+    font-size: 2em;
+  }
 
-    .page-footer h2 span.right {
-        float: right;
-        color: #EEE;
-    }
+  .page-footer h2 span.right {
+    float: right;
+    color: #eee;
+  }
 
-    .page-footer h2 {
-        margin: 15px;
-    }
+  .page-footer h2 {
+    margin: 15px;
+  }
 </style>
 <div class="template">
-    <div class="page-footer">
-        <h2>ryan rosie boberts jobo dirty joze llama jo josiah <span class="right">Copyright
-                {{ (new Date()).getFullYear() }}</span></h2>
-    </div>
+  <div class="page-footer">
+    <h2>
+      ryan rosie boberts jobo dirty joze llama jo josiah
+      <span class="right">Copyright {{ (new Date()).getFullYear() }}</span>
+    </h2>
+  </div>
 </div>
 <script>
-    Vue.component('page-footer', {
-        template: loadTemplate()
-    })
+  Vue.component("page-footer", {
+    template: loadTemplate(),
+  });
 </script>

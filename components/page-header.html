@@ -3,30 +3,88 @@
     font-family: Metropolis-Thin;
     background: #292929;
     padding: 10px;
+    padding-bottom: 5px;
     user-select: none;
   }
 
-  .page-header > a {
+  .nav ul {
+    list-style-type: none;
+    padding-inline-start: 0;
+    margin-left: 0.6em;
+    color: #fff;
+    font-size: 1.2em;
+  }
+
+  .nav ul li {
+    list-style-position: inside;
+    display: inline;
+    cursor: pointer;
+  }
+
+  .nav ul li a {
+    color: white;
+    text-decoration: none;
+  }
+
+  .nav ul li.current a {
+    cursor: default;
+    border-bottom: solid 1px #fff;
+  }
+
+  .nav ul li a:hover {
+    border-bottom: solid 1px #fff;
+  }
+
+  .nav ul li:not(:last-child)::after {
+    content: " |";
+    text-decoration: none;
+  }
+
+  .title-container {
+    position: relative;
+  }
+
+  .title-link {
     color: #ffffff;
     text-decoration: none;
   }
 
-  .page-header > a > h1 {
+  .title-link > h1 {
     margin: 15px;
   }
 </style>
 <div class="template">
   <div class="page-header">
-    <a :href="titleHref">
-      <h1>/ Just Call Me Ryan</h1>
-    </a>
-    <slot></slot>
+    <div class="title-container">
+      <a :href="titleHref" class="title-link">
+        <h1>/ Just Call Me Ryan</h1>
+      </a>
+      <slot></slot>
+    </div>
+    <div class="nav">
+      <ul>
+        <li :class="navClass('blog')">
+          <a href="/">Blog</a>
+        </li>
+        <li :class="navClass('gallery')">
+          <a href="/gallery">Gallery</a>
+        </li>
+        <li :class="navClass('blag')">
+          <a href="/blag">Blag</a>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
 <script>
   Vue.component("page-header", {
     template: loadTemplate(),
-    props: ["titleLocation"],
+    props: ["whereami"],
+    methods: {
+      navClass: function (name) {
+        return this.whereami === name ? "current" : undefined;
+      },
+    },
     computed: {
       titleHref: (vm) => (vm.titleLocation ? vm.titleLocation : undefined),
     },
