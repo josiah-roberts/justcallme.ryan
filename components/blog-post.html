@@ -15,7 +15,7 @@
       :post="post"
       @lightbox="handleLightbox"
     ></post-images>
-    <post-text v-if="inView" :post="post"></post-text>
+    <post-text format="markdown" v-if="inView" :post="post"></post-text>
   </div>
 </div>
 <script>

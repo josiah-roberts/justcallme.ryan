@@ -1,7 +1,7 @@
 <style>
   .post-text {
     background: #292929;
-    height: 500px;
+    /*height: 500px;*/
     color: #fff;
     overflow-y: scroll;
     padding: 10px;
@@ -87,27 +87,41 @@
   </div>
 </div>
 <script>
+  const fileExtensions = {
+    markdown: "md",
+    html: "html",
+  };
+  const renderers = {
+    markdown: (content) =>
+      insertMusic(renderHtml(mdRenderer.makeHtml(content))).body,
+    html: (content) => renderHtml(content).body,
+  };
+
   Vue.component("post-text", {
     template: loadTemplate(),
-    props: ["post"],
-    mounted: function () {
-      if (this.post.markdown) {
-        this.markdown = this.post.markdown;
-        return;
-      }
-      fetch("md/" + this.post.slug + ".md")
-        .then((response) => response.text())
-        .then((markdown) => (this.markdown = markdown));
+    props: ["post", "format"],
+    mounted: async function () {
+      const response = await fetch(
+        `${fileExtensions[this.format]}/${this.post.slug}.${
+          fileExtensions[this.format]
+        }`
+      );
+      this.content = await response.text();
     },
     watch: {
-      markdown: function () {
-        const document = insertMusic(mdRenderer.makeHtml(this.markdown));
+      content: function () {
+        const body = renderers[this.format](this.content);
         const textBody = this.$el.querySelector(".post-text-body");
         const newBody = textBody.cloneNode(false);
         textBody.parentNode.replaceChild(newBody, textBody);
-        for (let child of document.childNodes) newBody.appendChild(child);
+        for (let child of body.childNodes) {
+          newBody.appendChild(child);
+          if (child.localName === "script") {
+            eval(child.innerText);
+          }
+        }
       },
     },
-    data: () => ({ markdown: "" }),
+    data: () => ({ content: "" }),
   });
 </script>

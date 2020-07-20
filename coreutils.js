@@ -95,9 +95,12 @@ function parseMusicItem(innerText) {
   };
 }
 
-function insertMusic(html) {
+function renderHtml(html) {
   const parser = new DOMParser();
-  const doc = parser.parseFromString(html, "text/html");
+  return parser.parseFromString(html, "text/html");
+}
+
+function insertMusic(doc) {
   const musicItems = [...doc.querySelectorAll("del")].filter((del) =>
     del.textContent.startsWith("music-item")
   );
@@ -110,7 +113,7 @@ function insertMusic(html) {
       propsData: props,
     });
   });
-  return doc.body;
+  return doc;
 }
 
 async function startApp(elementName) {

@@ -1,0 +1,248 @@
+<div class="abstraction">
+  <h3>Playing games</h3>
+  <p>
+    It's often said that programming computers is difficult due to the fact that
+    they are, "very fast, but very stupid." This is generally true, but I don't
+    think most non-programmers understand quite what kind of stupidity it is.
+    Computers aren't just generally idiotic - in fact, they actually never make
+    mistakes.* This foolishness is of a different sort, and the problem is one
+    of abstraction.
+  </p>
+  <p>
+    There is a game children often play, where one person makes a statement, and
+    the other responds with "why?", without end, typically until someone says,
+    "I don't know" or "there is no reason."
+  </p>
+  <blockquote class="annoying-conversation">
+    <p>"I want to go home." <em>Why?</em></p>
+    <p>"Because I'm tired" <em>Why?</em></p>
+    <p>"Because we've been walking for hours" <em>Why?</em> ...</p>
+  </blockquote>
+  <p>
+    This game points out something fundamental about language: there is a lot
+    that goes unsaid, that is <em>assumed to be understood</em> whenever we
+    communicate. But the "conversations" programmers have with computers tend to
+    be more along the lines of giving instructions than making statements, so
+    the game becomes The "How" Game. How well you play that game decides your
+    skill as a programmer.
+  </p>
+  <h3>Be specific!</h3>
+  <p>
+    But how does a funny language game actually relate to computers? Well, let's
+    explore another conversation, this time focused around "how" instead of
+    "why." Say I'm sitting in a coffee shop with a rather robotic friend,
+    furiously programming, too focused to be interrupted. We might have a
+    conversation like this:
+  </p>
+  <blockquote class="annoying-conversation">
+    <p>
+      <strong>"</strong>Can you get me a latte?"
+      <em>Sure. How do I do that?</em>
+    </p>
+
+    <p>
+      <strong>"</strong>Walk up to the counter, order a latte, pay for it, and
+      bring it back." <em>Sure. How do I do that?</em>
+    </p>
+    <p>
+      <strong>"</strong>Stand up, turn toward the counter, note the locations of
+      the tables and chairs, plan a path around them,
+      <small
+        >walk that path toward to the counter, speak the words 'Can I get a
+        latte',
+        <small
+          >read the price on the board, hand the barista the money, wait for the
+          latte,
+          <small
+            >pick up the latte, retrace your route to the table, and hand me the
+            latte."</small
+          ></small
+        ></small
+      >
+      <em>Sure. How do I do that?</em>
+    </p>
+    ...
+    <p>
+      <strong>"</strong>Tense your core to lean forward slightly. Begin to
+      straighten your legs while pushing back your chair..."
+      <em>Sure. How do I do that?</em>
+    </p>
+  </blockquote>
+  <p>
+    As you can see, giving this level of detail is exhausting (and annoying!).
+    When people talk to one another, we try to infer the unstated parts of the
+    message, and use our own problem solving skills to find ways to fill in any
+    gaps.
+  </p>
+  <p>
+    Computers can't do this. They therefore have to be given instructions; not
+    just on a high level, but down to the most minute details. In fact,
+    computers cannot "send emails" or "open web pages" or "print documents" -
+    these are all high-level, <em>abstract</em> ideas of tasks, and your
+    computer's hardware doesn't even know what an "email" is.
+  </p>
+  <h3>So what can computers do?</h3>
+  <p>
+    The point at which the "how?" Questions stop for computers is actually the
+    same as for humans: the hardware. For our friend in the coffee shop, once
+    there is a signal traveling from her brain to her leg telling it to move,
+    there is no more "how?" We've left the realm of concepts, and entered the
+    realm of physical reality.
+  </p>
+  <p>
+    Your computer operates in a similar manner. Certain, basic operations are
+    implemented "in hardware", meaning there is dedicated, physical circuitry
+    that "implements" those operations. Some examples are the common arithmetic
+    operations: addition, subtraction, multiplication, and division. When your
+    computer receives a command to add two numbers, there is no more "how?" to
+    be asked. Instead, the circuitry in the computer can directly perform the
+    addition and determine the sum.
+  </p>
+  <p>
+    The basic operations of arithmetic, moving data around physical memory, and
+    interfacing with other hardware (your screen, your network card, etc.) is
+    <em>all</em> your computer can do. But that's still quite a lot! Let's take
+    a real world example: finding the square root of a number.
+  </p>
+
+  <pre>
+      let x = 50
+      let guess = 1
+      
+      [adjust guess]
+      guess = (x / guess + guess) / 2
+      if |guess² - x| > 0.001 
+        go to [adjust guess]
+  </pre>
+  <p>
+    Awesome - now <span>guess</span> contains the square root of x, within an
+    error of <= 0.001! Using addition, subtraction, division, multiplication,
+    and absolute value, we've been able to create something new that didn't
+    exist before - the square root. We also needed a few other things:
+    allocation (creating variables), assignment (putting numbers into those
+    variables), conditional branch, jump (skip to a different part of the
+    program), and comparison. All of these operations are implemented in
+    <em>hardware</em> - no "How?" needed.
+  </p>
+  <h3>A world without abstraction</h3>
+  <p>
+    Now that we know how to compute square roots, what if we wanted to use that
+    in a larger problem. For instance, in a video game, we might have the x, y,
+    and z coordinates of three different players, and want to know the distance
+    between them. Bear with me while we see what that would look like:
+  </p>
+  <pre>
+    [change this to capture the flag]
+
+    let x₁,y₁,z₁ = 1, 2, 3
+    let x₂,y₂,z₂ = 4, 5, 6
+    let x₃,y₃,z₃ = 7, 8, 9
+
+    let squareₐ = (x₂ - x₁)² + (y₂ - y₁)² + (z₂ - z₁)²
+    let sqrtₐ = 1
+    
+    [adjust sqrt₁]
+    sqrt₁ = (square₁ / sqrt₁ + sqrt₁) / 2
+    if |sqrt₁² - square₁| > 0.001 
+      go to [adjust sqrt₁]
+
+    let square₂ = (x₂ - x₃)² + (y₂ - y₃)² + (z₂ - z₃)²
+    let sqrt₂ = 1
+    
+    [adjust sqrt₂]
+    sqrt₂ = (square₂ / sqrt₂ + sqrt₂) / 2
+    if |sqrt₂² - square₂| > 0.001 
+      go to [adjust sqrt₂]
+
+    let square₃ = (x₁ - x₃)² + (y₁ - y₃)² + (z₁ - z₃)²
+    let sqrt₃ = 1
+    
+    [adjust sqrt₃]
+    sqrt₃ = (square₃ / sqrt₃ + sqrt₃) / 2
+    if |sqrt₃² - square₃| > 0.001 
+      go to [adjust sqrt₃]
+
+    let oneTwo, twoThree, threeOne = sqrt₁, sqrt₂, sqrt₃
+</pre
+  >
+  <p>
+    Quite a mess too look at! Recall my attempt to explain the mechanics of
+    getting me a latte - this is starting to look a bit like that. And imagine
+    what will come next: predicting what the distance between players will be a
+    second from now to minimize network lag, for instance. If we carry on like
+    this, things will become unmanageable quickly, not only because of the
+    amount of code, but also because every time I write that square root logic,
+    I might make a mistake. And if we ever find a more performant way to
+    calculate this, I'll have to update it in a hundred places.
+  </p>
+  <h3>Abstraction to the rescue</h3>
+  <p>
+    To avoid all the problems that arise from repeating ourselves, programmers
+    follow the example of human language, and build abstractions. Remember how I
+    initially assumed that my friend knew how to get a latte, and asked
+    directly? Well now that we've written the logic for square root once, we can
+    build an abstraction around it. Once we've done that, any time we need a
+    square root, we can assume the computer now knows how to do that.
+  </p>
+  <pre>
+  let sqrt = number =>
+    let guess = 1
+    [adjust guess]
+    guess = (number / guess + guess) / 2
+    if |guess² - number| > 0.001 
+      go to [adjust sqrt]
+    guess
+  </pre>
+  <p>
+    Now we have an abstraction, in this case a <em>function</em>
+    <span>sqrt</span> which takes a number and gives us back its square root.
+    For instance, <span>sqrt(81.1)</span> is 9.005565... When we use this
+    abstraction we don't have to worry about <em>how</em> this happens - it's
+    handled by the code we wrote above - we just focus on <em>what</em> we want
+    done.
+  </p>
+  <p>
+    While we're at it, let's make an abstraction for distance too:
+  </p>
+  <pre>
+  [go back and factor this poorly]
+
+  let 3dDistance = (x₁,y₁,z₁)(x₂,y₂,z₂) =>
+    let hypotenuseSquared = (x₂ - x₁)² + (y₂ - y₁)² + (z₂ - z₁)²
+    sqrt(hypotenuseSquared)
+  </pre>
+  <p>
+    Now that we have these abstractions, we no longer need to think about how to
+    take a square root, or what the formula for 3d distance between points is.
+    We've already done the work of defining those ideas, and our code becomes
+    much simpler, less repetitive, and easier to understand.
+  </p>
+  <pre>
+  let x₁,y₁,z₁ = 1, 2, 3
+  let x₂,y₂,z₂ = 4, 5, 6
+  let x₃,y₃,z₃ = 7, 8, 9
+
+  let oneTwo = 3dDistance((x₁,y₁,z₁), (x₂,y₂,z₂))
+  let twoThree = 3dDistance((x₂,y₂,z₂), (x₃,y₃,z₃))
+  let threeOne = 3dDistance((x₃,y₃,z₃), (x₁,y₁,z₁))
+  </pre>
+</div>
+
+<script type="text/javascript"></script>
+
+<style type="text/css">
+  .annoying-conversation p {
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+  }
+  .abstraction {
+    font-size: 1.3em;
+    letter-spacing: 0.05em;
+    line-height: 1.2em;
+    max-width: 700px;
+    /*font-family: Merriweather, Times, "Times New Roman", serif;*/
+  }
+  .abstraction hr {
+    width: 25%;
+  }
+</style>

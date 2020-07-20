@@ -10,7 +10,7 @@
 <div class="template">
   <div class="post" :style="{'mask-image': mask, 'mask-mode': 'luminance'}">
     <a :id="post.slug" class="anchor"></a>
-    <post-text v-if="inView" :post="post"></post-text>
+    <post-text format="html" v-if="inView" :post="post"></post-text>
   </div>
 </div>
 <script>
