@@ -105,15 +105,9 @@
     a real world example: finding the square root of a number.
   </p>
 
-  <pre>
-      let x = 50
-      let guess = 1
-      
-      [adjust guess]
-      guess = (x / guess + guess) / 2
-      if |guess² - x| > 0.001 
-        go to [adjust guess]
-  </pre>
+  <div id="program">
+    <div id="locals"></div>
+  </div>
   <p>
     Awesome - now <span>guess</span> contains the square root of x, within an
     error of <= 0.001! Using addition, subtraction, division, multiplication,
@@ -228,7 +222,179 @@
   </pre>
 </div>
 
-<script type="text/javascript"></script>
+<script type="text/javascript">
+  const virtualMachine = function (code) {
+    const locals = { ...code.locals };
+    const instructions = [...code.instructions];
+    let instructionPtr = 0;
+    let done = false;
+    return {
+      isDone: () => done,
+      step: () => {
+        let jumped = false;
+        instructions[instructionPtr].exec({
+          locals,
+          instructions,
+          jmp: (i) => {
+            instructionPtr = i;
+            jumped = true;
+          },
+        });
+        if (!jumped) {
+          instructionPtr++;
+        }
+
+        if (instructionPtr === instructions.length + 2) {
+          done = true;
+        }
+      },
+      getLocals: () => ({ ...locals }),
+      getCurrentInstruction: () => ({
+        ...instructions[instructionPtr],
+        number: instructionPtr,
+      }),
+      getInstructions: () =>
+        instructions.map((instruction, number) => ({ ...instruction, number })),
+    };
+  };
+  virtualMachine.makeInstruction = (text, instruction) => ({
+    text,
+    instruction,
+  });
+
+  const vmInstance = virtualMachine({
+    locals: { x: 0, guess: 0, _jumping: false, result: 0 },
+    instructions: [
+      {
+        text: "let x = 81",
+        exec: ({ locals }) => (locals.x = 81),
+      },
+      {
+        text: "let guess = 1",
+        exec: ({ locals, jmp }) => {
+          locals.guess = 1;
+          jmp(3);
+        },
+      },
+      {
+        text: " ",
+        exec: () => {},
+      },
+      {
+        text: "[adjust guess]",
+        exec: () => {},
+      },
+      {
+        text: "guess = (x / guess + guess) / 2",
+        exec: ({ locals }) =>
+          (locals.guess = (locals.x / locals.guess + locals.guess) / 2),
+      },
+      {
+        text: "if |guess² - x| > 0.001 ",
+        exec: ({ locals, jmp }) => {
+          if (Math.abs(locals.guess * locals.guess - locals.x) > 0.001) {
+            _jumping = true;
+          } else {
+            jmp(7);
+          }
+        },
+      },
+      {
+        text: "  jump to [adjust guess]",
+        exec: ({ jmp }) => {
+          jmp(3);
+        },
+      },
+      {
+        text: "let result = guess",
+        exec: ({ locals }) => {
+          locals.result = locals.guess;
+        },
+      },
+      // {
+      //   text: ":start:",
+      //   exec: () => {},
+      // },
+      // {
+      //   text: "i = i + 1",
+      //   exec: ({ locals, instructions, jmp }) => {
+      //     locals.i = locals.i + 1;
+      //   },
+      // },
+      // {
+      //   text: "if i < 5 then",
+      //   exec: ({ locals, instructions, jmp }) => {
+      //     if (locals.i < 5) {
+      //       locals._jumping = true;
+      //     } else {
+      //       jmp(4);
+      //     }
+      //   },
+      // },
+      // {
+      //   text: "  jump :start:",
+      //   exec: ({ locals, jmp }) => {
+      //     if (locals._jumping) {
+      //       locals._jumping = false;
+      //       jmp(0);
+      //     }
+      //   },
+      // },
+      // {
+      //   text: "alert(i)",
+      //   exec: ({ locals }) => {
+      //     alert(locals.i);
+      //   },
+      // },
+    ],
+  });
+
+  const programDiv = document.querySelector("#program");
+  for (let instruction of vmInstance.getInstructions()) {
+    const line = document.createElement("pre");
+    line.innerText = instruction.text;
+    line.id = `vm-line-${instruction.number}`;
+    programDiv.appendChild(line);
+  }
+  const localsDiv = document.querySelector("#locals");
+  for (let key of Object.keys(vmInstance.getLocals()).filter(
+    (x) => x[0] !== "_"
+  )) {
+    const variable = vmInstance.getLocals()[key];
+    const value = typeof variable === "number" ? variable.toFixed(4) : variable;
+    const local = document.createElement("pre");
+    local.innerText = `${key}: ${JSON.stringify(value)}`;
+    local.id = `local-${key}`;
+    localsDiv.appendChild(local);
+  }
+  const stepButton = document.createElement("button");
+  stepButton.type = "button";
+  const updateInstructionRender = () => {
+    [...document.querySelectorAll(`#program > pre`)].forEach(
+      (x) => (x.classList = "")
+    );
+    const currenInstructionPre = document.querySelector(
+      `#vm-line-${vmInstance.getCurrentInstruction().number}`
+    );
+    if (currenInstructionPre) currenInstructionPre.classList = "active";
+    const currentLocals = vmInstance.getLocals();
+    [...document.querySelectorAll(`#locals > pre`)].forEach((local) => {
+      [, key] = local.id.split("-");
+      const value =
+        typeof currentLocals[key] === "number"
+          ? Number(currentLocals[key].toFixed(4))
+          : currentLocals[key];
+      local.innerText = `${key}: ${JSON.stringify(value)}`;
+    });
+  };
+  stepButton.onclick = () => {
+    vmInstance.step();
+    updateInstructionRender();
+  };
+  stepButton.innerText = "Step";
+  programDiv.appendChild(stepButton);
+  updateInstructionRender();
+</script>
 
 <style type="text/css">
   .annoying-conversation p {
@@ -244,5 +410,19 @@
   }
   .abstraction hr {
     width: 25%;
+  }
+
+  #program pre {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  #program pre.active {
+    background: #888;
+  }
+
+  #program #locals {
+    float: right;
+    text-align: right;
   }
 </style>
