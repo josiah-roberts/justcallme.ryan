@@ -1,100 +1,125 @@
 <style>
-    h1 {
-        font-family: Metropolis-Regular;
-        font-size: 4em;
-    }
+  h1 {
+    font-family: Metropolis-Regular;
+    font-size: 4em;
+  }
 </style>
 <div class="template">
-    <div :class="{mobile}">
-        <page-header whereami="blog"></page-header>
-        <blog-post v-for="post of posts" :post="post" :key="post.slug" @became-active="activeChanged"
-            @lightbox="handleLightbox">
-        </post>
-        <page-footer></page-footer>
-        <lightbox v-if="lightbox.post != null" :images="lightbox.images" :index="lightbox.index" @closed="closeLightbox"
-            @prev="handleLightboxPrev" @next="handleLightboxNext">
-        </lightbox>
-    </div>
+  <div :class="{mobile}">
+    <page-header whereami="blog"></page-header>
+    <blog-post
+      v-for="post of posts"
+      :post="post"
+      :key="post.slug"
+      @became-active="activeChanged"
+      @lightbox="handleLightbox"
+    >
+    </blog-post>
+    <page-footer></page-footer>
+    <lightbox
+      v-if="lightbox.post != null"
+      :images="lightbox.images"
+      :index="lightbox.index"
+      @closed="closeLightbox"
+      @prev="handleLightboxPrev"
+      @next="handleLightboxNext"
+    >
+    </lightbox>
+  </div>
 </div>
 <script>
-    Vue.component('blog', {
-        template: loadTemplate(),
-        created: function () {
-            window.addEventListener("resize", this.detectMobile);
-            this.detectMobile();
-            const requestConfig = {
-                method: 'GET',
-                headers: new Headers({ 'pragma': 'no-cache', 'cache-control': 'no-cache' }),
-            };
-            fetch("posts.json", requestConfig).then(response => response.json()).then(postsResponse => {
-                const visiblePosts = postsResponse.filter(x => !x.hide || window.location.hash.indexOf(x.slug) != -1);
-                for (let post of visiblePosts) {
-                    post.collapsed = this.mobile ? false : true; //makes it reactive
-                    for (let image of post.images) {
-                        image.date = "";
-                    }
-                }
-                this.posts = visiblePosts;
-            });
-        },
-        methods: {
-            detectMobile: function () {
-                this.mobile = (window.innerWidth / window.devicePixelRatio) < 700;
-            },
-            handleLightbox: function (image, post) {
-                this.lightbox.images = post.images;
-                this.lightbox.index = post.images.indexOf(image);
-                this.lightbox.post = post;
-                updateLightboxSlug(post, this.lightbox.index);
-            },
-            handleLightboxPrev: function () {
-                this.lightbox.index = this.lightbox.index - 1;
-                updateLightboxSlug(this.lightbox.post, this.lightbox.index);
-            },
-            handleLightboxNext: function () {
-                this.lightbox.index = this.lightbox.index + 1;
-                updateLightboxSlug(this.lightbox.post, this.lightbox.index);
-            },
-            handlePostsLoaded: function () {
-                const hash = window.location.hash;
-                if (hash.indexOf("lb") != -1) {
-                    const [_, slug, imageNumber] = hash.substring(hash.indexOf("lb")).split("_");
-                    this.lightbox.post = this.posts.filter(post => post.slug == slug)[0];
-                    this.lightbox.images = this.lightbox.post.images;
-                    this.lightbox.index = Number.parseInt(imageNumber);
-                    updateLightboxSlug(this.lightbox.post, this.lightbox.index);
-                }
-            },
-            closeLightbox: function () {
-                updateSlug(this.activePost != null ? this.activePost : this.posts[0], this.posts);
-                this.lightbox.images = [];
-                this.lightbox.index = 0;
-                this.lightbox.post = null;
-            },
-            activeChanged: function (newActivePost) {
-                if (this.lightbox.post)
-                    return;
-
-                if (this.activePost)
-                    this.activePost.active = false;
-
-                updateSlug(newActivePost, this.posts);
-                newActivePost.active = true;
-                this.activePost = newActivePost;
+  Vue.component("blog", {
+    template: loadTemplate(),
+    created: function () {
+      window.addEventListener("resize", this.detectMobile);
+      this.detectMobile();
+      const requestConfig = {
+        method: "GET",
+        headers: new Headers({
+          pragma: "no-cache",
+          "cache-control": "no-cache",
+        }),
+      };
+      fetch("posts.json", requestConfig)
+        .then((response) => response.json())
+        .then((postsResponse) => {
+          const visiblePosts = postsResponse.filter(
+            (x) => !x.hide || window.location.hash.indexOf(x.slug) != -1
+          );
+          for (let post of visiblePosts) {
+            post.collapsed = this.mobile ? false : true; //makes it reactive
+            for (let image of post.images) {
+              image.date = "";
             }
-        },
-        watch: {
-            posts: function (newValue) { if (newValue) this.handlePostsLoaded(); }
-        },
-        data: () => ({
-            posts: [],
-            lightbox: {
-                post: null,
-                images: [],
-                index: 0
-            },
-            activePost: null,
-            mobile: false
-        })
-    });
+          }
+          this.posts = visiblePosts;
+        });
+    },
+    methods: {
+      detectMobile: function () {
+        this.mobile = window.innerWidth / window.devicePixelRatio < 700;
+      },
+      handleLightbox: function (image, post) {
+        this.lightbox.images = post.images;
+        this.lightbox.index = post.images.indexOf(image);
+        this.lightbox.post = post;
+        updateLightboxSlug(post, this.lightbox.index);
+      },
+      handleLightboxPrev: function () {
+        this.lightbox.index = this.lightbox.index - 1;
+        updateLightboxSlug(this.lightbox.post, this.lightbox.index);
+      },
+      handleLightboxNext: function () {
+        this.lightbox.index = this.lightbox.index + 1;
+        updateLightboxSlug(this.lightbox.post, this.lightbox.index);
+      },
+      handlePostsLoaded: function () {
+        const hash = window.location.hash;
+        if (hash.indexOf("lb") != -1) {
+          const [_, slug, imageNumber] = hash
+            .substring(hash.indexOf("lb"))
+            .split("_");
+          this.lightbox.post = this.posts.filter(
+            (post) => post.slug == slug
+          )[0];
+          this.lightbox.images = this.lightbox.post.images;
+          this.lightbox.index = Number.parseInt(imageNumber);
+          updateLightboxSlug(this.lightbox.post, this.lightbox.index);
+        }
+      },
+      closeLightbox: function () {
+        updateSlug(
+          this.activePost != null ? this.activePost : this.posts[0],
+          this.posts
+        );
+        this.lightbox.images = [];
+        this.lightbox.index = 0;
+        this.lightbox.post = null;
+      },
+      activeChanged: function (newActivePost) {
+        if (this.lightbox.post) return;
+
+        if (this.activePost) this.activePost.active = false;
+
+        updateSlug(newActivePost, this.posts);
+        newActivePost.active = true;
+        this.activePost = newActivePost;
+      },
+    },
+    watch: {
+      posts: function (newValue) {
+        if (newValue) this.handlePostsLoaded();
+      },
+    },
+    data: () => ({
+      posts: [],
+      lightbox: {
+        post: null,
+        images: [],
+        index: 0,
+      },
+      activePost: null,
+      mobile: false,
+    }),
+  });
 </script>

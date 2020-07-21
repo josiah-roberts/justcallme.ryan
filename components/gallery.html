@@ -257,7 +257,6 @@
         const hash = window.location.hash;
         if (hash.indexOf("lb") != -1) {
           const [_, imageName] = hash.substring(hash.indexOf("lb")).split("_");
-          console.log(imageName);
           this.lightbox.index = this.lightboxImages.findIndex((x) =>
             x.thumb.includes(imageName)
           );
