@@ -199,3 +199,135 @@ Object.defineProperty(Array.prototype, "first", {
     return this[0];
   },
 });
+
+const virtualMachine = function (code) {
+  let locals = { ...code.locals };
+  const instructions = [...code.instructions];
+  let instructionPtr = 0;
+  let done = false;
+  let attachedElement = null;
+
+  const getInstructions = () =>
+    instructions.map((instruction, number) => ({ ...instruction, number }));
+
+  const getCurrentInstruction = () => ({
+    ...instructions[instructionPtr],
+    number: instructionPtr,
+  });
+
+  const reset = () => {
+    instructionPtr = 0;
+    locals = { ...code.locals };
+    done = false;
+  };
+
+  const step = () => {
+    if (instructionPtr === instructions.length) {
+      done = true;
+      return false;
+    }
+
+    let jumped = false;
+    instructions[instructionPtr].exec({
+      locals,
+      instructions,
+      jmp: (i) => {
+        instructionPtr = i;
+        jumped = true;
+      },
+    });
+    if (!jumped) {
+      instructionPtr++;
+    }
+
+    return true;
+  };
+
+  const render = () => {
+    const localsDiv = attachedElement.querySelector(".locals");
+    [...localsDiv.children].forEach((x) => x.remove());
+    for (let key of Object.keys(locals).filter((x) => x[0] !== "_")) {
+      const variable = locals[key];
+      const value =
+        typeof variable === "number" ? Number(variable.toFixed(4)) : variable;
+      const local = document.createElement("pre");
+      local.innerText = `${key}: ${JSON.stringify(value)}`;
+      local.id = `local-${key}`;
+      localsDiv.appendChild(local);
+    }
+
+    [...attachedElement.querySelectorAll(`pre.line`)].forEach((x) =>
+      x.classList.remove("active")
+    );
+    const currenInstructionPre = attachedElement.querySelector(
+      `#vm-line-${getCurrentInstruction().number}`
+    );
+    if (currenInstructionPre) currenInstructionPre.classList.add("active");
+  };
+
+  const setup = (e) => {
+    attachedElement = e;
+
+    const localsDiv = document.createElement("div");
+    localsDiv.className = "locals";
+    e.appendChild(localsDiv);
+
+    for (const instruction of getInstructions()) {
+      const line = document.createElement("pre");
+      line.className = "line";
+      line.innerText = instruction.text;
+      line.id = `vm-line-${instruction.number}`;
+      attachedElement.appendChild(line);
+    }
+
+    const stepButton = document.createElement("button");
+    stepButton.type = "button";
+    stepButton.className = "vm-button-step";
+    stepButton.onclick = () => {
+      if (done) reset();
+      step();
+      render();
+    };
+    stepButton.innerText = "Step";
+    e.appendChild(stepButton);
+
+    const runButton = document.createElement("button");
+    runButton.type = "button";
+    runButton.className = "vm-button-run";
+    runButton.onclick = () => {
+      if (done) reset();
+
+      const recurse = () => {
+        if (step()) {
+          setTimeout(
+            recurse,
+            attachedElement.querySelector(".vm-speed-range").value
+          );
+        }
+        render();
+      };
+      recurse();
+    };
+    runButton.innerText = "Run";
+    e.appendChild(runButton);
+
+    const rangeSlider = document.createElement("input");
+    rangeSlider.type = "range";
+    rangeSlider.min = "100";
+    rangeSlider.max = "5000";
+    rangeSlider.className = "vm-speed-range";
+    e.appendChild(rangeSlider);
+  };
+
+  return {
+    isDone: () => done,
+    step,
+    getLocals: () => ({ ...locals }),
+    getCurrentInstruction,
+    getInstructions,
+    attach: (element) => {
+      setup(element);
+      render();
+    },
+  };
+};
