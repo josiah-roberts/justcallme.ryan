@@ -108,7 +108,7 @@ function insertMusic(doc) {
     const props = parseMusicItem(item.textContent);
     const divElement = doc.createElement("div");
     item.parentElement.replaceChild(divElement, item);
-    const musicComponent = new (Vue.component("music"))({
+    new (Vue.component("music"))({
       el: divElement,
       propsData: props,
     });

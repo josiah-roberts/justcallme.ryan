@@ -16,12 +16,13 @@
     margin-left: 10px;
     border-bottom: solid 2px #222;
     margin-bottom: 10px;
-    padding-bottom: 10px;
+    letter-spacing: 0.05rem;
   }
 
   .post-text .title h2 {
-    margin-top: 2px;
-    margin-bottom: 2px;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+    line-height: 125%;
   }
 
   .post-text .title .post-date {
@@ -52,12 +53,31 @@
 
   .post-text-body {
     line-height: 140%;
-    font-size: 0.95em;
     user-select: text;
   }
 
+  .post-text-body a {
+    color: inherit;
+  }
+
+  .post-text-body hr {
+    border-bottom: none;
+  }
+
+  .post-text-body h1,
+  .post-text-body h2,
+  .post-text-body h3,
+  .post-text-body h4,
+  .post-text-body h5,
+  .post-text-body h6 {
+    letter-spacing: 0.05rem;
+  }
+
   .post-text-body p {
-    margin-bottom: 1em;
+    color: #ccc;
+    font-family: "Crimson Text";
+    font-size: 1.05em;
+    margin-bottom: 1.1em;
   }
 
   .post-text::-webkit-scrollbar {
