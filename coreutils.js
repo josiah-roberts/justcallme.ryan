@@ -201,6 +201,7 @@ Object.defineProperty(Array.prototype, "first", {
 });
 
 const virtualMachine = function (code) {
+  let run = 0;
   let locals = { ...code.locals };
   const instructions = [...code.instructions];
   let instructionPtr = 0;
@@ -219,6 +220,7 @@ const virtualMachine = function (code) {
     instructionPtr = 0;
     locals = { ...code.locals };
     done = false;
+    run = 0;
   };
 
   const step = () => {
@@ -294,14 +296,34 @@ const virtualMachine = function (code) {
     const runButton = document.createElement("button");
     runButton.type = "button";
     runButton.className = "vm-button-run";
-    runButton.onclick = () => {
+    runButton.classList.add("run");
+    runButton.onclick = (e) => {
       if (done) reset();
 
+      if (run) {
+        clearTimeout(run);
+        run = 0;
+        e.target.innerText = "Run";
+        e.target.classList.remove("stop");
+        e.target.classList.add("run");
+        return;
+      } else {
+        run = 1;
+        e.target.innerText = "Stop";
+        e.target.classList.remove("run");
+        e.target.classList.add("stop");
+      }
+
       const recurse = () => {
-        if (step()) {
-          setTimeout(
+        if (step() && run) {
+          run = setTimeout(
             recurse,
-            attachedElement.querySelector(".vm-speed-range").value
+            5000 -
+              (
+                attachedElement.querySelector(".vm-speed-range") || {
+                  value: 4000,
+                }
+              ).value
           );
         }
         render();
@@ -311,12 +333,13 @@ const virtualMachine = function (code) {
     runButton.innerText = "Run";
     e.appendChild(runButton);
 
-    const rangeSlider = document.createElement("input");
-    rangeSlider.type = "range";
-    rangeSlider.min = "100";
-    rangeSlider.max = "5000";
-    rangeSlider.className = "vm-speed-range";
-    e.appendChild(rangeSlider);
+    // const rangeSlider = document.createElement("input");
+    // rangeSlider.type = "range";
+    // rangeSlider.min = "0";
+    // rangeSlider.max = "4800";
+    // rangeSlider.value = "4000";
+    // rangeSlider.className = "vm-speed-range";
+    // e.appendChild(rangeSlider);
   };
 
   return {
@@ -326,6 +349,9 @@ const virtualMachine = function (code) {
     getCurrentInstruction,
     getInstructions,
     attach: (element) => {
+      if (typeof element === "string")
+        element = document.querySelector(element);
+
       setup(element);
       render();
     },

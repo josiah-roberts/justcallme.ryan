@@ -105,10 +105,10 @@
     a real world example: finding the square root of a number.
   </p>
 
-  <div id="program"></div>
+  <div id="newtons-method" class="program"></div>
   <p>
     Awesome - now <span>guess</span> contains the square root of x, within an
-    error of <= 0.001! Using addition, subtraction, division, multiplication,
+    error of &lt;= 0.001! Using addition, subtraction, division, multiplication,
     and absolute value, we've been able to create something new that didn't
     exist before - the square root. We also needed a few other things:
     allocation (creating variables), assignment (putting numbers into those
@@ -119,44 +119,12 @@
   <h3>A world without abstraction</h3>
   <p>
     Now that we know how to compute square roots, what if we wanted to use that
-    in a larger problem. For instance, in a video game, we might have the x, y,
-    and z coordinates of three different players, and want to know the distance
-    between them. Bear with me while we see what that would look like:
+    in a larger problem. For instance, in a video game "king of the hill", we
+    might have the x, y, and z coordinates of two different players. The players
+    score by spending time on top of the hill, or by being the closest to the
+    "hill" x, y, and z coordinates. Let's see what that would look like:
   </p>
-  <pre>
-    [change this to capture the flag]
-
-    let x₁,y₁,z₁ = 1, 2, 3
-    let x₂,y₂,z₂ = 4, 5, 6
-    let x₃,y₃,z₃ = 7, 8, 9
-
-    let squareₐ = (x₂ - x₁)² + (y₂ - y₁)² + (z₂ - z₁)²
-    let sqrtₐ = 1
-    
-    [adjust sqrt₁]
-    sqrt₁ = (square₁ / sqrt₁ + sqrt₁) / 2
-    if |sqrt₁² - square₁| > 0.001 
-      go to [adjust sqrt₁]
-
-    let square₂ = (x₂ - x₃)² + (y₂ - y₃)² + (z₂ - z₃)²
-    let sqrt₂ = 1
-    
-    [adjust sqrt₂]
-    sqrt₂ = (square₂ / sqrt₂ + sqrt₂) / 2
-    if |sqrt₂² - square₂| > 0.001 
-      go to [adjust sqrt₂]
-
-    let square₃ = (x₁ - x₃)² + (y₁ - y₃)² + (z₁ - z₃)²
-    let sqrt₃ = 1
-    
-    [adjust sqrt₃]
-    sqrt₃ = (square₃ / sqrt₃ + sqrt₃) / 2
-    if |sqrt₃² - square₃| > 0.001 
-      go to [adjust sqrt₃]
-
-    let oneTwo, twoThree, threeOne = sqrt₁, sqrt₂, sqrt₃
-</pre
-  >
+  <div class="program" id="king-of-the-hill"></div>
   <p>
     Quite a mess too look at! Recall my attempt to explain the mechanics of
     getting me a latte - this is starting to look a bit like that. And imagine
@@ -221,7 +189,7 @@
 </div>
 
 <script type="text/javascript">
-  const vmInstance = virtualMachine({
+  const newtonsMethod = virtualMachine({
     locals: { x: 0, guess: 0, _jumping: false, result: 0 },
     instructions: [
       {
@@ -273,8 +241,159 @@
     ],
   });
 
-  const programDiv = document.querySelector("#program");
-  vmInstance.attach(programDiv);
+  newtonsMethod.attach("#newtons-method");
+
+  let captureTheFlag = virtualMachine({
+    locals: {},
+    instructions: [
+      {
+        text: "let x₁,y₁,z₁ = 1, 2, 3",
+        exec: ({ locals }) => {
+          locals["x₁"] = 1;
+          locals["y₁"] = 2;
+          locals["z₁"] = 3;
+        },
+      },
+      {
+        text: "let x₂,y₂,z₂ = 4, 5, 6",
+        exec: ({ locals }) => {
+          locals["x₂"] = 4;
+          locals["y₂"] = 5;
+          locals["z₂"] = 6;
+        },
+      },
+      {
+        text: "let xₕ,yₕ,zₕ = 7, 8, 9",
+        exec: ({ locals }) => {
+          locals["xₕ"] = 7;
+          locals["yₕ"] = 8;
+          locals["zₕ"] = 9;
+        },
+      },
+      {
+        text: " ",
+        exec: ({}) => {},
+      },
+      {
+        text:
+          "let square₁ = (x₁ - xₕ)²\n            + (y₁ - yₕ)²\n            + (z₁ - zₕ)²",
+        exec: ({ locals }) => {
+          locals["square₁"] =
+            Math.pow(locals["x₁"] - locals["xₕ"], 2) +
+            Math.pow(locals["y₁"] - locals["yₕ"], 2) +
+            Math.pow(locals["z₁"] - locals["zₕ"], 2);
+        },
+      },
+      {
+        text: "let sqrt₁ = 1",
+        exec: ({ locals }) => {
+          locals["sqrt₁"] = 1;
+        },
+      },
+      {
+        text: " ",
+        exec: ({}) => {},
+      },
+      {
+        text: "[adjust sqrt₁]",
+        exec: ({}) => {},
+      },
+      {
+        text: "sqrt₁ = (square₁ / sqrt₁ + sqrt₁) / 2",
+        exec: ({ locals }) => {
+          locals["sqrt₁"] =
+            (locals["square₁"] / locals["sqrt₁"] + locals["sqrt₁"]) / 2;
+        },
+      },
+      {
+        text: "if |sqrt₁² - square₁| > 0.001",
+        exec: ({ locals, jmp }) => {
+          if (
+            Math.abs(locals["sqrt₁"] * locals["sqrt₁"] - locals["square₁"]) <=
+            0.001
+          ) {
+            jmp(11);
+          }
+        },
+      },
+      {
+        text: "  go to [adjust sqrt₁]",
+        exec: ({ locals, jmp }) => {
+          jmp(7);
+        },
+      },
+      {
+        text: " ",
+        exec: ({}) => {},
+      },
+      {
+        text:
+          "let square₂ = (x₂ - xₕ)²\n            + (y₂ - yₕ)²\n            + (z₂ - zₕ)²",
+        exec: ({ locals }) => {
+          locals["square₂"] =
+            Math.pow(locals["x₂"] - locals["xₕ"], 2) +
+            Math.pow(locals["y₂"] - locals["yₕ"], 2) +
+            Math.pow(locals["z₂"] - locals["zₕ"], 2);
+        },
+      },
+      {
+        text: "let sqrt₂ = 1",
+        exec: ({ locals }) => {
+          locals["sqrt₂"] = 1;
+        },
+      },
+      {
+        text: " ",
+        exec: ({}) => {},
+      },
+      {
+        text: "[adjust sqrt₂]",
+        exec: ({}) => {},
+      },
+      {
+        text: "sqrt₂ = (square₂ / sqrt₂ + sqrt₂) / 2",
+        exec: ({ locals }) => {
+          locals["sqrt₂"] =
+            (locals["square₂"] / locals["sqrt₂"] + locals["sqrt₂"]) / 2;
+        },
+      },
+      {
+        text: "if |sqrt₂² - square₂| > 0.001",
+        exec: ({ locals, jmp }) => {
+          if (
+            Math.abs(locals["sqrt₂"] * locals["sqrt₂"] - locals["square₂"]) <=
+            0.001
+          ) {
+            jmp(19);
+          }
+        },
+      },
+      {
+        text: "  go to [adjust sqrt₂]",
+        exec: ({ locals, jmp }) => {
+          jmp(15);
+        },
+      },
+      {
+        text: " ",
+        exec: ({}) => {},
+      },
+      {
+        text:
+          "let closest = if sqrt₁ < sqrt₂\n  then 'player 1'\n  else 'player 2'",
+        exec: ({ locals }) => {
+          locals.closest =
+            locals["sqrt₁"] < locals["sqrt₂"] ? "player 1" : "player 2";
+        },
+      },
+    ],
+  });
+  captureTheFlag.attach("#king-of-the-hill");
+
+  /*
+
+    let closestPlayer = if sqrt₁ &lt; sqrt₂ then 'player 1' else 'player 2'
+    */
 </script>
 
 <style type="text/css">
@@ -293,17 +412,45 @@
     width: 25%;
   }
 
-  #program pre {
+  .program pre {
     margin-top: 0;
     margin-bottom: 0;
   }
 
-  #program pre.active {
+  .program pre.active {
     background: #888;
   }
 
-  #program .locals {
+  .program .locals {
     float: right;
     text-align: right;
+  }
+
+  .program button {
+    background: white;
+    color: black;
+    border: none;
+    border-radius: 0.5em;
+    font-size: 1em;
+    padding: 0.25em;
+    min-width: 5em;
+    margin: 0.5em;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+  }
+
+  .program button:focus {
+    outline: none;
+  }
+
+  .program button.run {
+    background: green;
+  }
+
+  .program button.stop {
+    background: red;
   }
 </style>
