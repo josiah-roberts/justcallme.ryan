@@ -4,7 +4,7 @@
     position: relative;
     border-right: solid 10px rgba(0, 0, 0, 0);
     user-select: none;
-    max-width: 75%;
+    max-width: calc(100% - 20em);
     overflow: hidden;
     user-select: none;
   }
@@ -24,6 +24,8 @@
     height: 500px;
     object-fit: cover;
     object-position: center center;
+    width: unset;
+    max-width: 100%;
   }
 
   .post-images:not(.collapsed) img {

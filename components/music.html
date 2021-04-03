@@ -128,9 +128,9 @@
         <small>{{artist}}</small>
       </div>
       <div class="images">
-        <a v-if="spotify" :href="spotify"><img src="/spotify.png"></img></a>
-        <a v-if="youtube" :href="youtube"><img src="/youtube.png"></img></a>
-        <a v-if="google" :href="google"><img src="/google.png"></img></a>
+        <a v-if="spotify" :href="spotify" target="_blank"><img src="/spotify.png"></img></a>
+        <a v-if="youtube" :href="youtube" target="_blank"><img src="/youtube.png"></img></a>
+        <a v-if="google" :href="google" target="_blank"><img src="/google.png"></img></a>
       </div>
       <span class="close-music" @click="togglePopup">&#x2715;</span>
     </div>
