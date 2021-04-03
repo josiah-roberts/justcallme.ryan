@@ -85,6 +85,7 @@ function parseMusicItem(innerText) {
       continue;
     }
   }
+
   return {
     spotify: args.spotify,
     google: args.google,
@@ -92,6 +93,7 @@ function parseMusicItem(innerText) {
     track: args.track,
     artist: args.artist,
     title: args.title,
+    right: args.right === "true",
   };
 }
 

@@ -1,6 +1,6 @@
 _This post has an accompanying playlist, which you can find [here](https://open.spotify.com/playlist/2OFfqsLPdEByo7vxiEz1up?si=w5ftAOu0TrmUvk2tREDLfg)._
 
-# Part I — The Beginning of Wisdom
+# I: The Beginning of Wisdom
 
 <!-- I remember this sort of pervasive confidence permeating much of my family's social life.
 
@@ -52,11 +52,11 @@ In the winter of 2013, I asked a question. I remember where I was. <!-- For the 
 
 <!-- My parents are too far gone. If they were somehow to be operated on, I don't think they could go on without it. I have some hope for my brother and my sisters. They are all strong. -->
 
-I awaken --> Grief --> Leaving
+~~music-item track="Last Day" title="Selah" artist="WDL" youtube="https://youtu.be/33oWtJlQHqY" spotify="https://open.spotify.com/track/4IiBxoKyZxnAG46yl7KYNH?si=tuHBGk7UR0ir-8L9WyPjnQ" right="true"~~
 
-~~music-item track="Last Day" title="Selah" artist="WDL" youtube="https://youtu.be/33oWtJlQHqY" spotify="https://open.spotify.com/track/4IiBxoKyZxnAG46yl7KYNH?si=tuHBGk7UR0ir-8L9WyPjnQ"~~
+---
 
-# Part II — 92 Megaparsecs from CfA2 Great Wall
+# II: 92 Megaparsecs from CfA2 Great Wall
 
 Behold the glory --> section hook  
 _"Why do they fear?"_ They fear because reality is far more beautify and terrible than they can bear to behold. FK:how-could-they-live-without-god  
@@ -69,9 +69,11 @@ See Death Denial
 > and crowned them[f] with glory and honor.
 > You made them rulers over the works of your hands;
 
-~~music-item track="Between The Buttons" title="Selah" artist="French 79" youtube="https://youtu.be/lbb316gp78A" spotify="https://open.spotify.com/track/1LpZP3BXZokmhMi0IN73yY?si=Cn0v2AxVSpaUwn3zrvc3lQ"~~
+~~music-item track="Between The Buttons" title="Selah" artist="French 79" youtube="https://youtu.be/lbb316gp78A" spotify="https://open.spotify.com/track/1LpZP3BXZokmhMi0IN73yY?si=Cn0v2AxVSpaUwn3zrvc3lQ" right="true"~~
 
-# Part III — Undimmed Before the Breaking of the World
+---
+
+# III: Undimmed Before the Breaking of the World
 
 _We create meaning_
 _We inhabit the short:long_  
@@ -85,12 +87,10 @@ _Outro_
 
 > There at last when the mallorn-leaves were falling, but spring had not yet come, she laid herself to rest upon Cerin Amroth; and there is her green grave, until the world is changed, and all the days of her life are utterly forgotten by the men that come after, and elanor and nimphredil bloom no more east of the sea.
 
-~~music-item track="It Was A Dream" title="Selah" artist="Kokenn" youtube="https://youtu.be/NbcdBlPPGYs" spotify="https://open.spotify.com/track/6WAOXRUWaAkBQGkWTibTdV?si=upghctGuSOuvmdJhcnTPdw"~~
+Titles need more kerning
+
+~~music-item track="It Was A Dream" title="Selah" artist="Kokenn" youtube="https://youtu.be/NbcdBlPPGYs" spotify="https://open.spotify.com/track/6WAOXRUWaAkBQGkWTibTdV?si=upghctGuSOuvmdJhcnTPdw" right="true"~~
+
+---
 
 ~~music-item track="It Was A Dream" title="Amen" artist="Kokenn" youtube="https://youtu.be/NbcdBlPPGYs" spotify="https://open.spotify.com/track/6WAOXRUWaAkBQGkWTibTdV?si=upghctGuSOuvmdJhcnTPdw"~~
-
-<hr />
-
-_Outro_
-
-Titles need more kerning
