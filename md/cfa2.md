@@ -58,6 +58,8 @@ In the winter of 2013, I asked a question. I remember where I was. <!-- For the 
 
 # II: 92 Megaparsecs from CfA2 Great Wall
 
+The truth and the glory
+
 Behold the glory --> section hook  
 _"Why do they fear?"_ They fear because reality is far more beautify and terrible than they can bear to behold. FK:how-could-they-live-without-god  
 See Death Denial
