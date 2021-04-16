@@ -57,7 +57,7 @@
   <div class="page-header">
     <div class="title-container">
       <a :href="titleHref" class="title-link">
-        <h1>/ Just Call Me Ryan</h1>
+        <h1>/ Just Call Me <span @click="hashExperience">R</span>yan</h1>
       </a>
       <slot></slot>
     </div>
@@ -83,6 +83,17 @@
     methods: {
       navClass: function (name) {
         return this.whereami === name ? "current" : undefined;
+      },
+      async hashExperience() {
+        const input = prompt("Input to hash:");
+        const hashedBits = await crypto.subtle.digest(
+          "SHA-256",
+          new TextEncoder().encode(input)
+        );
+        const hashString = [...new Uint8Array(hashedBits)]
+          .map((b) => ("00" + b.toString(16)).slice(-2))
+          .join("");
+        navigator.clipboard.writeText(hashString);
       },
     },
     computed: {
