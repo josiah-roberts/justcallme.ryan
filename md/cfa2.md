@@ -1,6 +1,6 @@
 _This post has an accompanying playlist, which you can find [here](https://open.spotify.com/playlist/2OFfqsLPdEByo7vxiEz1up?si=w5ftAOu0TrmUvk2tREDLfg)._
 
-# I: The Beginning of Wisdom
+# **/** The Beginning of Wisdom
 
 <!-- I remember this sort of pervasive confidence permeating much of my family's social life.
 
@@ -52,17 +52,29 @@ In the winter of 2013, I asked a question. I remember where I was. <!-- For the 
 
 <!-- My parents are too far gone. If they were somehow to be operated on, I don't think they could go on without it. I have some hope for my brother and my sisters. They are all strong. -->
 
+/////
+My family clings to faith: my father to anecdotes of healing, only confirmation and no question; my sister to ignorance, knowing that knowledge will cast her out.
+Why? Why hold on to superstition when the light of reality shines such a brighter vision?
+Fear of the price.
+
+For with the glory one has to face the death.
+////
+
 ~~music-item track="Last Day" title="Selah" artist="WDL" youtube="https://youtu.be/33oWtJlQHqY" spotify="https://open.spotify.com/track/4IiBxoKyZxnAG46yl7KYNH?si=tuHBGk7UR0ir-8L9WyPjnQ" right="true"~~
 
 ---
 
-# II: 92 Megaparsecs from CfA2 Great Wall
+# / 92 Megaparsecs from CfA2 Great Wall
 
 The truth and the glory
 
 Behold the glory --> section hook  
 _"Why do they fear?"_ They fear because reality is far more beautify and terrible than they can bear to behold. FK:how-could-they-live-without-god  
 See Death Denial
+
+Christianity presents a static view of humanity; it sees no earlier than a few thousand BC, and reckons no later than the dark age. It has no understanding of the literal earthshaking struggle we have engaged in these last 30,000 years.
+
+This impoverished world view holds no appreciation for the past, and reckons not the future, its focus is endlessly _slouching towards Bethlahem_.
 
 > what is mankind that you are mindful of them,
 > human beings that you care for them?[c]
@@ -71,11 +83,13 @@ See Death Denial
 > and crowned them[f] with glory and honor.
 > You made them rulers over the works of your hands;
 
+I am a self-referential collection of particles, and as I come to death, my life should be, as it were, "an image of the splendor of the Kings of Men, in glory, undimmed before the breaking of the world." That world, inasmuch as I can ever touch it, is the self. As I dissolve, it breaks and realizes itself in that fact that it was all a dream.
+
 ~~music-item track="Between The Buttons" title="Selah" artist="French 79" youtube="https://youtu.be/lbb316gp78A" spotify="https://open.spotify.com/track/1LpZP3BXZokmhMi0IN73yY?si=Cn0v2AxVSpaUwn3zrvc3lQ" right="true"~~
 
 ---
 
-# III: Undimmed Before the Breaking of the World
+# **/** Undimmed Before the Breaking of the World
 
 _We create meaning_
 _We inhabit the short:long_  
@@ -88,6 +102,10 @@ _Outro_
 > But Arwen went forth from the House, and the light of her eyes was quenched, and it seemed to her people that she had become cold and grey as nightfall in winter that comes without a star. Then she said farewell to Eldarion, and to her daughters, and to all whom she had loved; and she went out from the city of Minas Tirith and passed away to the land of Lórien, and dwelt there alone under the fading trees until winter came. Galadriel had passed away and Celeborn had also gone, and the land was silent.
 
 > There at last when the mallorn-leaves were falling, but spring had not yet come, she laid herself to rest upon Cerin Amroth; and there is her green grave, until the world is changed, and all the days of her life are utterly forgotten by the men that come after, and elanor and nimphredil bloom no more east of the sea.
+
+When I hold out my hand and say, "your life has meaning," there is no external appeal. I am creating the reality inasmuch as your life has meaning to me, the foundation of meaning and sentiment in this great burning blackness.
+
+The thing I told that girl on Tinder in response to "what's the meaning of life?"
 
 Titles need more kerning
 
