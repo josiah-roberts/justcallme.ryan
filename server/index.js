@@ -115,20 +115,6 @@ function loadFiles() {
 const requestHandler = async (request, response) => {
   console.log(`Incoming ${request.method} to ${request.url}`);
   if (request.url == "/images") {
-    response.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS");
-    response.setHeader("Access-Control-Allow-Origin", request.headers.origin);
-    if (request.method == "OPTIONS") {
-      response.setHeader(
-        "Access-Control-Allow-Headers",
-        "pragma,cache-control"
-      );
-      response.setHeader("Access-Control-Request-Method", "*");
-      response.setHeader("Access-Control-Allow-Methods", "OPTIONS, GET");
-      response.writeHead(200);
-      response.end();
-      return;
-    }
-
     let data = await loadFiles();
     response.end(JSON.stringify(data));
   } else {

@@ -117,8 +117,6 @@
   Vue.component("gallery", {
     template: loadTemplate(),
     created: function () {
-      const servicePort = 3456;
-
       window.addEventListener("resize", this.determineSize);
       this.determineSize();
       const requestConfig = {
@@ -130,7 +128,7 @@
       };
       var { protocol, hostname } = window.location;
       fetch(
-        `${protocol}//${"ryans.photos"}:${servicePort}/images`,
+        `${protocol}//${"ryans.photos"}/api/images`,
         requestConfig
       )
         .then((response) => response.json())
