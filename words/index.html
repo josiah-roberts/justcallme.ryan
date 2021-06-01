@@ -21,19 +21,24 @@
     <script src="https://vuejs.org/js/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.0/dist/showdown.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
+
     <link rel="stylesheet" href="/site.css" />
     <script src="/coreutils.js"></script>
   </head>
 
   <body>
     <div id="application">
-      <gallery></gallery>
+      <blog></blog>
     </div>
     <div class="templates">
-      <component id="gallery"></component>
+      <component id="blog"></component>
       <component id="page-header"></component>
+      <component id="blog-post"></component>
+      <component id="post-images"></component>
+      <component id="post-text"></component>
       <component id="page-footer"></component>
       <component id="lightbox"></component>
+      <component id="music"></component>
     </div>
     <script id="app-start">
       startApp("application");

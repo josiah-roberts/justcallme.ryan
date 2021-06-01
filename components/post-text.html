@@ -102,7 +102,7 @@
     props: ["post", "format"],
     mounted: async function () {
       const response = await fetch(
-        `${fileExtensions[this.format]}/${this.post.slug}.${
+        `/${fileExtensions[this.format]}/${this.post.slug}.${
           fileExtensions[this.format]
         }`
       );

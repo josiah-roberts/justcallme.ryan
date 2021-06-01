@@ -40,7 +40,7 @@
           "cache-control": "no-cache",
         }),
       };
-      fetch("posts.json", requestConfig)
+      fetch("/posts.json", requestConfig)
         .then((response) => response.json())
         .then((postsResponse) => {
           const visiblePosts = postsResponse.filter(
