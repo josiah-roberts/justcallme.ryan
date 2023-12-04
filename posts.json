@@ -24,6 +24,26 @@
     "hide": true
   },
   {
+    "slug": "confess",
+    "images": [
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/gallery/thumbs/19-06-10-22-22-24.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/gallery/full/19-06-10-22-22-24.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/gallery/thumbs/20-02-22-06-57-48.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/gallery/full/20-02-22-06-57-48.jpg"
+      },
+      {
+        "thumb": "https://storage.googleapis.com/just-call-me-ryan/gallery/thumbs/19-01-26-12-59-24.jpg",
+        "full": "https://storage.googleapis.com/just-call-me-ryan/gallery/full/19-01-26-12-59-24.jpg"
+      }
+    ],
+    "title": "Confess",
+    "date": "December 3, 2024",
+    "hide": false
+  },
+  {
     "slug": "untethered",
     "images": [
       {
